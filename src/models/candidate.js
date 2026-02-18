@@ -31,9 +31,13 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: true,
     },
+    message: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+    },
     cvPath: {
       type: DataTypes.STRING,
-      allowNull: true, // We will store the path to the uploaded file
+      allowNull: true,
     },
   });
 

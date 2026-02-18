@@ -40,10 +40,6 @@ module.exports = (sequelize, DataTypes) => {
     deliveryDate: {
       type: DataTypes.DATEONLY,
       allowNull: true,
-    },
-    coverImage: {
-      type: DataTypes.STRING,
-      allowNull: true,
     }
   });
 
