@@ -25,6 +25,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING, // 'contact', 'newsletter', etc.
       defaultValue: 'contact',
     },
+    attachment: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
   });
 
   return Contact;

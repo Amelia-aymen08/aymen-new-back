@@ -4,6 +4,9 @@ const Contact = db.Contact;
 exports.createContact = async (req, res) => {
   try {
     const { fullName, email, phone, subject, message, type } = req.body;
+    
+    // Si un fichier a été uploadé, récupérer son chemin
+    const attachmentPath = req.file ? req.file.path : null;
 
     const contact = await Contact.create({
       fullName,
@@ -12,6 +15,7 @@ exports.createContact = async (req, res) => {
       subject,
       message,
       type: type || 'contact',
+      attachment: attachmentPath
     });
 
     res.status(201).json({
