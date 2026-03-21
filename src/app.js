@@ -9,8 +9,9 @@ const app = express();
 // Middleware
 app.use(cors());
 // Augmenter la limite de taille pour accepter les fichiers Base64 (images/pdf)
-app.use(express.json({ limit: '50mb' }));
-app.use(express.urlencoded({ limit: '50mb', extended: true }));
+// Le Base64 grossit le fichier de 33%, donc 50mb n'était pas suffisant pour un fichier de 5Mo
+app.use(express.json({ limit: '1024mb' }));
+app.use(express.urlencoded({ limit: '1024mb', extended: true }));
 app.use('/uploads', express.static('uploads'));
 
 // Database synchronization
