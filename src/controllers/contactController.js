@@ -1,37 +1,14 @@
 const db = require('../models');
 const { Contact } = require('../models');
-const fs = require('fs');
-const path = require('path');
 
 exports.createContact = async (req, res) => {
   console.log("🚀 [CONTROLLER] createContact appelé !");
   try {
-    const { fullName, email, phone, subject, message, type, consent, attachmentData, attachmentName } = req.body;
-    console.log("📦 Données extraites:", { fullName, email, phone, subject, message, type, consent, hasAttachment: !!attachmentData });
+    const { fullName, email, phone, subject, message, type, consent } = req.body;
+    console.log("📦 Données extraites:", { fullName, email, phone, subject, message, type, consent });
     
-    let attachmentPath = null;
-
-    // Si on a reçu un fichier en Base64, on le sauvegarde sur le disque
-    if (attachmentData && attachmentName) {
-      // Extraire le type mime et les données (ex: "data:image/png;base64,iVBORw0KGgo...")
-      const matches = attachmentData.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/);
-      
-      if (matches && matches.length === 3) {
-        const fileBuffer = Buffer.from(matches[2], 'base64');
-        const uploadDir = path.join(__dirname, '../../uploads/contacts');
-        
-        // Créer le dossier s'il n'existe pas
-        if (!fs.existsSync(uploadDir)) {
-          fs.mkdirSync(uploadDir, { recursive: true });
-        }
-
-        const fileName = `${Date.now()}-${attachmentName.replace(/[^a-zA-Z0-9.]/g, '_')}`;
-        const filePath = path.join(uploadDir, fileName);
-        
-        fs.writeFileSync(filePath, fileBuffer);
-        attachmentPath = `uploads/contacts/${fileName}`;
-      }
-    }
+    // Multer a placé le fichier sur le disque et a rempli req.file
+    const attachmentPath = req.file ? req.file.path : null;
 
     const contact = await Contact.create({
       fullName,
