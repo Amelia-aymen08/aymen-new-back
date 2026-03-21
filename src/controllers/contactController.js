@@ -2,8 +2,10 @@ const db = require('../models');
 const Contact = db.Contact;
 
 exports.createContact = async (req, res) => {
+  console.log("🚀 [CONTROLLER] createContact appelé !");
   try {
     const { fullName, email, phone, subject, message, type, consent } = req.body;
+    console.log("📦 Données extraites:", { fullName, email, phone, subject, message, type, consent });
     
     // Si un fichier a été uploadé, récupérer son chemin
     const attachmentPath = req.file ? req.file.path : null;
@@ -19,12 +21,13 @@ exports.createContact = async (req, res) => {
       consent: consent === 'true' || consent === true
     });
 
+    console.log("✅ [CONTROLLER] Contact enregistré en BDD avec succès ! ID:", contact.id);
     res.status(201).json({
       message: 'Votre message a été envoyé avec succès.',
       contact,
     });
   } catch (error) {
-    console.error('Error creating contact:', error);
+    console.error('❌ [CONTROLLER ERROR] Error creating contact:', error);
     res.status(500).json({
       message: 'Une erreur est survenue lors de l\'envoi du message.',
       error: error.message,
