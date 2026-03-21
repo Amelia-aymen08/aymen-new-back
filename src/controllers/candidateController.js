@@ -3,6 +3,9 @@ const Candidate = db.Candidate;
 
 exports.createCandidate = async (req, res) => {
   try {
+    console.log("🔍 [Candidate] Données reçues dans le body:", req.body);
+    console.log("🔍 [Candidate] Fichier reçu:", req.file);
+
     const { 
       firstName, lastName, email, phone, department, position, portfolioUrl, message,
       city, erp, bim, software, experience, diploma, startDate, mobility, motivation, source, consent
@@ -12,6 +15,7 @@ exports.createCandidate = async (req, res) => {
     
     // Basic validation
     if (!firstName || !lastName || !email || !position || consent === undefined) {
+      console.log("❌ [Candidate] Validation échouée: champs manquants");
       return res.status(400).send({
         message: "Les champs obligatoires (Nom, Prénom, Email, Poste, Consentement) doivent être remplis !"
       });
@@ -41,14 +45,19 @@ exports.createCandidate = async (req, res) => {
       cvPath,
     };
 
+    console.log("📝 [Candidate] Objet à insérer dans la BDD:", candidate);
+
     // Save Candidate in the database
     const data = await Candidate.create(candidate);
+    
+    console.log("✅ [Candidate] Inséré avec succès:", data.toJSON());
+    
     res.status(201).send({
       message: "Candidature envoyée avec succès !",
       data: data
     });
   } catch (err) {
-    console.error(err);
+    console.error("❌ [Candidate] Erreur:", err);
     res.status(500).send({
       message: err.message || "Une erreur est survenue lors de l'envoi de la candidature."
     });
