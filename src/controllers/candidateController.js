@@ -4,15 +4,16 @@ const Candidate = db.Candidate;
 exports.createCandidate = async (req, res) => {
   try {
     const { 
-      firstName, lastName, email, phone, department, position, portfolioUrl, message
+      firstName, lastName, email, phone, department, position, portfolioUrl, message,
+      city, erp, bim, software, experience, diploma, startDate, mobility, motivation, source, consent
     } = req.body;
 
     const cvPath = req.file ? req.file.path : null;
     
     // Basic validation
-    if (!firstName || !lastName || !email || !position) {
+    if (!firstName || !lastName || !email || !position || consent === undefined) {
       return res.status(400).send({
-        message: "Les champs obligatoires (Nom, Prénom, Email, Poste) doivent être remplis !"
+        message: "Les champs obligatoires (Nom, Prénom, Email, Poste, Consentement) doivent être remplis !"
       });
     }
 
@@ -24,6 +25,17 @@ exports.createCandidate = async (req, res) => {
       phone,
       department: department || 'Candidature Spontanée',
       position,
+      city,
+      erp,
+      bim,
+      software,
+      experience,
+      diploma,
+      startDate,
+      mobility,
+      motivation,
+      source,
+      consent: consent === 'true' || consent === true,
       portfolioUrl,
       message,
       cvPath,

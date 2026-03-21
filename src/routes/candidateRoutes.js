@@ -35,7 +35,19 @@ module.exports = app => {
   var router = require('express').Router();
 
   // Create a new Candidate with CV upload
-  router.post('/', upload.single('cv'), candidates.createCandidate);
+  router.post('/', (req, res, next) => {
+    upload.single('cv')(req, res, (err) => {
+      if (err instanceof multer.MulterError) {
+        if (err.code === 'LIMIT_FILE_SIZE') {
+          return res.status(400).json({ message: "Le fichier est trop volumineux (maximum 5 Mo)." });
+        }
+        return res.status(400).json({ message: `Erreur d'upload: ${err.message}` });
+      } else if (err) {
+        return res.status(400).json({ message: err.message });
+      }
+      next();
+    });
+  }, candidates.createCandidate);
 
   // Retrieve all Candidates
   router.get('/', candidates.findAll);
