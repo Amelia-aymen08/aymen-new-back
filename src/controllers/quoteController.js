@@ -1,30 +1,13 @@
-// quoteController.js - Version avec débogage complet
+// controllers/quoteController.js
 const db = require('../models');
 
-// Débogage immédiat
-console.log('=== DÉBOGUAGE QUOTE CONTROLLER ===');
-console.log('db object keys:', Object.keys(db));
-console.log('db.Quote existe?', db.Quote);
-console.log('Type de db.Quote:', typeof db.Quote);
-console.log('==================================');
+console.log('=== CHARGEMENT DU CONTROLLER QUOTE ===');
+console.log('db.Quote disponible:', !!db.Quote);
+console.log('=======================================');
 
 const createQuote = async (req, res) => {
-  console.log('=== DÉBOGUAGE CREATE QUOTE ===');
-  console.log('db.Quote dans la fonction:', db.Quote);
+  console.log('📝 createQuote appelée');
   
-  // Vérification plus détaillée
-  if (!db || !db.Quote) {
-    console.error('❌ Problème avec db.Quote');
-    console.error('db:', db);
-    console.error('db keys:', Object.keys(db || {}));
-    return res.status(500).json({
-      success: false,
-      message: "Erreur de configuration",
-      error: "Modèle Quote non disponible",
-      dbKeys: Object.keys(db || {})
-    });
-  }
-
   try {
     const { 
       email, firstName, lastName, phone, country, wilaya,
@@ -33,9 +16,23 @@ const createQuote = async (req, res) => {
       consent, sourceProject
     } = req.body;
 
+    console.log('Données reçues:', { firstName, lastName, email, phone });
+
+    // Validation de base
     if (!firstName || !lastName || !email || !phone) {
       return res.status(400).json({
+        success: false,
         message: "Les champs obligatoires (Nom, Prénom, Email, Téléphone) doivent être remplis !"
+      });
+    }
+
+    // Vérification que db.Quote existe
+    if (!db.Quote) {
+      console.error('❌ db.Quote est undefined!');
+      return res.status(500).json({
+        success: false,
+        message: "Erreur de configuration serveur",
+        error: "Modèle Quote non disponible"
       });
     }
 
@@ -58,40 +55,52 @@ const createQuote = async (req, res) => {
       sourceProject
     };
 
-    console.log('Création du devis avec:', quoteData);
+    console.log('Création du devis...');
     const data = await db.Quote.create(quoteData);
+    console.log('✅ Devis créé avec succès, ID:', data.id);
     
     res.status(201).json({
+      success: true,
       message: "Votre demande de devis a été envoyée avec succès !",
       data: data
     });
   } catch (err) {
-    console.error("FULL ERROR:", err);
+    console.error("❌ Erreur dans createQuote:", err);
     res.status(500).json({
+      success: false,
       message: err.message,
-      name: err.name,
-      errors: err.errors,
-      parent: err.parent
+      error: err.toString()
     });
   }
 };
 
 const findAll = async (req, res) => {
-  console.log('=== DÉBOGUAGE FIND ALL ===');
-  console.log('db.Quote:', db.Quote);
+  console.log('🔍 findAll appelée');
   
   try {
     if (!db.Quote) {
-      throw new Error('Le modèle Quote n\'est pas disponible');
+      console.error('❌ db.Quote est undefined dans findAll!');
+      return res.status(500).json({
+        success: false,
+        message: "Erreur de configuration serveur",
+        error: "Modèle Quote non disponible"
+      });
     }
     
+    console.log('Exécution de db.Quote.findAll()...');
     const data = await db.Quote.findAll({
       order: [['createdAt', 'DESC']]
     });
-    res.json(data);
+    
+    console.log(`✅ ${data.length} devis trouvés`);
+    res.json({
+      success: true,
+      data: data
+    });
   } catch (err) {
-    console.error('Erreur findAll:', err);
+    console.error('❌ Erreur dans findAll:', err);
     res.status(500).json({
+      success: false,
       message: err.message || "Une erreur est survenue lors de la récupération des devis."
     });
   }
