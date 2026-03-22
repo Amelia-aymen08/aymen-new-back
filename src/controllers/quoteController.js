@@ -2,6 +2,10 @@ const db = require('../models');
 const Quote = db.Quote;
 
 exports.createQuote = async (req, res) => {
+  console.log('--- Quote Request Body ---', req.body);
+  console.log('--- DB Object ---', Object.keys(db));
+  console.log('--- Quote Model ---', Quote);
+  
   try {
     const { 
       email, firstName, lastName, phone, country, wilaya,
