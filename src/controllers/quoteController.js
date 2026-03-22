@@ -52,11 +52,15 @@ const createQuote = async (req, res) => {
       data: data
     });
   } catch (err) {
-    console.error('Error creating quote:', err);
-    res.status(500).send({
-      message: err.message || "Une erreur est survenue lors de l'envoi de la demande."
-    });
-  }
+  console.error("FULL ERROR:", err);
+
+  res.status(500).send({
+    message: err.message,
+    name: err.name,
+    errors: err.errors,
+    parent: err.parent
+  });
+}
 };
 
 const findAll = async (req, res) => {
