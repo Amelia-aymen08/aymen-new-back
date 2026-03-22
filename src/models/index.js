@@ -12,6 +12,7 @@ db.Locality = require('./locality')(sequelize, DataTypes);
 db.Project = require('./project')(sequelize, DataTypes);
 db.ProjectImage = require('./projectImage')(sequelize, DataTypes);
 db.Contact = require('./contact')(sequelize, DataTypes);
+db.Quote = require('./quote')(sequelize, DataTypes);
 
 // Associations
 // Locality <-> Projects (One Locality has many Projects)
