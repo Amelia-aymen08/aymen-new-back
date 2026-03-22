@@ -16,6 +16,7 @@ try {
   db.Project = require('./project')(sequelize, DataTypes);
   db.ProjectImage = require('./projectImage')(sequelize, DataTypes);
   db.Contact = require('./contact')(sequelize, DataTypes);
+  db.HomeContact = require('./homeContact')(sequelize, DataTypes);
   
   // Vérifions que le fichier quote.js existe
   console.log('Tentative de chargement de quote.js...');

@@ -27,6 +27,11 @@ const upload = multer({
 
 // Middleware propre pour gérer les erreurs multer
 const uploadMiddleware = (req, res, next) => {
+  const contentType = req.headers['content-type'] || '';
+  if (!contentType.includes('multipart/form-data')) {
+    return next();
+  }
+
   const uploadSingle = upload.single('attachment');
   
   uploadSingle(req, res, (err) => {

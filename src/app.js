@@ -3,6 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const db = require('./models');
 const contactRoutes = require('./routes/contactRoutes');
+const homeContactRoutes = require('./routes/homeContactRoutes');
 const quoteRoutes = require('./routes/quoteRoutes');
 
 const app = express();
@@ -33,6 +34,7 @@ require('./routes/candidateRoutes')(app);
 require('./routes/projectRoutes')(app);
 
 app.use('/api/contacts', contactRoutes);
+app.use('/api/home-contacts', homeContactRoutes);
 app.use('/api/quotes', quoteRoutes);
 
 module.exports = app;
