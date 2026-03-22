@@ -84,6 +84,8 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: true,
     },
+  }, {
+    tableName: 'Candidates', // Explicitly setting table name
   });
 
   return Candidate;
