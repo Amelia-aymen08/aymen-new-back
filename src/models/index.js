@@ -14,11 +14,7 @@ db.Project = require('./project')(sequelize, DataTypes);
 db.ProjectImage = require('./projectImage')(sequelize, DataTypes);
 db.Contact = require('./contact')(sequelize, DataTypes);
 
-const Quote = require('./quote')(sequelize, DataTypes);
-db.Quote = Quote;
-
-console.log('--- DB Initialization --- Quote model:', !!Quote);
-console.log('--- DB Initialization --- Models registered:', Object.keys(db));
+db.Quote = require('./quote')(sequelize, DataTypes);
 
 // Associations
 db.Locality.hasMany(db.Project, { foreignKey: 'localityId', as: 'projects' });

@@ -1,16 +1,11 @@
 const db = require('../models');
 
 exports.createQuote = async (req, res) => {
-  const db = require('../models');
   const Quote = db.Quote;
   
-  console.log('API Request received at /api/quotes');
-  console.log('Available models in DB:', Object.keys(db));
-  
   if (!Quote) {
-    console.error('ERROR: Quote model is undefined in controller!');
     return res.status(500).send({
-      message: "Erreur serveur : Le modèle Quote n'est pas chargé.",
+      message: "Erreur serveur : Le modèle Quote n'est pas chargé dans db.",
       debug: {
         dbKeys: Object.keys(db)
       }
@@ -66,7 +61,7 @@ exports.createQuote = async (req, res) => {
 
 exports.findAll = async (req, res) => {
   try {
-    const data = await Quote.findAll({
+    const data = await db.Quote.findAll({
       order: [['createdAt', 'DESC']]
     });
     res.send(data);
