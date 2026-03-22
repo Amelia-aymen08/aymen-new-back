@@ -38,8 +38,8 @@ exports.createQuote = async (req, res) => {
       profession,
       financing,
       interest,
-      locations, // Expecting array or string
-      contactDays, // Expecting array or string
+      locations: Array.isArray(locations) ? JSON.stringify(locations) : locations,
+      contactDays: Array.isArray(contactDays) ? JSON.stringify(contactDays) : contactDays,
       contactTime,
       projectStatus,
       consent: consent === 'true' || consent === true,

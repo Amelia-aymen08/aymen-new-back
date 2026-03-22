@@ -15,9 +15,7 @@ app.use(express.urlencoded({ limit: '1024mb', extended: true }));
 app.use('/uploads', express.static('uploads'));
 
 // Database synchronization
-// force: false ensures we don't drop tables on restart
-// alter: true updates tables if models change (useful for development)
-db.sequelize.sync({ force: false, alter: true }).then(() => {
+db.sequelize.sync({ force: false }).then(() => {
   console.log('Database synced successfully.');
 }).catch((err) => {
   console.error('Failed to sync database:', err.message);

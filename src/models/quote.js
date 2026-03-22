@@ -2,65 +2,63 @@
 module.exports = (sequelize, DataTypes) => {
   const Quote = sequelize.define('Quote', {
     email: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(150),
       allowNull: false,
       validate: {
         isEmail: true,
       },
     },
     firstName: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(100),
       allowNull: false,
     },
     lastName: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(100),
       allowNull: false,
     },
     phone: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(50),
       allowNull: false,
     },
     country: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(100),
       allowNull: true,
       defaultValue: 'Algérie',
     },
     wilaya: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(100),
       allowNull: true,
     },
     budget: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(100),
       allowNull: true,
     },
     profession: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(100),
       allowNull: true,
     },
     financing: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(100),
       allowNull: true,
     },
     interest: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(100),
       allowNull: true,
     },
     locations: {
-      type: DataTypes.JSON,
+      type: DataTypes.TEXT, // Using TEXT for compatibility
       allowNull: true,
-      defaultValue: [],
     },
     contactDays: {
-      type: DataTypes.JSON,
+      type: DataTypes.TEXT, // Using TEXT for compatibility
       allowNull: true,
-      defaultValue: [],
     },
     contactTime: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(100),
       allowNull: true,
     },
     projectStatus: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(100),
       allowNull: true,
     },
     consent: {
@@ -68,12 +66,12 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: false,
     },
     sourceProject: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(150), // To know which project page it came from
       allowNull: true,
     },
   }, {
-    tableName: 'Quotes', // Spécifiez explicitement le nom de la table (avec majuscule)
-    timestamps: true, // Ajoute createdAt et updatedAt
+    tableName: 'Quotes',
+    timestamps: true,
   });
 
   return Quote;
