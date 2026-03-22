@@ -1,15 +1,46 @@
+// quoteController.js - VERSION CORRIGÉE
 const db = require('../models');
+const { Quote } = require('../models'); // Alternative import
 
 exports.createQuote = async (req, res) => {
-  // On importe les modèles à chaque requête pour éviter les problèmes de cache de module
-  const db = require('../models');
-  const Quote = db.Quote;
+  console.log('=== createQuote called ===');
+  console.log('Request method:', req.method);
+  console.log('Request URL:', req.url);
   
-  if (!Quote) {
-    console.error('MODELS IN DB:', Object.keys(db));
+  // Vérification détaillée
+  console.log('db object type:', typeof db);
+  console.log('db keys:', Object.keys(db));
+  
+  let QuoteModel = null;
+  
+  // Essayer plusieurs façons d'accéder au modèle
+  if (db.Quote) {
+    QuoteModel = db.Quote;
+    console.log('✓ Found db.Quote');
+  } else if (db.quote) {
+    QuoteModel = db.quote;
+    console.log('✓ Found db.quote');
+  } else {
+    // Essayer d'importer directement
+    try {
+      const QuoteModelDirect = require('../models/quote');
+      const { DataTypes } = require('sequelize');
+      const sequelize = require('../config/database');
+      QuoteModel = QuoteModelDirect(sequelize, DataTypes);
+      console.log('✓ Loaded Quote model directly');
+    } catch (err) {
+      console.error('✗ Failed to load Quote model directly:', err.message);
+    }
+  }
+  
+  if (!QuoteModel) {
+    console.error('✗ Quote model is still undefined after all attempts');
     return res.status(500).send({
-      message: "Le modèle 'Quote' n'est pas chargé dans l'application backend.",
-      dbModels: Object.keys(db)
+      message: "Erreur de configuration du serveur. Modèle Devis non disponible.",
+      debug: {
+        availableModels: Object.keys(db),
+        attemptedLoad: true
+      }
     });
   }
 
@@ -21,6 +52,8 @@ exports.createQuote = async (req, res) => {
       consent, sourceProject
     } = req.body;
 
+    console.log('Received data:', { firstName, lastName, email, phone });
+
     // Basic validation
     if (!firstName || !lastName || !email || !phone) {
       return res.status(400).send({
@@ -28,47 +61,42 @@ exports.createQuote = async (req, res) => {
       });
     }
 
-    const quote = {
+    const quoteData = {
       email,
       firstName,
       lastName,
       phone,
-      country,
-      wilaya,
-      budget,
-      profession,
-      financing,
-      interest,
-      locations: Array.isArray(locations) ? JSON.stringify(locations) : locations,
-      contactDays: Array.isArray(contactDays) ? JSON.stringify(contactDays) : contactDays,
-      contactTime,
-      projectStatus,
-      consent: consent === 'true' || consent === true,
-      sourceProject
+      country: country || 'Algérie',
+      wilaya: wilaya || null,
+      budget: budget || null,
+      profession: profession || null,
+      financing: financing || null,
+      interest: interest || null,
+      locations: locations || [],
+      contactDays: contactDays || [],
+      contactTime: contactTime || null,
+      projectStatus: projectStatus || null,
+      consent: consent === true || consent === 'true',
+      sourceProject: sourceProject || null
     };
 
-    const data = await Quote.create(quote);
+    console.log('Creating quote with data:', quoteData);
+    
+    const data = await QuoteModel.create(quoteData);
+    
+    console.log('Quote created successfully, ID:', data.id);
+    
     res.status(201).send({
       message: "Votre demande de devis a été envoyée avec succès !",
-      data: data
+      data: { id: data.id }
     });
   } catch (err) {
     console.error('Error creating quote:', err);
+    console.error('Error stack:', err.stack);
+    
     res.status(500).send({
-      message: err.message || "Une erreur est survenue lors de l'envoi de la demande."
-    });
-  }
-};
-
-exports.findAll = async (req, res) => {
-  try {
-    const data = await db.Quote.findAll({
-      order: [['createdAt', 'DESC']]
-    });
-    res.send(data);
-  } catch (err) {
-    res.status(500).send({
-      message: err.message || "Une erreur est survenue lors de la récupération des devis."
+      message: "Une erreur est survenue lors de l'envoi de la demande.",
+      error: process.env.NODE_ENV === 'development' ? err.message : undefined
     });
   }
 };
