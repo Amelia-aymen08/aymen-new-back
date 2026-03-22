@@ -70,8 +70,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: true,
     },
   }, {
-    tableName: 'Quotes',
-    timestamps: true,
+    
   });
 
   return Quote;

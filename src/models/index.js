@@ -1,4 +1,4 @@
-// index.js - CORRIGÉ
+// models/index.js
 const sequelize = require('../config/database');
 const { DataTypes } = require('sequelize');
 
@@ -7,19 +7,37 @@ const db = {
   Sequelize: sequelize.constructor,
 };
 
-// Import models - Vérifiez que les chemins sont corrects
-db.Candidate = require('./candidate')(sequelize, DataTypes);
-db.Locality = require('./locality')(sequelize, DataTypes);
-db.Project = require('./project')(sequelize, DataTypes);
-db.ProjectImage = require('./projectImage')(sequelize, DataTypes);
-db.Contact = require('./contact')(sequelize, DataTypes);
-db.Quote = require('./quote')(sequelize, DataTypes); // <-- AJOUTEZ CETTE LIGNE
+// Import models
+try {
+  console.log('Chargement des modèles...');
+  
+  db.Candidate = require('./candidate')(sequelize, DataTypes);
+  db.Locality = require('./locality')(sequelize, DataTypes);
+  db.Project = require('./project')(sequelize, DataTypes);
+  db.ProjectImage = require('./projectImage')(sequelize, DataTypes);
+  db.Contact = require('./contact')(sequelize, DataTypes);
+  
+  // Vérifions que le fichier quote.js existe
+  console.log('Tentative de chargement de quote.js...');
+  const quoteModel = require('./quote');
+  console.log('quoteModel chargé:', typeof quoteModel);
+  db.Quote = quoteModel(sequelize, DataTypes);
+  console.log('db.Quote après chargement:', !!db.Quote);
+  
+} catch (error) {
+  console.error('Erreur lors du chargement des modèles:', error);
+}
 
 // Associations
-db.Locality.hasMany(db.Project, { foreignKey: 'localityId', as: 'projects' });
-db.Project.belongsTo(db.Locality, { foreignKey: 'localityId', as: 'locality' });
+if (db.Locality && db.Project) {
+  db.Locality.hasMany(db.Project, { foreignKey: 'localityId', as: 'projects' });
+  db.Project.belongsTo(db.Locality, { foreignKey: 'localityId', as: 'locality' });
+}
 
-db.Project.hasMany(db.ProjectImage, { foreignKey: 'projectId', as: 'images' });
-db.ProjectImage.belongsTo(db.Project, { foreignKey: 'projectId', as: 'project' });
+if (db.Project && db.ProjectImage) {
+  db.Project.hasMany(db.ProjectImage, { foreignKey: 'projectId', as: 'images' });
+  db.ProjectImage.belongsTo(db.Project, { foreignKey: 'projectId', as: 'project' });
+}
 
+console.log('Tous les modèles chargés:', Object.keys(db));
 module.exports = db;
