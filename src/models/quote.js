@@ -1,4 +1,4 @@
-// quote.js
+// models/quote.js
 module.exports = (sequelize, DataTypes) => {
   const Quote = sequelize.define('Quote', {
     email: {
@@ -46,11 +46,11 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: true,
     },
     locations: {
-      type: DataTypes.TEXT, // Using TEXT for compatibility
+      type: DataTypes.TEXT,
       allowNull: true,
     },
     contactDays: {
-      type: DataTypes.TEXT, // Using TEXT for compatibility
+      type: DataTypes.TEXT,
       allowNull: true,
     },
     contactTime: {
@@ -66,7 +66,7 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: false,
     },
     sourceProject: {
-      type: DataTypes.STRING(150), // To know which project page it came from
+      type: DataTypes.STRING(150),
       allowNull: true,
     },
   }, {

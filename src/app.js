@@ -1,3 +1,4 @@
+// app.js
 const express = require('express');
 const cors = require('cors');
 const db = require('./models');
@@ -8,18 +9,20 @@ const app = express();
 
 // Middleware
 app.use(cors());
-// Augmenter la limite de taille pour accepter les fichiers Base64 (images/pdf)
-// Le Base64 grossit le fichier de 33%, donc 50mb n'était pas suffisant pour un fichier de 5Mo
 app.use(express.json({ limit: '1024mb' }));
 app.use(express.urlencoded({ limit: '1024mb', extended: true }));
 app.use('/uploads', express.static('uploads'));
 
-// Database synchronization
-db.sequelize.sync().then(() => {
-  console.log('Database synced successfully.');
-}).catch((err) => {
-  console.error('Failed to sync database:', err.message);
-});
+// Database synchronization with error handling
+db.sequelize.sync({ alter: false }) // Utilisez { force: true } seulement en développement
+  .then(() => {
+    console.log('✅ Database synced successfully.');
+    console.log('📊 Available models:', Object.keys(db));
+  })
+  .catch((err) => {
+    console.error('❌ Failed to sync database:', err.message);
+    console.error('Full error:', err);
+  });
 
 // Routes
 app.get('/', (req, res) => {

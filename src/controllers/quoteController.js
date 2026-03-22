@@ -1,14 +1,13 @@
-// quoteController.js
+// quoteController.js - CORRIGÉ
 const db = require('../models');
 
 const createQuote = async (req, res) => {
-  // On importe les modèles
-  const Quote = require('../models/quote')(db.sequelize, require('sequelize').DataTypes);
-  
-  if (!Quote) {
+  // Vérifiez que le modèle Quote existe
+  if (!db.Quote) {
+    console.error('Le modèle Quote n\'est pas chargé. Modèles disponibles:', Object.keys(db));
     return res.status(500).send({
-      message: "Le modèle 'Quote' n'est pas chargé dans l'application backend.",
-      dbModels: Object.keys(db)
+      message: "Erreur de configuration: le modèle Quote n'est pas chargé",
+      availableModels: Object.keys(db)
     });
   }
 
@@ -46,30 +45,37 @@ const createQuote = async (req, res) => {
       sourceProject
     };
 
-    const data = await Quote.create(quoteData);
+    // Utilisez directement db.Quote
+    const data = await db.Quote.create(quoteData);
+    
     res.status(201).send({
       message: "Votre demande de devis a été envoyée avec succès !",
       data: data
     });
   } catch (err) {
-  console.error("FULL ERROR:", err);
-
-  res.status(500).send({
-    message: err.message,
-    name: err.name,
-    errors: err.errors,
-    parent: err.parent
-  });
-}
+    console.error("FULL ERROR:", err);
+    res.status(500).send({
+      message: err.message,
+      name: err.name,
+      errors: err.errors,
+      parent: err.parent
+    });
+  }
 };
 
 const findAll = async (req, res) => {
   try {
+    // Vérifiez que db.Quote existe
+    if (!db.Quote) {
+      throw new Error('Le modèle Quote n\'est pas disponible');
+    }
+    
     const data = await db.Quote.findAll({
       order: [['createdAt', 'DESC']]
     });
     res.send(data);
   } catch (err) {
+    console.error('Erreur findAll:', err);
     res.status(500).send({
       message: err.message || "Une erreur est survenue lors de la récupération des devis."
     });

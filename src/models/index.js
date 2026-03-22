@@ -1,4 +1,4 @@
-// index.js - À MODIFIER
+// index.js - CORRIGÉ
 const sequelize = require('../config/database');
 const { DataTypes } = require('sequelize');
 
@@ -13,8 +13,7 @@ db.Locality = require('./locality')(sequelize, DataTypes);
 db.Project = require('./project')(sequelize, DataTypes);
 db.ProjectImage = require('./projectImage')(sequelize, DataTypes);
 db.Contact = require('./contact')(sequelize, DataTypes);
-
-db.Quote = require('./quote')(sequelize, DataTypes);
+db.Quote = require('./quote')(sequelize, DataTypes); // <-- AJOUTEZ CETTE LIGNE
 
 // Associations
 db.Locality.hasMany(db.Project, { foreignKey: 'localityId', as: 'projects' });
