@@ -22,6 +22,7 @@ module.exports = (sequelize, DataTypes) => {
     country: {
       type: DataTypes.STRING,
       allowNull: true,
+      defaultValue: 'Algérie',
     },
     wilaya: {
       type: DataTypes.STRING,
