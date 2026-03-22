@@ -8,7 +8,7 @@ exports.createCandidate = async (req, res) => {
 
     const { 
       firstName, lastName, email, phone, department, position, portfolioUrl, message,
-      city, erp, bim, software, experience, diploma, startDate, mobility, motivation, source, consent
+      city, erp, erpDetails, bim, software, experience, diploma, startDate, mobility, motivation, source, consent
     } = req.body;
 
     const cvPath = req.file ? req.file.path : null;
@@ -30,7 +30,7 @@ exports.createCandidate = async (req, res) => {
       department: department || 'Candidature Spontanée',
       position,
       city,
-      erp,
+      erp: erp === 'Oui' && erpDetails ? `Oui (${erpDetails})` : erp, // Combinaison ERP
       bim,
       software,
       experience,
