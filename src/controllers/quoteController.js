@@ -3,7 +3,7 @@ const db = require('../models');
 
 const createQuote = async (req, res) => {
   // On importe les modèles
-  const Quote = db.Quote;
+  const Quote = require('../models/quote')(db.sequelize, require('sequelize').DataTypes);
   
   if (!Quote) {
     return res.status(500).send({
