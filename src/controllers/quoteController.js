@@ -1,14 +1,15 @@
 const db = require('../models');
 
 exports.createQuote = async (req, res) => {
+  // On importe les modèles à chaque requête pour éviter les problèmes de cache de module
+  const db = require('../models');
   const Quote = db.Quote;
   
   if (!Quote) {
+    console.error('MODELS IN DB:', Object.keys(db));
     return res.status(500).send({
-      message: "Erreur serveur : Le modèle Quote n'est pas chargé dans db.",
-      debug: {
-        dbKeys: Object.keys(db)
-      }
+      message: "Le modèle 'Quote' n'est pas chargé dans l'application backend.",
+      dbModels: Object.keys(db)
     });
   }
 
