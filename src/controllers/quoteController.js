@@ -1,11 +1,22 @@
 const db = require('../models');
-const Quote = db.Quote;
 
 exports.createQuote = async (req, res) => {
-  console.log('--- Quote Request Body ---', req.body);
-  console.log('--- DB Object ---', Object.keys(db));
-  console.log('--- Quote Model ---', Quote);
+  const db = require('../models');
+  const Quote = db.Quote;
   
+  console.log('API Request received at /api/quotes');
+  console.log('Available models in DB:', Object.keys(db));
+  
+  if (!Quote) {
+    console.error('ERROR: Quote model is undefined in controller!');
+    return res.status(500).send({
+      message: "Erreur serveur : Le modèle Quote n'est pas chargé.",
+      debug: {
+        dbKeys: Object.keys(db)
+      }
+    });
+  }
+
   try {
     const { 
       email, firstName, lastName, phone, country, wilaya,

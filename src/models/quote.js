@@ -1,3 +1,4 @@
+// quote.js
 module.exports = (sequelize, DataTypes) => {
   const Quote = sequelize.define('Quote', {
     email: {
@@ -45,12 +46,14 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: true,
     },
     locations: {
-      type: DataTypes.JSON, // Array of strings
+      type: DataTypes.JSON,
       allowNull: true,
+      defaultValue: [],
     },
     contactDays: {
-      type: DataTypes.JSON, // Array of strings
+      type: DataTypes.JSON,
       allowNull: true,
+      defaultValue: [],
     },
     contactTime: {
       type: DataTypes.STRING,
@@ -65,9 +68,12 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: false,
     },
     sourceProject: {
-      type: DataTypes.STRING, // To know which project page it came from
+      type: DataTypes.STRING,
       allowNull: true,
     },
+  }, {
+    tableName: 'Quotes', // Spécifiez explicitement le nom de la table (avec majuscule)
+    timestamps: true, // Ajoute createdAt et updatedAt
   });
 
   return Quote;
