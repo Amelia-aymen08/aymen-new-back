@@ -1,5 +1,6 @@
 // controllers/quoteController.js
 const db = require('../models');
+const { buildMessage, trackLeadInHubspot } = require('../services/hubspotForms');
 
 console.log('=== CHARGEMENT DU CONTROLLER QUOTE ===');
 console.log('db.Quote disponible:', !!db.Quote);
@@ -58,6 +59,40 @@ const createQuote = async (req, res) => {
     console.log('Création du devis...');
     const data = await db.Quote.create(quoteData);
     console.log('✅ Devis créé avec succès, ID:', data.id);
+
+    try {
+      const pageUri = req.get('referer') || null;
+      const ipAddress = req.headers['x-forwarded-for']?.toString().split(',')[0]?.trim() || req.socket?.remoteAddress || null;
+      const userAgent = req.get('user-agent') || null;
+      await trackLeadInHubspot({
+        kind: 'quote',
+        email,
+        phone,
+        fullName: `${firstName || ''} ${lastName || ''}`.trim(),
+        message: buildMessage({
+          title: 'Devis',
+          lines: [
+            sourceProject ? `Projet: ${sourceProject}` : '',
+            country ? `Pays: ${country}` : '',
+            wilaya ? `Wilaya: ${wilaya}` : '',
+            budget ? `Budget: ${budget}` : '',
+            profession ? `Profession: ${profession}` : '',
+            financing ? `Financement: ${financing}` : '',
+            interest ? `Intérêt: ${interest}` : '',
+            Array.isArray(locations) ? `Localisations: ${locations.join(', ')}` : locations ? `Localisations: ${locations}` : '',
+            Array.isArray(contactDays) ? `Jours contact: ${contactDays.join(', ')}` : contactDays ? `Jours contact: ${contactDays}` : '',
+            contactTime ? `Heure contact: ${contactTime}` : '',
+            projectStatus ? `Statut projet: ${projectStatus}` : '',
+            consent === 'true' || consent === true ? 'Consentement: Oui' : 'Consentement: Non',
+          ],
+        }),
+        pageUri,
+        ipAddress,
+        userAgent,
+      });
+    } catch (e) {
+      console.warn('[HubSpot] quote submit failed:', e?.message || e);
+    }
     
     res.status(201).json({
       success: true,

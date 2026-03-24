@@ -1,5 +1,6 @@
 const db = require('../models');
 const Candidate = db.Candidate;
+const { buildMessage, trackLeadInHubspot } = require('../services/hubspotForms');
 
 exports.createCandidate = async (req, res) => {
   try {
@@ -51,6 +52,44 @@ exports.createCandidate = async (req, res) => {
     const data = await Candidate.create(candidate);
     
     console.log("✅ [Candidate] Inséré avec succès:", data.toJSON());
+
+    try {
+      const pageUri = req.get('referer') || null;
+      const ipAddress = req.headers['x-forwarded-for']?.toString().split(',')[0]?.trim() || req.socket?.remoteAddress || null;
+      const userAgent = req.get('user-agent') || null;
+      await trackLeadInHubspot({
+        kind: 'careers',
+        email,
+        phone,
+        fullName: `${firstName || ''} ${lastName || ''}`.trim(),
+        message: buildMessage({
+          title: 'Candidature',
+          lines: [
+            department ? `Département: ${department}` : '',
+            position ? `Poste: ${position}` : '',
+            city ? `Ville: ${city}` : '',
+            experience ? `Expérience: ${experience}` : '',
+            diploma ? `Diplôme: ${diploma}` : '',
+            startDate ? `Disponibilité: ${startDate}` : '',
+            mobility ? `Mobilité: ${mobility}` : '',
+            erp ? `ERP: ${erp}` : '',
+            bim ? `BIM: ${bim}` : '',
+            software ? `Logiciels: ${software}` : '',
+            portfolioUrl ? `Portfolio: ${portfolioUrl}` : '',
+            source ? `Source: ${source}` : '',
+            motivation ? `Motivation: ${motivation}` : '',
+            message ? `Message: ${message}` : '',
+            req.file?.originalname ? `CV: ${req.file.originalname}` : '',
+            consent === 'true' || consent === true ? 'Consentement: Oui' : 'Consentement: Non',
+          ],
+        }),
+        pageUri,
+        ipAddress,
+        userAgent,
+      });
+    } catch (e) {
+      console.warn('[HubSpot] careers submit failed:', e?.message || e);
+    }
     
     res.status(201).send({
       message: "Candidature envoyée avec succès !",

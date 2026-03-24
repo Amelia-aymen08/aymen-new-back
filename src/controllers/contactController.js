@@ -1,5 +1,6 @@
 const db = require('../models');
 const { Contact } = require('../models');
+const { buildMessage, trackLeadInHubspot } = require('../services/hubspotForms');
 
 exports.createContact = async (req, res) => {
   console.log("🚀 [CONTROLLER] createContact appelé !");
@@ -20,6 +21,32 @@ exports.createContact = async (req, res) => {
       attachment: attachmentPath,
       consent: consent === 'true' || consent === true
     });
+
+    try {
+      const pageUri = req.get('referer') || null;
+      const ipAddress = req.headers['x-forwarded-for']?.toString().split(',')[0]?.trim() || req.socket?.remoteAddress || null;
+      const userAgent = req.get('user-agent') || null;
+      await trackLeadInHubspot({
+        kind: 'contact',
+        email,
+        phone,
+        fullName,
+        message: buildMessage({
+          title: 'Contact',
+          lines: [
+            subject ? `Objet: ${subject}` : '',
+            type ? `Type: ${type}` : '',
+            message || '',
+            req.file?.originalname ? `Pièce jointe: ${req.file.originalname}` : '',
+          ],
+        }),
+        pageUri,
+        ipAddress,
+        userAgent,
+      });
+    } catch (e) {
+      console.warn('[HubSpot] contact submit failed:', e?.message || e);
+    }
 
     console.log("✅ [CONTROLLER] Contact enregistré en BDD avec succès ! ID:", contact.id);
     res.status(201).json({

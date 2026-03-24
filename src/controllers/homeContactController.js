@@ -1,4 +1,5 @@
 const { HomeContact } = require('../models');
+const { buildMessage, trackLeadInHubspot } = require('../services/hubspotForms');
 
 exports.createHomeContact = async (req, res) => {
   try {
@@ -20,6 +21,27 @@ exports.createHomeContact = async (req, res) => {
       message,
       consent: consentValue,
     });
+
+    try {
+      const pageUri = req.get('referer') || null;
+      const ipAddress = req.headers['x-forwarded-for']?.toString().split(',')[0]?.trim() || req.socket?.remoteAddress || null;
+      const userAgent = req.get('user-agent') || null;
+      await trackLeadInHubspot({
+        kind: 'home',
+        email,
+        phone,
+        fullName,
+        message: buildMessage({
+          title: 'Home contact',
+          lines: [message],
+        }),
+        pageUri,
+        ipAddress,
+        userAgent,
+      });
+    } catch (e) {
+      console.warn('[HubSpot] home submit failed:', e?.message || e);
+    }
 
     return res.status(201).json({
       message: 'Votre message a été envoyé avec succès.',
