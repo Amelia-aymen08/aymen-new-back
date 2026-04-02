@@ -5,6 +5,7 @@ const db = require('./models');
 const contactRoutes = require('./routes/contactRoutes');
 const homeContactRoutes = require('./routes/homeContactRoutes');
 const quoteRoutes = require('./routes/quoteRoutes');
+const terrainRequestRoutes = require('./routes/terrainRequestRoutes');
 
 const app = express();
 
@@ -36,5 +37,6 @@ require('./routes/projectRoutes')(app);
 app.use('/api/contacts', contactRoutes);
 app.use('/api/home-contacts', homeContactRoutes);
 app.use('/api/quotes', quoteRoutes);
+app.use('/api/terrain-leads', terrainRequestRoutes);
 
 module.exports = app;
