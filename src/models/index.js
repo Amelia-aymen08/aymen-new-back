@@ -18,6 +18,8 @@ try {
   db.Contact = require('./contact')(sequelize, DataTypes);
   db.HomeContact = require('./homeContact')(sequelize, DataTypes);
   db.TerrainRequest = require('./terrainRequest')(sequelize, DataTypes);
+  db.SalesAgent = require('./salesAgent')(sequelize, DataTypes);
+  db.BatimatechLead = require('./batimatechLead')(sequelize, DataTypes);
   
   // Vérifions que le fichier quote.js existe
   console.log('Tentative de chargement de quote.js...');
@@ -39,6 +41,11 @@ if (db.Locality && db.Project) {
 if (db.Project && db.ProjectImage) {
   db.Project.hasMany(db.ProjectImage, { foreignKey: 'projectId', as: 'images' });
   db.ProjectImage.belongsTo(db.Project, { foreignKey: 'projectId', as: 'project' });
+}
+
+if (db.SalesAgent && db.BatimatechLead) {
+  db.SalesAgent.hasMany(db.BatimatechLead, { foreignKey: 'salesAgentId', as: 'leads' });
+  db.BatimatechLead.belongsTo(db.SalesAgent, { foreignKey: 'salesAgentId', as: 'salesAgent' });
 }
 
 console.log('Tous les modèles chargés:', Object.keys(db));
