@@ -7,6 +7,7 @@ const homeContactRoutes = require('./routes/homeContactRoutes');
 const quoteRoutes = require('./routes/quoteRoutes');
 const batimatechRoutes = require('./routes/batimatechRoutes');
 const terrainRequestRoutes = require('./routes/terrainRequestRoutes');
+const concoursBatitecRoutes = require('./routes/concoursBatitecRoutes');
 
 const app = express();
 
@@ -40,5 +41,6 @@ app.use('/api/home-contacts', homeContactRoutes);
 app.use('/api/quotes', quoteRoutes);
 app.use('/api/batimatech', batimatechRoutes);
 app.use('/api/terrain-leads', terrainRequestRoutes);
+app.use('/api/concours-batitec', concoursBatitecRoutes);
 
 module.exports = app;
