@@ -3,6 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const multer = require('multer');
 const controller = require('../controllers/concoursBatitecController');
+const requireApiKey = require('../middleware/requireApiKey');
 
 const router = express.Router();
 
@@ -35,6 +36,6 @@ const upload = multer({
 });
 
 router.post('/applications', upload.single('studentCard'), controller.createApplication);
-router.get('/applications', controller.listApplications);
+router.get('/applications', requireApiKey({ envVarName: 'CONCOURS_API_KEY' }), controller.listApplications);
 
 module.exports = router;

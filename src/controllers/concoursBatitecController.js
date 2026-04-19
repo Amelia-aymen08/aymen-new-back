@@ -1,4 +1,17 @@
 const db = require('../models');
+const { Op } = require('sequelize');
+
+function toInt(value, fallback) {
+  const n = Number.parseInt(String(value || ''), 10);
+  return Number.isFinite(n) ? n : fallback;
+}
+
+function escapeCsv(value) {
+  const s = value === null || value === undefined ? '' : String(value);
+  const needsQuotes = /[",\n\r]/.test(s);
+  const escaped = s.replace(/"/g, '""');
+  return needsQuotes ? `"${escaped}"` : escaped;
+}
 
 async function createApplication(req, res) {
   try {
@@ -58,10 +71,57 @@ async function listApplications(req, res) {
     const where = {};
     if (category === 'HOTEL' || category === 'VILLA') where.category = category;
 
+    const from = String(req.query?.from || '').trim();
+    const to = String(req.query?.to || '').trim();
+    if (from || to) {
+      where.createdAt = {};
+      if (from) where.createdAt[Op.gte] = new Date(from);
+      if (to) where.createdAt[Op.lte] = new Date(to);
+    }
+
+    const limit = Math.min(toInt(req.query?.limit, 1000), 10000);
+    const offset = Math.max(toInt(req.query?.offset, 0), 0);
+    const format = String(req.query?.format || 'json').trim().toLowerCase();
+
     const data = await db.ConcoursBatitecApplication.findAll({
       where,
       order: [['createdAt', 'DESC']],
+      limit,
+      offset,
     });
+
+    if (format === 'csv') {
+      const headers = [
+        'id',
+        'category',
+        'lastName',
+        'firstName',
+        'phone',
+        'email',
+        'studentCardPath',
+        'studentCardMime',
+        'createdAt',
+        'updatedAt',
+      ];
+
+      const rows = data.map((r) => [
+        r.id,
+        r.category,
+        r.lastName,
+        r.firstName,
+        r.phone,
+        r.email,
+        r.studentCardPath,
+        r.studentCardMime,
+        r.createdAt,
+        r.updatedAt,
+      ]);
+
+      const csv = [headers.join(','), ...rows.map((row) => row.map(escapeCsv).join(','))].join('\n');
+      res.setHeader('Content-Type', 'text/csv; charset=utf-8');
+      res.setHeader('Content-Disposition', 'attachment; filename="concours_batitec_applications.csv"');
+      return res.status(200).send(csv);
+    }
 
     return res.status(200).json({ success: true, data });
   } catch (error) {
@@ -77,4 +137,3 @@ module.exports = {
   createApplication,
   listApplications,
 };
-
