@@ -9,15 +9,16 @@ function requireBatimatechDashboardAuth(req, res, next) {
     return res.status(503).json({ success: false, message: 'Accès dashboard non configuré.' });
   }
 
+  const expectedNormalized = String(expected).trim();
   const authHeader = req.get('authorization') || '';
   const token = authHeader.toLowerCase().startsWith('bearer ') ? authHeader.slice(7).trim() : '';
   const apiKey = String(req.get('x-api-key') || '').trim();
-  const provided = token || apiKey;
+  const provided = (token || apiKey).trim();
 
   if (!provided) {
     return res.status(401).json({ success: false, message: 'Authentification dashboard requise.' });
   }
-  if (provided !== expected) {
+  if (provided !== expectedNormalized) {
     return res.status(401).json({ success: false, message: 'Authentification dashboard invalide.' });
   }
 
