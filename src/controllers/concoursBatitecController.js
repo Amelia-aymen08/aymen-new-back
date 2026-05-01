@@ -15,6 +15,11 @@ function escapeCsv(value) {
 
 async function createApplication(req, res) {
   try {
+    return res.status(410).json({
+      success: false,
+      message: 'Les candidatures ont été clôturées.',
+    });
+
     const category = String(req.body?.category || '').trim().toUpperCase();
     const lastName = String(req.body?.lastName || '').trim();
     const firstName = String(req.body?.firstName || '').trim();
