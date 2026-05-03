@@ -30,10 +30,10 @@ CREATE TABLE IF NOT EXISTS `batimatech_leads` (
     ON DELETE RESTRICT ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Empêcher deux rendez-vous sur le même créneau (date + heure)
+-- Empêcher deux rendez-vous sur le même créneau (par commercial)
 -- Si la table existe déjà, exécuter cet ALTER:
 -- ALTER TABLE `batimatech_leads`
---   ADD UNIQUE KEY `uniq_batimatech_leads_slot` (`appointmentDate`, `appointmentSlot`);
+--   ADD UNIQUE KEY `uniq_batimatech_leads_slot` (`salesAgentId`, `appointmentDate`, `appointmentSlot`);
 
 -- Exemple d'insertion d'un commercial autorisé:
 -- INSERT INTO `sales_agents` (`fullName`, `email`, `isActive`)

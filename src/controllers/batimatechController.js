@@ -87,13 +87,13 @@ async function createLead(req, res) {
     }
 
     const existing = await db.BatimatechLead.findOne({
-      where: { appointmentDate, appointmentSlot },
+      where: { salesAgentId: req.salesAgent.id, appointmentDate, appointmentSlot },
       attributes: ['id'],
     });
     if (existing) {
       return res.status(409).json({
         success: false,
-        message: 'Ce créneau est déjà réservé. Veuillez en choisir un autre.',
+        message: 'Vous avez déjà réservé ce créneau. Veuillez en choisir un autre.',
       });
     }
 
@@ -131,7 +131,7 @@ async function listBookedSlots(req, res) {
     }
 
     const leads = await db.BatimatechLead.findAll({
-      where: { appointmentDate: date },
+      where: { salesAgentId: req.salesAgent.id, appointmentDate: date },
       attributes: ['appointmentSlot'],
     });
 
