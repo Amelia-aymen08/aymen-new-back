@@ -75,8 +75,7 @@ async function createLead(req, res) {
       phone,
       email,
       projectName,
-      appointmentDate,
-      appointmentSlot,
+      note,
     } = req.body;
 
     if (!prospectLastName || !prospectFirstName || !phone) {
@@ -84,26 +83,6 @@ async function createLead(req, res) {
         success: false,
         message: 'Les champs obligatoires du prospect doivent être remplis.',
       });
-    }
-
-    if ((appointmentDate && !appointmentSlot) || (!appointmentDate && appointmentSlot)) {
-      return res.status(400).json({
-        success: false,
-        message: 'Veuillez renseigner le créneau complet (date + heure) ou laisser le rendez-vous vide.',
-      });
-    }
-
-    if (appointmentDate && appointmentSlot) {
-      const existing = await db.BatimatechLead.findOne({
-        where: { salesAgentId: req.salesAgent.id, appointmentDate, appointmentSlot },
-        attributes: ['id'],
-      });
-      if (existing) {
-        return res.status(409).json({
-          success: false,
-          message: 'Vous avez déjà réservé ce créneau. Veuillez en choisir un autre.',
-        });
-      }
     }
 
     const lead = await db.BatimatechLead.create({
@@ -114,8 +93,9 @@ async function createLead(req, res) {
       phone,
       email: email || null,
       projectName: projectName || null,
-      appointmentDate: appointmentDate || null,
-      appointmentSlot: appointmentSlot || null,
+      appointmentDate: null,
+      appointmentSlot: null,
+      note: typeof note === 'string' && note.trim() ? note.trim().slice(0, 1200) : null,
     });
 
     return res.status(201).json({
@@ -204,6 +184,7 @@ async function listLeads(req, res) {
         { email: { [Op.like]: `%${q}%` } },
         { projectName: { [Op.like]: `%${q}%` } },
         { appointmentSlot: { [Op.like]: `%${q}%` } },
+        { note: { [Op.like]: `%${q}%` } },
       ];
     }
 
