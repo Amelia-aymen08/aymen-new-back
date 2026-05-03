@@ -33,11 +33,11 @@ module.exports = (sequelize, DataTypes) => {
       },
       appointmentDate: {
         type: DataTypes.DATEONLY,
-        allowNull: false,
+        allowNull: true,
       },
       appointmentSlot: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       status: {
         type: DataTypes.STRING,

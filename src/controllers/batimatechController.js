@@ -79,22 +79,31 @@ async function createLead(req, res) {
       appointmentSlot,
     } = req.body;
 
-    if (!prospectLastName || !prospectFirstName || !phone || !appointmentDate || !appointmentSlot) {
+    if (!prospectLastName || !prospectFirstName || !phone) {
       return res.status(400).json({
         success: false,
-        message: 'Les champs obligatoires du prospect et du rendez-vous doivent être remplis.',
+        message: 'Les champs obligatoires du prospect doivent être remplis.',
       });
     }
 
-    const existing = await db.BatimatechLead.findOne({
-      where: { salesAgentId: req.salesAgent.id, appointmentDate, appointmentSlot },
-      attributes: ['id'],
-    });
-    if (existing) {
-      return res.status(409).json({
+    if ((appointmentDate && !appointmentSlot) || (!appointmentDate && appointmentSlot)) {
+      return res.status(400).json({
         success: false,
-        message: 'Vous avez déjà réservé ce créneau. Veuillez en choisir un autre.',
+        message: 'Veuillez renseigner le créneau complet (date + heure) ou laisser le rendez-vous vide.',
       });
+    }
+
+    if (appointmentDate && appointmentSlot) {
+      const existing = await db.BatimatechLead.findOne({
+        where: { salesAgentId: req.salesAgent.id, appointmentDate, appointmentSlot },
+        attributes: ['id'],
+      });
+      if (existing) {
+        return res.status(409).json({
+          success: false,
+          message: 'Vous avez déjà réservé ce créneau. Veuillez en choisir un autre.',
+        });
+      }
     }
 
     const lead = await db.BatimatechLead.create({
@@ -105,13 +114,13 @@ async function createLead(req, res) {
       phone,
       email: email || null,
       projectName: projectName || null,
-      appointmentDate,
-      appointmentSlot,
+      appointmentDate: appointmentDate || null,
+      appointmentSlot: appointmentSlot || null,
     });
 
     return res.status(201).json({
       success: true,
-      message: 'Le rendez-vous prospect a bien été enregistré.',
+      message: 'Le prospect a bien été enregistré.',
       data: lead,
     });
   } catch (error) {
