@@ -75,6 +75,7 @@ async function createLead(req, res) {
       phone,
       email,
       projectName,
+      projectNames,
       note,
     } = req.body;
 
@@ -85,6 +86,16 @@ async function createLead(req, res) {
       });
     }
 
+    const normalizedProjectNames = Array.isArray(projectNames)
+      ? [...new Set(projectNames.map((v) => String(v || '').trim()).filter(Boolean))].slice(0, 20)
+      : [];
+    const normalizedProjectName =
+      normalizedProjectNames.length > 0
+        ? normalizedProjectNames.join(' | ')
+        : typeof projectName === 'string' && projectName.trim()
+          ? projectName.trim()
+          : null;
+
     const lead = await db.BatimatechLead.create({
       salesAgentId: req.salesAgent.id,
       salesAgentName: req.salesAgent.fullName,
@@ -92,7 +103,7 @@ async function createLead(req, res) {
       prospectFirstName,
       phone,
       email: email || null,
-      projectName: projectName || null,
+      projectName: normalizedProjectName,
       appointmentDate: null,
       appointmentSlot: null,
       note: typeof note === 'string' && note.trim() ? note.trim().slice(0, 1200) : null,
@@ -168,7 +179,7 @@ async function listLeads(req, res) {
     }
 
     if (status) where.status = status;
-    if (projectName) where.projectName = projectName;
+    if (projectName) where.projectName = { [Op.like]: `%${projectName}%` };
 
     if (salesAgentIdRaw) {
       const salesAgentId = Number.parseInt(salesAgentIdRaw, 10);

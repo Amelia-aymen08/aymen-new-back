@@ -28,7 +28,7 @@ module.exports = (sequelize, DataTypes) => {
         validate: { isEmail: true },
       },
       projectName: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         allowNull: true,
       },
       appointmentDate: {

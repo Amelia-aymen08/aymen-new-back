@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS `batimatech_leads` (
   `prospectFirstName` VARCHAR(255) NOT NULL,
   `phone` VARCHAR(255) NOT NULL,
   `email` VARCHAR(255) NULL,
-  `projectName` VARCHAR(255) NULL,
+  `projectName` TEXT NULL,
   `appointmentDate` DATE NULL,
   `appointmentSlot` VARCHAR(20) NULL,
   `note` VARCHAR(1200) NULL,
