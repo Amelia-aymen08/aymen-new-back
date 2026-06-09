@@ -8,6 +8,7 @@ const quoteRoutes = require('./routes/quoteRoutes');
 const batimatechRoutes = require('./routes/batimatechRoutes');
 const terrainRequestRoutes = require('./routes/terrainRequestRoutes');
 const concoursBatitecRoutes = require('./routes/concoursBatitecRoutes');
+const newsletterRoutes = require('./routes/newsletterRoutes');
 
 const app = express();
 
@@ -42,5 +43,6 @@ app.use('/api/quotes', quoteRoutes);
 app.use('/api/batimatech', batimatechRoutes);
 app.use('/api/terrain-leads', terrainRequestRoutes);
 app.use('/api/concours-batitec', concoursBatitecRoutes);
+app.use('/api/newsletter', newsletterRoutes);
 
 module.exports = app;

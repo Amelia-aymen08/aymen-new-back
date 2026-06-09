@@ -21,6 +21,7 @@ try {
   db.SalesAgent = require('./salesAgent')(sequelize, DataTypes);
   db.BatimatechLead = require('./batimatechLead')(sequelize, DataTypes);
   db.ConcoursBatitecApplication = require('./concoursBatitecApplication')(sequelize, DataTypes);
+  db.Newsletter = require('./newsletter')(sequelize, DataTypes);
   
   // Vérifions que le fichier quote.js existe
   console.log('Tentative de chargement de quote.js...');
