@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     phone: {
       type: DataTypes.STRING,
-      allowNull: true,
+      allowNull: false,
     },
     preference: {
       type: DataTypes.ENUM('email', 'telephone', 'whatsapp'),
@@ -29,14 +29,17 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: true,
       field: 'ip_address',
     },
-    notes: {
-      type: DataTypes.TEXT,
-      allowNull: true,
-    },
   }, {
     tableName: 'offres_ete_leads',
     createdAt: 'created_at',
     updatedAt: 'updated_at',
+    indexes: [
+      {
+        unique: true,
+        fields: ['email', 'phone'],
+        name: 'offres_ete_leads_email_phone_unique',
+      },
+    ],
   });
 
   return OffreEteLead;

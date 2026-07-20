@@ -5,8 +5,30 @@ exports.createLead = async (req, res) => {
   try {
     const { fullName, email, phone, preference } = req.body;
 
-    if (!fullName || !email) {
-      return res.status(400).json({ message: 'Nom et email sont obligatoires.' });
+    if (!fullName?.trim() || !email?.trim() || !phone?.trim() || !preference) {
+      return res.status(400).json({ message: 'Tous les champs sont obligatoires.' });
+    }
+
+    const normalizedEmail = email.trim().toLowerCase();
+    const localPhone = phone.replace(/\s+/g, '').replace(/^(?:\+?213)+/, '');
+    const normalizedPhone = `+213${localPhone.replace(/^0/, '')}`;
+
+    if (!/^\+213[5-7]\d{8}$/.test(normalizedPhone)) {
+      return res.status(400).json({ message: 'Le numÃ©ro de tÃ©lÃ©phone est invalide.' });
+    }
+
+    if (!['email', 'telephone', 'whatsapp'].includes(preference)) {
+      return res.status(400).json({ message: 'La prÃ©fÃ©rence de contact est invalide.' });
+    }
+
+    const existingLead = await OffreEteLead.findOne({
+      where: { email: normalizedEmail, phone: normalizedPhone },
+    });
+
+    if (existingLead) {
+      return res.status(409).json({
+        message: 'Une demande avec cet email et ce numÃ©ro existe dÃ©jÃ .',
+      });
     }
 
     const ipAddress =
@@ -15,10 +37,10 @@ exports.createLead = async (req, res) => {
       null;
 
     const lead = await OffreEteLead.create({
-      fullName,
-      email,
-      phone: phone || null,
-      preference: preference || 'email',
+      fullName: fullName.trim(),
+      email: normalizedEmail,
+      phone: normalizedPhone,
+      preference,
       ipAddress,
     });
 
@@ -27,9 +49,9 @@ exports.createLead = async (req, res) => {
       const userAgent = req.get('user-agent') || null;
       await trackLeadInHubspot({
         kind: 'offres_ete',
-        email,
-        phone,
-        fullName,
+        email: normalizedEmail,
+        phone: normalizedPhone,
+        fullName: fullName.trim(),
         message: buildMessage({
           title: 'Offres Été 2026',
           lines: [
@@ -49,6 +71,11 @@ exports.createLead = async (req, res) => {
       id: lead.id,
     });
   } catch (error) {
+    if (error.name === 'SequelizeUniqueConstraintError') {
+      return res.status(409).json({
+        message: 'Une demande avec cet email et ce numÃ©ro existe dÃ©jÃ .',
+      });
+    }
     console.error('❌ [offres-ete] Error creating lead:', error);
     return res.status(500).json({
       message: 'Une erreur est survenue. Veuillez réessayer.',
