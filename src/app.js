@@ -9,6 +9,7 @@ const batimatechRoutes = require('./routes/batimatechRoutes');
 const terrainRequestRoutes = require('./routes/terrainRequestRoutes');
 const concoursBatitecRoutes = require('./routes/concoursBatitecRoutes');
 const newsletterRoutes = require('./routes/newsletterRoutes');
+const offreEteRoutes = require('./routes/offreEteRoutes');
 
 const app = express();
 
@@ -44,5 +45,6 @@ app.use('/api/batimatech', batimatechRoutes);
 app.use('/api/terrain-leads', terrainRequestRoutes);
 app.use('/api/concours-batitec', concoursBatitecRoutes);
 app.use('/api/newsletter', newsletterRoutes);
+app.use('/api/offres-ete', offreEteRoutes);
 
 module.exports = app;
