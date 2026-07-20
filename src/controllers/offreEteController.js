@@ -14,11 +14,11 @@ exports.createLead = async (req, res) => {
     const normalizedPhone = `+213${localPhone.replace(/^0/, '')}`;
 
     if (!/^\+213[5-7]\d{8}$/.test(normalizedPhone)) {
-      return res.status(400).json({ message: 'Le numÃ©ro de tÃ©lÃ©phone est invalide.' });
+      return res.status(400).json({ message: 'Le num\u00e9ro de t\u00e9l\u00e9phone est invalide.' });
     }
 
     if (!['email', 'telephone', 'whatsapp'].includes(preference)) {
-      return res.status(400).json({ message: 'La prÃ©fÃ©rence de contact est invalide.' });
+      return res.status(400).json({ message: 'La pr\u00e9f\u00e9rence de contact est invalide.' });
     }
 
     const existingLead = await OffreEteLead.findOne({
@@ -27,7 +27,7 @@ exports.createLead = async (req, res) => {
 
     if (existingLead) {
       return res.status(409).json({
-        message: 'Une demande avec cet email et ce numÃ©ro existe dÃ©jÃ .',
+        message: 'Une demande avec cet email et ce num\u00e9ro existe d\u00e9j\u00e0.',
       });
     }
 
@@ -73,7 +73,7 @@ exports.createLead = async (req, res) => {
   } catch (error) {
     if (error.name === 'SequelizeUniqueConstraintError') {
       return res.status(409).json({
-        message: 'Une demande avec cet email et ce numÃ©ro existe dÃ©jÃ .',
+        message: 'Une demande avec cet email et ce num\u00e9ro existe d\u00e9j\u00e0.',
       });
     }
     console.error('❌ [offres-ete] Error creating lead:', error);
