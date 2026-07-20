@@ -3,6 +3,7 @@ module.exports = (sequelize, DataTypes) => {
     fullName: {
       type: DataTypes.STRING,
       allowNull: false,
+      field: 'full_name',
     },
     email: {
       type: DataTypes.STRING,
@@ -26,6 +27,7 @@ module.exports = (sequelize, DataTypes) => {
     ipAddress: {
       type: DataTypes.STRING(45),
       allowNull: true,
+      field: 'ip_address',
     },
     notes: {
       type: DataTypes.TEXT,
@@ -33,6 +35,8 @@ module.exports = (sequelize, DataTypes) => {
     },
   }, {
     tableName: 'offres_ete_leads',
+    createdAt: 'created_at',
+    updatedAt: 'updated_at',
   });
 
   return OffreEteLead;
