@@ -47,7 +47,7 @@ exports.createLead = async (req, res) => {
       fullName: fullName.trim(),
       email: normalizedEmail,
       phone: normalizedPhone,
-      localisations: safeLocalisations,
+      localisations: JSON.stringify(safeLocalisations),
       consent: true,
       ipAddress,
     });

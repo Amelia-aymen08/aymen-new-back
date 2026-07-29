@@ -15,9 +15,12 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: true,
     },
     localisations: {
-      type: DataTypes.JSON,
+      // TEXT plutôt que JSON : compatible avec les versions de MySQL/MariaDB
+      // plus anciennes qui n'ont pas de type JSON natif. Sérialisé/désérialisé
+      // manuellement dans le contrôleur.
+      type: DataTypes.TEXT,
       allowNull: false,
-      defaultValue: [],
+      defaultValue: '[]',
     },
     consent: {
       type: DataTypes.BOOLEAN,
