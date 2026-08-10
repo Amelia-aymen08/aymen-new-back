@@ -11,6 +11,7 @@ const concoursBatitecRoutes = require('./routes/concoursBatitecRoutes');
 const newsletterRoutes = require('./routes/newsletterRoutes');
 const offreEteRoutes = require('./routes/offreEteRoutes');
 const visiteVirtuelleRdvRoutes = require('./routes/visiteVirtuelleRdvRoutes');
+const batimatRoutes = require('./routes/batimatRoutes');
 
 const app = express();
 
@@ -48,5 +49,6 @@ app.use('/api/concours-batitec', concoursBatitecRoutes);
 app.use('/api/newsletter', newsletterRoutes);
 app.use('/api/offres-ete', offreEteRoutes);
 app.use('/api/visite-virtuelle-rdv', visiteVirtuelleRdvRoutes);
+app.use('/api/batimat', batimatRoutes);
 
 module.exports = app;
