@@ -14,8 +14,8 @@ exports.createLead = async (req, res) => {
   try {
     const { firstName, lastName, email, phone, countryCode, profile, newsletterOptIn, consent } = req.body;
 
-    if (!firstName?.trim() || !lastName?.trim() || !email?.trim() || !phone?.trim()) {
-      return res.status(400).json({ message: 'Le prénom, le nom, l\'email et le téléphone sont obligatoires.' });
+    if (!firstName?.trim() || !lastName?.trim() || !email?.trim() || !phone?.trim() || !profile?.trim()) {
+      return res.status(400).json({ message: 'Tous les champs sont obligatoires.' });
     }
 
     if (consent !== true) {
@@ -51,7 +51,7 @@ exports.createLead = async (req, res) => {
       lastName: lastName.trim(),
       email: normalizedEmail,
       phone: normalizedPhone,
-      profile: profile?.trim() || null,
+      profile: profile.trim(),
       newsletterOptIn: newsletterOptIn === true,
       consent: true,
       ipAddress,
