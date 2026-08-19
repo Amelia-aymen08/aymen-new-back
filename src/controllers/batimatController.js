@@ -77,7 +77,7 @@ exports.createLead = async (req, res) => {
         userAgent,
       });
     } catch (e) {
-      console.warn('[HubSpot] batimat submit failed:', e?.message || e);
+      console.warn('[HubSpot] batimat submit failed:', e?.message || e, e?.details ? `| details: ${e.details}` : '');
     }
 
     return res.status(201).json({
