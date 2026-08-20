@@ -73,6 +73,7 @@ function submitToHubspotForm({ portalId, formGuid, fields, context }) {
 async function trackLeadInHubspot({ kind, email, phone, fullName, message, pageUri, ipAddress, userAgent }) {
   const portalId = getEnv('HUBSPOT_PORTAL_ID');
   const formGuid = resolveHubspotFormGuid(kind);
+  console.log(`[HubSpot] kind="${kind}" -> portalId=${portalId || 'MISSING'} formGuid=${formGuid || 'MISSING'}`);
   if (!portalId || !formGuid) return { sent: false, reason: 'missing_config' };
 
   const { firstName, lastName } = splitFullName(fullName);
