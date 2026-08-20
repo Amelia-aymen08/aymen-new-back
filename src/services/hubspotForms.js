@@ -88,7 +88,6 @@ async function trackLeadInHubspot({ kind, email, phone, fullName, message, pageU
   const context = {
     pageUri: pageUri || undefined,
     ipAddress: ipAddress || undefined,
-    userAgent: userAgent || undefined,
   };
 
   await submitToHubspotForm({ portalId, formGuid, fields, context });
