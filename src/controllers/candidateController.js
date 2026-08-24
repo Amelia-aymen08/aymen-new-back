@@ -9,7 +9,8 @@ exports.createCandidate = async (req, res) => {
 
     const { 
       firstName, lastName, email, phone, department, position, portfolioUrl, message,
-      city, erp, erpDetails, bim, software, experience, diploma, startDate, mobility, motivation, source, consent
+      city, erp, erpDetails, bim, software, experience, diploma, startDate, mobility, motivation, source, consent,
+      hutk, pageUri: clientPageUri, pageName
     } = req.body;
 
     const cvPath = req.file ? req.file.path : null;
@@ -54,11 +55,13 @@ exports.createCandidate = async (req, res) => {
     console.log("✅ [Candidate] Inséré avec succès:", data.toJSON());
 
     try {
-      const pageUri = req.get('referer') || null;
+      const pageUri = clientPageUri || req.get('referer') || null;
       const ipAddress = req.headers['x-forwarded-for']?.toString().split(',')[0]?.trim() || req.socket?.remoteAddress || null;
       const userAgent = req.get('user-agent') || null;
       await trackLeadInHubspot({
         kind: 'careers',
+        pageName,
+        hutk,
         email,
         phone,
         fullName: `${firstName || ''} ${lastName || ''}`.trim(),

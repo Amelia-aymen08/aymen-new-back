@@ -14,7 +14,7 @@ const createQuote = async (req, res) => {
       email, firstName, lastName, phone, country, wilaya,
       budget, profession, financing, interest,
       locations, contactDays, contactTime, projectStatus,
-      consent, sourceProject
+      consent, sourceProject, hutk, pageUri: clientPageUri, pageName
     } = req.body;
 
     console.log('Données reçues:', { firstName, lastName, email, phone });
@@ -61,7 +61,7 @@ const createQuote = async (req, res) => {
     console.log('✅ Devis créé avec succès, ID:', data.id);
 
     try {
-      const pageUri = req.get('referer') || null;
+      const pageUri = clientPageUri || req.get('referer') || null;
       const ipAddress = req.headers['x-forwarded-for']?.toString().split(',')[0]?.trim() || req.socket?.remoteAddress || null;
       const userAgent = req.get('user-agent') || null;
       await trackLeadInHubspot({
@@ -69,6 +69,8 @@ const createQuote = async (req, res) => {
         email,
         phone,
         fullName: `${firstName || ''} ${lastName || ''}`.trim(),
+        pageName,
+        hutk,
         message: buildMessage({
           title: 'Devis',
           lines: [

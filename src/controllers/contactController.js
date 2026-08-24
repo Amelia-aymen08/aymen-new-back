@@ -5,7 +5,7 @@ const { buildMessage, trackLeadInHubspot } = require('../services/hubspotForms')
 exports.createContact = async (req, res) => {
   console.log("🚀 [CONTROLLER] createContact appelé !");
   try {
-    const { fullName, email, phone, subject, message, type, consent } = req.body;
+    const { fullName, email, phone, subject, message, type, consent, hutk, pageUri: clientPageUri, pageName } = req.body;
     console.log("📦 Données extraites:", { fullName, email, phone, subject, message, type, consent });
     
     // Multer a placé le fichier sur le disque et a rempli req.file
@@ -23,7 +23,7 @@ exports.createContact = async (req, res) => {
     });
 
     try {
-      const pageUri = req.get('referer') || null;
+      const pageUri = clientPageUri || req.get('referer') || null;
       const ipAddress = req.headers['x-forwarded-for']?.toString().split(',')[0]?.trim() || req.socket?.remoteAddress || null;
       const userAgent = req.get('user-agent') || null;
       await trackLeadInHubspot({
@@ -41,6 +41,8 @@ exports.createContact = async (req, res) => {
           ],
         }),
         pageUri,
+        pageName,
+        hutk,
         ipAddress,
         userAgent,
       });

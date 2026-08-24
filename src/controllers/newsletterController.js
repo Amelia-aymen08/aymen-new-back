@@ -10,6 +10,9 @@ exports.subscribe = async (req, res) => {
     }
 
     const source = String(req.body?.source || 'footer').trim();
+    const hutk = req.body?.hutk;
+    const clientPageUri = req.body?.pageUri;
+    const pageName = req.body?.pageName;
 
     const [, created] = await db.Newsletter.findOrCreate({
       where: { email },
@@ -21,7 +24,7 @@ exports.subscribe = async (req, res) => {
     }
 
     try {
-      const pageUri = req.get('referer') || null;
+      const pageUri = clientPageUri || req.get('referer') || null;
       const ipAddress = req.headers['x-forwarded-for']?.toString().split(',')[0]?.trim() || req.socket?.remoteAddress || null;
       const userAgent = req.get('user-agent') || null;
       await trackLeadInHubspot({
@@ -31,6 +34,8 @@ exports.subscribe = async (req, res) => {
         phone: '',
         message: `Inscription newsletter — source: ${source}`,
         pageUri,
+        pageName,
+        hutk,
         ipAddress,
         userAgent,
       });

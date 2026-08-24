@@ -3,7 +3,7 @@ const { buildMessage, trackLeadInHubspot } = require('../services/hubspotForms')
 
 exports.createLead = async (req, res) => {
   try {
-    const { fullName, email, phone, localisations, consent } = req.body;
+    const { fullName, email, phone, localisations, consent, hutk, pageUri: clientPageUri, pageName } = req.body;
 
     if (!fullName?.trim() || !email?.trim()) {
       return res.status(400).json({ message: 'Le nom et l\'email sont obligatoires.' });
@@ -53,7 +53,7 @@ exports.createLead = async (req, res) => {
     });
 
     try {
-      const pageUri = req.get('referer') || null;
+      const pageUri = clientPageUri || req.get('referer') || null;
       const userAgent = req.get('user-agent') || null;
       await trackLeadInHubspot({
         kind: 'visite_virtuelle_rdv',
@@ -67,6 +67,8 @@ exports.createLead = async (req, res) => {
           ],
         }),
         pageUri,
+        pageName,
+        hutk,
         ipAddress,
         userAgent,
       });

@@ -70,7 +70,7 @@ function submitToHubspotForm({ portalId, formGuid, fields, context }) {
   });
 }
 
-async function trackLeadInHubspot({ kind, email, phone, fullName, message, pageUri, ipAddress, userAgent, hutk }) {
+async function trackLeadInHubspot({ kind, email, phone, fullName, message, pageUri, pageName, ipAddress, userAgent, hutk }) {
   const portalId = getEnv('HUBSPOT_PORTAL_ID');
   const formGuid = resolveHubspotFormGuid(kind);
   console.log(`[HubSpot] kind="${kind}" -> portalId=${portalId || 'MISSING'} formGuid=${formGuid || 'MISSING'}`);
@@ -87,6 +87,7 @@ async function trackLeadInHubspot({ kind, email, phone, fullName, message, pageU
 
   const context = {
     pageUri: pageUri || undefined,
+    pageName: pageName || undefined,
     ipAddress: ipAddress || undefined,
     hutk: hutk || undefined,
   };

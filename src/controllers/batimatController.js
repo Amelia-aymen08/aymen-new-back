@@ -12,7 +12,7 @@ const COUNTRY_CODES = {
 
 exports.createLead = async (req, res) => {
   try {
-    const { firstName, lastName, email, phone, countryCode, profile, newsletterOptIn, consent, hutk, pageUri: clientPageUri } = req.body;
+    const { firstName, lastName, email, phone, countryCode, profile, newsletterOptIn, consent, hutk, pageUri: clientPageUri, pageName } = req.body;
 
     if (!firstName?.trim() || !lastName?.trim() || !email?.trim() || !phone?.trim() || !profile?.trim()) {
       return res.status(400).json({ message: 'Tous les champs sont obligatoires.' });
@@ -73,6 +73,7 @@ exports.createLead = async (req, res) => {
           ],
         }),
         pageUri,
+        pageName,
         ipAddress,
         userAgent,
         hutk,

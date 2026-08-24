@@ -14,6 +14,9 @@ const createTerrainRequest = async (req, res) => {
       area,
       papers,
       consent,
+      hutk,
+      pageUri: clientPageUri,
+      pageName,
     } = req.body;
 
     if (!firstName || !lastName || !email || !phone || !landAddress) {
@@ -53,7 +56,7 @@ const createTerrainRequest = async (req, res) => {
     });
 
     try {
-      const pageUri = req.get('referer') || null;
+      const pageUri = clientPageUri || req.get('referer') || null;
       const ipAddress = req.headers['x-forwarded-for']?.toString().split(',')[0]?.trim() || req.socket?.remoteAddress || null;
       const userAgent = req.get('user-agent') || null;
       await trackLeadInHubspot({
@@ -61,6 +64,8 @@ const createTerrainRequest = async (req, res) => {
         email,
         phone,
         fullName: `${firstName} ${lastName}`.trim(),
+        pageName,
+        hutk,
         message: buildMessage({
           title: 'Demande terrain',
           lines: [

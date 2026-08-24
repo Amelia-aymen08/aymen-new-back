@@ -3,7 +3,7 @@ const { buildMessage, trackLeadInHubspot } = require('../services/hubspotForms')
 
 exports.createHomeContact = async (req, res) => {
   try {
-    const { fullName, email, phone, message, consent } = req.body;
+    const { fullName, email, phone, message, consent, hutk, pageUri: clientPageUri, pageName } = req.body;
     const consentValue = consent === 'true' || consent === true;
 
     if (!fullName || !email || !phone || !message) {
@@ -23,7 +23,7 @@ exports.createHomeContact = async (req, res) => {
     });
 
     try {
-      const pageUri = req.get('referer') || null;
+      const pageUri = clientPageUri || req.get('referer') || null;
       const ipAddress = req.headers['x-forwarded-for']?.toString().split(',')[0]?.trim() || req.socket?.remoteAddress || null;
       const userAgent = req.get('user-agent') || null;
       await trackLeadInHubspot({
@@ -36,6 +36,8 @@ exports.createHomeContact = async (req, res) => {
           lines: [message],
         }),
         pageUri,
+        pageName,
+        hutk,
         ipAddress,
         userAgent,
       });

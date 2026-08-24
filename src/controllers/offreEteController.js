@@ -3,7 +3,7 @@ const { buildMessage, trackLeadInHubspot } = require('../services/hubspotForms')
 
 exports.createLead = async (req, res) => {
   try {
-    const { fullName, email, phone, preference } = req.body;
+    const { fullName, email, phone, preference, hutk, pageUri: clientPageUri, pageName } = req.body;
 
     if (!fullName?.trim() || !email?.trim() || !phone?.trim() || !preference) {
       return res.status(400).json({ message: 'Tous les champs sont obligatoires.' });
@@ -45,7 +45,7 @@ exports.createLead = async (req, res) => {
     });
 
     try {
-      const pageUri = req.get('referer') || null;
+      const pageUri = clientPageUri || req.get('referer') || null;
       const userAgent = req.get('user-agent') || null;
       await trackLeadInHubspot({
         kind: 'offres_ete',
@@ -59,6 +59,8 @@ exports.createLead = async (req, res) => {
           ],
         }),
         pageUri,
+        pageName,
+        hutk,
         ipAddress,
         userAgent,
       });
