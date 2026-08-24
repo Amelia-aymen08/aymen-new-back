@@ -103,7 +103,7 @@ exports.createLead = async (req, res) => {
 exports.getAllLeads = async (req, res) => {
   try {
     const leads = await BatimatPreinscription.findAll({
-      order: [['createdAt', 'DESC']],
+      order: [['created_at', 'DESC']],
     });
     return res.status(200).json(leads);
   } catch (error) {
