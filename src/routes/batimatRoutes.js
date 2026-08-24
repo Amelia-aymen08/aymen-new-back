@@ -22,5 +22,6 @@ function requireBatimatDashboardAuth(req, res, next) {
 
 router.post('/', batimatController.createLead);
 router.get('/', requireBatimatDashboardAuth, batimatController.getAllLeads);
+router.patch('/:id/statut', requireBatimatDashboardAuth, batimatController.updateStatus);
 
 module.exports = router;

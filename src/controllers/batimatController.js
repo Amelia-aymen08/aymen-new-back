@@ -100,6 +100,35 @@ exports.createLead = async (req, res) => {
   }
 };
 
+const VALID_STATUTS = ['nouveau', 'confirmé', 'annulé'];
+
+exports.updateStatus = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { statut } = req.body;
+
+    if (!VALID_STATUTS.includes(statut)) {
+      return res.status(400).json({ message: 'Statut invalide.' });
+    }
+
+    const lead = await BatimatPreinscription.findByPk(id);
+    if (!lead) {
+      return res.status(404).json({ message: 'Inscription introuvable.' });
+    }
+
+    lead.statut = statut;
+    await lead.save();
+
+    return res.status(200).json(lead);
+  } catch (error) {
+    console.error('❌ [batimat] Error updating status:', error);
+    return res.status(500).json({
+      message: 'Erreur lors de la mise à jour du statut.',
+      error: error.message,
+    });
+  }
+};
+
 exports.getAllLeads = async (req, res) => {
   try {
     const leads = await BatimatPreinscription.findAll({

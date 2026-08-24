@@ -35,7 +35,7 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: false,
     },
     statut: {
-      type: DataTypes.ENUM('nouveau', 'traité', 'badge_envoyé'),
+      type: DataTypes.ENUM('nouveau', 'confirmé', 'annulé'),
       allowNull: false,
       defaultValue: 'nouveau',
     },
