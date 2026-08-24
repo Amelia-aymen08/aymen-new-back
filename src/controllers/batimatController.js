@@ -12,7 +12,7 @@ const COUNTRY_CODES = {
 
 exports.createLead = async (req, res) => {
   try {
-    const { firstName, lastName, email, phone, countryCode, profile, newsletterOptIn, consent } = req.body;
+    const { firstName, lastName, email, phone, countryCode, profile, newsletterOptIn, consent, hutk, pageUri: clientPageUri } = req.body;
 
     if (!firstName?.trim() || !lastName?.trim() || !email?.trim() || !phone?.trim() || !profile?.trim()) {
       return res.status(400).json({ message: 'Tous les champs sont obligatoires.' });
@@ -58,7 +58,7 @@ exports.createLead = async (req, res) => {
     });
 
     try {
-      const pageUri = req.get('referer') || null;
+      const pageUri = clientPageUri || req.get('referer') || null;
       const userAgent = req.get('user-agent') || null;
       await trackLeadInHubspot({
         kind: 'batimat_2026',
@@ -75,6 +75,7 @@ exports.createLead = async (req, res) => {
         pageUri,
         ipAddress,
         userAgent,
+        hutk,
       });
     } catch (e) {
       console.warn('[HubSpot] batimat submit failed:', e?.message || e, e?.details ? `| details: ${e.details}` : '');
