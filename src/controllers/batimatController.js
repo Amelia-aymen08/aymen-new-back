@@ -12,7 +12,7 @@ const COUNTRY_CODES = {
 
 exports.createLead = async (req, res) => {
   try {
-    const { firstName, lastName, email, phone, countryCode, profile, newsletterOptIn, consent, hutk, pageUri: clientPageUri, pageName } = req.body;
+    const { firstName, lastName, email, phone, countryCode, profile, newsletterOptIn, consent, hutk, pageUri: clientPageUri, pageName, qrCampaign, qrSource } = req.body;
 
     if (!firstName?.trim() || !lastName?.trim() || !email?.trim() || !phone?.trim() || !profile?.trim()) {
       return res.status(400).json({ message: 'Tous les champs sont obligatoires.' });
@@ -46,7 +46,7 @@ exports.createLead = async (req, res) => {
       req.socket?.remoteAddress ||
       null;
 
-    const lead = await BatimatPreinscription.create({
+    const basePayload = {
       firstName: firstName.trim(),
       lastName: lastName.trim(),
       email: normalizedEmail,
@@ -55,7 +55,27 @@ exports.createLead = async (req, res) => {
       newsletterOptIn: newsletterOptIn === true,
       consent: true,
       ipAddress,
-    });
+    };
+    const attributionPayload = {
+      qrCampaign: typeof qrCampaign === 'string' && qrCampaign.trim() ? qrCampaign.trim().toLowerCase().slice(0, 60) : null,
+      qrSource: typeof qrSource === 'string' && qrSource.trim() ? qrSource.trim().slice(0, 60) : null,
+    };
+
+    let lead;
+    try {
+      lead = await BatimatPreinscription.create({ ...basePayload, ...attributionPayload });
+    } catch (e) {
+      // Tolérance pendant la fenêtre de migration : si les colonnes qr_campaign /
+      // qr_source n'existent pas encore, on enregistre quand même la préinscription.
+      if (e.name === 'SequelizeDatabaseError' && /qr_campaign|qr_source|unknown column/i.test(e.message)) {
+        console.warn('[batimat] colonnes attribution manquantes — préinscription enregistrée sans attribution.');
+        lead = await BatimatPreinscription.create(basePayload, {
+          fields: Object.keys(basePayload),
+        });
+      } else {
+        throw e;
+      }
+    }
 
     try {
       const pageUri = clientPageUri || req.get('referer') || null;
@@ -116,8 +136,18 @@ exports.updateStatus = async (req, res) => {
       return res.status(404).json({ message: 'Inscription introuvable.' });
     }
 
-    lead.statut = statut;
-    await lead.save();
+    await lead.update({ statut });
+    await lead.reload();
+
+    // Filet de sécurité : si la colonne `statut` est encore un ENUM MySQL dont
+    // les valeurs ne correspondent pas (migration non exécutée), MySQL en mode
+    // non strict stocke '' silencieusement. On le détecte pour ne pas laisser
+    // le dashboard croire que la mise à jour a réussi.
+    if (lead.statut !== statut) {
+      return res.status(500).json({
+        message: "La base de données a rejeté ce statut. La colonne 'statut' doit être migrée (voir backend/sql/fix_batimat_statut.sql).",
+      });
+    }
 
     return res.status(200).json(lead);
   } catch (error) {

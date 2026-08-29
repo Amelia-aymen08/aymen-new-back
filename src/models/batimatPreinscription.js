@@ -35,9 +35,27 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: false,
     },
     statut: {
-      type: DataTypes.ENUM('nouveau', 'confirmé', 'annulé'),
+      // Volontairement un VARCHAR et non un ENUM : les ENUM MySQL avec des
+      // valeurs accentuées ('confirmé', 'annulé') sont fragiles avec Sequelize
+      // (`sync({ alter: false })` ne met jamais l'ENUM à jour, et MySQL en mode
+      // non strict remplace silencieusement une valeur invalide par ''), ce qui
+      // faisait « revenir » le statut à sa valeur initiale après actualisation.
+      type: DataTypes.STRING(20),
       allowNull: false,
       defaultValue: 'nouveau',
+      validate: {
+        isIn: [['nouveau', 'confirmé', 'annulé']],
+      },
+    },
+    qrCampaign: {
+      type: DataTypes.STRING(60),
+      allowNull: true,
+      field: 'qr_campaign',
+    },
+    qrSource: {
+      type: DataTypes.STRING(60),
+      allowNull: true,
+      field: 'qr_source',
     },
     ipAddress: {
       type: DataTypes.STRING(45),

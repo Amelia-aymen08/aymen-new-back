@@ -25,6 +25,7 @@ try {
   db.OffreEteLead = require('./offreEteLead')(sequelize, DataTypes);
   db.VisiteVirtuelleRdv = require('./visiteVirtuelleRdv')(sequelize, DataTypes);
   db.BatimatPreinscription = require('./batimatPreinscription')(sequelize, DataTypes);
+  db.QrScan = require('./qrScan')(sequelize, DataTypes);
   
   // Vérifions que le fichier quote.js existe
   console.log('Tentative de chargement de quote.js...');
