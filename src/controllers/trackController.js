@@ -63,6 +63,20 @@ exports.getStats = async (req, res) => {
     const where = { createdAt: { [Op.gte]: since } };
     if (!includeBots) where.isBot = false;
 
+    // Périmètre imposé par le token + éventuel ?campaign= plus restrictif.
+    const scope = req.trackingScope || { all: true, campaigns: null };
+    let campaignFilter = scope.all ? null : scope.campaigns;
+    const requested = clean(req.query.campaign, 60);
+    if (requested) {
+      const rc = requested.toLowerCase();
+      if (scope.all || (scope.campaigns || []).includes(rc)) {
+        campaignFilter = [rc];
+      } else {
+        return res.status(403).json({ message: 'Campagne non autorisée pour ce token.' });
+      }
+    }
+    if (campaignFilter) where.campaign = { [Op.in]: campaignFilter };
+
     let byCampaignRows;
     let dailyRows;
     try {
@@ -113,7 +127,10 @@ exports.getStats = async (req, res) => {
     const conversionsByCampaign = {};
     try {
       const conversionRows = await BatimatPreinscription.findAll({
-        where: { qrCampaign: { [Op.ne]: null }, createdAt: { [Op.gte]: since } },
+        where: {
+          qrCampaign: campaignFilter ? { [Op.in]: campaignFilter } : { [Op.ne]: null },
+          createdAt: { [Op.gte]: since },
+        },
         attributes: ['qrCampaign', [fn('COUNT', col('id')), 'conversions']],
         group: ['qrCampaign'],
         raw: true,

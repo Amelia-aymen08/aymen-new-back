@@ -1,14 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const trackController = require('../controllers/trackController');
-const requireDashboardToken = require('../middleware/requireDashboardToken');
-
-const requireStatsAuth = requireDashboardToken([
-  'TRACKING_DASHBOARD_TOKEN',
-  'BATIMAT_DASHBOARD_TOKEN',
-]);
+const requireTrackingToken = require('../middleware/requireTrackingToken');
 
 router.post('/scan', trackController.recordScan);
-router.get('/stats', requireStatsAuth, trackController.getStats);
+router.get('/stats', requireTrackingToken(), trackController.getStats);
 
 module.exports = router;
