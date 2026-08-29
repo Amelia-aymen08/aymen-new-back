@@ -63,31 +63,49 @@ exports.getStats = async (req, res) => {
     const where = { createdAt: { [Op.gte]: since } };
     if (!includeBots) where.isBot = false;
 
-    // Totaux par campagne : scans + visiteurs uniques.
-    const byCampaignRows = await QrScan.findAll({
-      where,
-      attributes: [
-        'campaign',
-        [fn('COUNT', col('id')), 'scans'],
-        [fn('COUNT', fn('DISTINCT', col('visitor_id'))), 'uniques'],
-        [fn('SUM', col('is_heuristic')), 'heuristicScans'],
-        [fn('MAX', col('created_at')), 'lastScanAt'],
-      ],
-      group: ['campaign'],
-      raw: true,
-    });
+    let byCampaignRows;
+    let dailyRows;
+    try {
+      // Totaux par campagne : scans + visiteurs uniques.
+      byCampaignRows = await QrScan.findAll({
+        where,
+        attributes: [
+          'campaign',
+          [fn('COUNT', col('id')), 'scans'],
+          [fn('COUNT', fn('DISTINCT', col('visitor_id'))), 'uniques'],
+          [fn('SUM', col('is_heuristic')), 'heuristicScans'],
+          [fn('MAX', col('created_at')), 'lastScanAt'],
+        ],
+        group: ['campaign'],
+        raw: true,
+      });
 
-    // Série journalière (toutes campagnes confondues + détail par campagne).
-    const dailyRows = await QrScan.findAll({
-      where,
-      attributes: [
-        [fn('DATE', col('created_at')), 'day'],
-        'campaign',
-        [fn('COUNT', col('id')), 'scans'],
-      ],
-      group: [fn('DATE', col('created_at')), 'campaign'],
-      raw: true,
-    });
+      // Série journalière (toutes campagnes confondues + détail par campagne).
+      dailyRows = await QrScan.findAll({
+        where,
+        attributes: [
+          [fn('DATE', col('created_at')), 'day'],
+          'campaign',
+          [fn('COUNT', col('id')), 'scans'],
+        ],
+        group: [fn('DATE', col('created_at')), 'campaign'],
+        raw: true,
+      });
+    } catch (e) {
+      // Table `qr_scans` ou colonne `is_heuristic` absente : migration non faite.
+      if (e.name === 'SequelizeDatabaseError' && /doesn'?t exist|unknown column|no such table/i.test(e.message)) {
+        console.warn('[track] getStats : migration manquante —', e.message);
+        return res.status(200).json({
+          rangeDays: days,
+          since,
+          needsMigration: true,
+          totals: { scans: 0, uniques: 0, conversions: 0, campaigns: 0 },
+          byCampaign: [],
+          daily: [],
+        });
+      }
+      throw e;
+    }
 
     // Conversions BATIMAT attribuées à une campagne QR.
     // Resté tolérant tant que la colonne `qr_campaign` n'a pas été ajoutée
