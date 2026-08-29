@@ -60,7 +60,9 @@ exports.getStats = async (req, res) => {
     const since = new Date(Date.now() - days * 86400000);
     const includeBots = String(req.query.includeBots || '') === '1';
 
-    const where = { createdAt: { [Op.gte]: since } };
+    // NB: dans ces modèles, l'option `createdAt: 'created_at'` renomme l'attribut
+    // lui-même en `created_at` (ce n'est plus `createdAt`).
+    const where = { created_at: { [Op.gte]: since } };
     if (!includeBots) where.isBot = false;
 
     // Périmètre imposé par le token + éventuel ?campaign= plus restrictif.
@@ -132,7 +134,7 @@ exports.getStats = async (req, res) => {
       const conversionRows = await BatimatPreinscription.findAll({
         where: {
           qrCampaign: campaignFilter ? { [Op.in]: campaignFilter } : { [Op.ne]: null },
-          createdAt: { [Op.gte]: since },
+          created_at: { [Op.gte]: since },
         },
         attributes: ['qrCampaign', [fn('COUNT', col('id')), 'conversions']],
         group: ['qrCampaign'],
