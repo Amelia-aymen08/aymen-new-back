@@ -106,13 +106,16 @@ exports.getStats = async (req, res) => {
         raw: true,
       });
     } catch (e) {
-      // Table `qr_scans` ou colonne `is_heuristic` absente : migration non faite.
-      if (e.name === 'SequelizeDatabaseError' && /doesn'?t exist|unknown column|no such table/i.test(e.message)) {
-        console.warn('[track] getStats : migration manquante —', e.message);
+      // Toute erreur SQL sur `qr_scans` (table absente, colonne absente, mauvaise
+      // base...) : on renvoie 200 avec le message brut pour diagnostic.
+      if (e.name && e.name.startsWith('Sequelize')) {
+        const detail = e.original?.sqlMessage || e.message;
+        console.warn('[track] getStats : requête qr_scans en échec —', detail);
         return res.status(200).json({
           rangeDays: days,
           since,
           needsMigration: true,
+          detail,
           totals: { scans: 0, uniques: 0, conversions: 0, campaigns: 0 },
           byCampaign: [],
           daily: [],
