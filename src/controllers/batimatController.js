@@ -1,14 +1,9 @@
 const { BatimatPreinscription } = require('../models');
 const { buildMessage, trackLeadInHubspot } = require('../services/hubspotForms');
+const { COUNTRY_DIAL_CODES } = require('../data/countryDialCodes');
 
-// Indicatifs pays acceptés côté serveur (doit rester cohérent avec le
-// sélecteur du formulaire frontend).
-const COUNTRY_CODES = {
-  DZ: { dial: '+213', pattern: /^\+213[5-7]\d{8}$/ },
-  FR: { dial: '+33', pattern: /^\+33[1-9]\d{8}$/ },
-  TN: { dial: '+216', pattern: /^\+216\d{8}$/ },
-  MA: { dial: '+212', pattern: /^\+212\d{9}$/ },
-};
+// Format E.164 : indicatif + numéro national, 8 à 15 chiffres au total.
+const E164_PATTERN = /^\+\d{8,15}$/;
 
 exports.createLead = async (req, res) => {
   try {
@@ -24,10 +19,13 @@ exports.createLead = async (req, res) => {
 
     const normalizedEmail = email.trim().toLowerCase();
 
-    const country = COUNTRY_CODES[countryCode] || COUNTRY_CODES.DZ;
-    const localPhone = phone.replace(/\s+/g, '').replace(/^0/, '');
-    const normalizedPhone = `${country.dial}${localPhone}`;
-    if (!country.pattern.test(normalizedPhone)) {
+    const dial = COUNTRY_DIAL_CODES[countryCode];
+    if (!dial) {
+      return res.status(400).json({ message: "Merci de sélectionner l'indicatif téléphonique." });
+    }
+    const localPhone = phone.replace(/[\s.\-()]/g, '').replace(/^0+/, '');
+    const normalizedPhone = `${dial}${localPhone}`;
+    if (!E164_PATTERN.test(normalizedPhone)) {
       return res.status(400).json({ message: 'Le numéro de téléphone est invalide.' });
     }
 
