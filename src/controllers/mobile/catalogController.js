@@ -37,10 +37,20 @@ function mapProjectSummary(project) {
     type: plain.type,
     address: plain.address,
     coverImage: resolveCoverImage(plain),
+    description: plain.shortDescription || truncate(plain.description, 140),
+    // Avancement réel uniquement (cahier §8.3) : absent plutôt qu'inventé
+    // quand aucune valeur chiffrée n'existe pour ce projet.
+    progressPercent: plain.progressPercent ?? null,
     locality: plain.locality ? { id: String(plain.locality.id), name: plain.locality.name } : null,
     deliveryDate: plain.deliveryDate,
     price: { visibility: 'hidden', amount: null, currency: 'DZD', label: 'Sur demande' },
   };
+}
+
+function truncate(text, maxLength) {
+  if (!text) return null;
+  if (text.length <= maxLength) return text;
+  return `${text.slice(0, maxLength).trimEnd()}…`;
 }
 
 // `coverImage` n'est pas déclaré comme colonne sur le modèle Project

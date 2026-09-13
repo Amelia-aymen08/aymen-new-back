@@ -40,6 +40,19 @@ function toAssetUrl(relativePath) {
   return `${ASSET_BASE}${relativePath.startsWith('/') ? '' : '/'}${relativePath}`;
 }
 
+// Ne retient que les valeurs réellement chiffrées ("45 %" -> 45). Les
+// statuts textuels ("Phase Terrassement") restent absents plutôt que
+// convertis en une valeur inventée (cahier §8.3).
+function extractProgressPercent(details) {
+  if (!Array.isArray(details)) return null;
+  const entry = details.find((d) => /avancement/i.test(d?.label || ''));
+  if (!entry) return null;
+  const match = String(entry.value).match(/(\d{1,3})\s*%/);
+  if (!match) return null;
+  const value = Number(match[1]);
+  return Number.isFinite(value) ? Math.min(value, 100) : null;
+}
+
 function splitLocalityName(rawName) {
   const parts = rawName.split(',').map((p) => p.trim()).filter(Boolean);
   return { name: parts[0] || rawName, city: parts[1] || parts[0] || rawName };
@@ -98,6 +111,8 @@ async function seedProjects(projects, localitiesByRawName) {
             title: project.title,
             slug,
             description: project.fullDescription || project.description || null,
+            shortDescription: project.description ? project.description.slice(0, 280) : null,
+            progressPercent: extractProgressPercent(project.details),
             status: STATUS_MAP[project.status] || 'en_cours',
             type: 'residentiel',
             address: project.location || null,
@@ -140,6 +155,36 @@ async function seedProjects(projects, localitiesByRawName) {
   console.log(`Projets : ${created} créés, ${skipped} déjà présents, ${failed} échoués.`);
 }
 
+// Rattrapage pour les projets déjà seedés avant l'ajout de
+// shortDescription/progressPercent : ne remplit que les champs encore
+// vides, ne touche jamais une valeur déjà présente (additif, non
+// destructif).
+async function backfillNewFields(projects) {
+  let updated = 0;
+
+  for (const project of projects) {
+    const slug = slugify(project.title);
+    const row = await Project.findOne({ where: { slug } });
+    if (!row) continue;
+
+    const patch = {};
+    if (row.shortDescription == null && project.description) {
+      patch.shortDescription = project.description.slice(0, 280);
+    }
+    if (row.progressPercent == null) {
+      const percent = extractProgressPercent(project.details);
+      if (percent != null) patch.progressPercent = percent;
+    }
+
+    if (Object.keys(patch).length) {
+      await row.update(patch);
+      updated += 1;
+    }
+  }
+
+  console.log(`Rattrapage : ${updated} projet(s) mis à jour (description courte / avancement).`);
+}
+
 async function main() {
   if (!fs.existsSync(CATALOG_PATH)) {
     console.error(`Fichier introuvable : ${CATALOG_PATH}`);
@@ -153,6 +198,7 @@ async function main() {
 
   const localitiesByRawName = await seedLocalities(localities);
   await seedProjects(projects, localitiesByRawName);
+  await backfillNewFields(projects);
 
   await db.sequelize.close();
 }
