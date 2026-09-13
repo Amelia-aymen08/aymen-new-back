@@ -1,0 +1,1938 @@
+{
+  "projects": [
+    {
+      "id": 29,
+      "title": "ALTHEA",
+      "location": "Chevalley, Alger",
+      "description": "C’est à Chevalley, quartier résidentiel prisé, qu’Aymen Promotion Immobilière présente la résidence Althéa...",
+      "image": "/assets/projets/althea.webp",
+      "status": "EN COURS",
+      "isNightMode": false,
+      "coverImage": "/assets/projets/couvertures/althea.webp",
+      "fullDescription": "C’est à Chevalley, quartier résidentiel prisé, qu’Aymen Promotion Immobilière présente la résidence Althéa, une adresse conçue pour offrir confort, sérénité et accessibilité. Idéalement située, la résidence se trouve à proximité de l’Université de Médecine de Ben Aknoun, de l’Université des Langues, des commerces, marchés et structures hospitalières. Les grands axes routiers, le Complexe Olympique du 5 Juillet et son annexe la mythique Coupole, le terrain de golf, l’hôtel militaire ainsi que les centres commerciaux de Ben Aknoun et d’El Biar complètent un environnement dynamique et pratique. Althéa se distingue par son architecture contemporaine, marquée par des volumes élégants et un éclairage LED qui sublime les façades la nuit",
+      "gallery": [
+        "/assets/projets/galeries/althea/1.webp",
+        "/assets/projets/galeries/althea/2.webp",
+        "/assets/projets/galeries/althea/3.webp",
+        "/assets/projets/galeries/althea/4.webp",
+        "/assets/projets/galeries/althea/5.webp",
+        "/assets/projets/galeries/althea/6.webp"
+      ],
+      "features": [
+        "Climatisation centralisée",
+        "Reception",
+        "Bache a eau",
+        "Ascenseur",
+        "Cuisine",
+        "Groupe electrogene"
+      ],
+      "details": [
+        {
+          "label": "Adresse",
+          "value": "Alger"
+        },
+        {
+          "label": "Blocs",
+          "value": "02"
+        },
+        {
+          "label": "État d'avancement",
+          "value": "Phase Terrassement"
+        }
+      ],
+      "lat": 36.772,
+      "lng": 3.011,
+      "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3195.8987225432584!2d3.0117632999999997!3d36.772997!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128fb1001d3fccbd%3A0x7b39d683a56f93b5!2sR%C3%A9sidence%20Alth%C3%A9a%2C%20Aymen%20Promotion!5e0!3m2!1sfr!2sdz!4v1774041984311!5m2!1sfr!2sdz",
+      "mapLinkUrl": "https://maps.app.goo.gl/jpB7DcvNSNMBdS4j6",
+      "plans": [
+        {
+          "type": "F2",
+          "area": "de 45 à 86 m²"
+        },
+        {
+          "type": "F3",
+          "area": "de 77 à 93 m²"
+        },
+        {
+          "type": "F4",
+          "area": "de 128 à 175 m²"
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "title": "CYANITE",
+      "location": "Chéraga, Alger",
+      "description": "Fort du succès de notre première résidence Pyrite, nous repoussons encore les limites du raffinement...",
+      "image": "/assets/projets/cyanite.webp",
+      "lat": 36.7648,
+      "lng": 2.9748,
+      "status": "EN COURS",
+      "isNightMode": false,
+      "coverImage": "/assets/projets/couvertures/cyanite.webp",
+      "fullDescription": "Le luxe s'élève à Dar Diaf : découvrez la résidence Cyanite.\n\nFort du succès de notre première réalisation, Aymen Promotion Immobilière repousse encore les limites du raffinement avec la résidence Cyanite, une nouvelle adresse prestigieuse au cœur du mythique quartier de Dar Diaf. Un emplacement de caractère, où l'histoire du lieu rencontre l'exigence contemporaine.\n\nCe projet d'exception propose 165 appartements de haut standing, sublimés par une architecture contemporaine aux lignes épurées. Ses façades élégantes, rehaussées par un éclairage subtil, confèrent à la résidence une signature lumineuse unique dès la tombée de la nuit — une présence que l'on reconnaît avant même de s'en approcher.\n\nChaque appartement est conçu pour offrir un confort absolu. De grandes baies vitrées inondent les espaces de lumière naturelle, tandis que de superbes balcons et terrasses prolongent harmonieusement les intérieurs vers l'extérieur, avec élégance. Les finitions haut de gamme et les nombreux services disponibles garantissent un cadre de vie exclusif, pensé pour ceux qui ne transigent pas sur les détails.\n\nLa résidence déploie une gamme complète de typologies : des F2 de 45,99 à 64 m², des F3 de 80 à 105 m², des F4 de 101 à 161 m², et des duplex en F5 de 153 à 350 m². Des locaux commerciaux complètent l'ensemble, apportant à la résidence une vie de quartier à part entière.\n\nÀ Dar Diaf, Cyanite ne se contente pas d'élever le standing. Elle élève l'art d'habiter.",
+      "gallery": [
+        "/assets/projets/galeries/cyanite/1.webp",
+        "/assets/projets/galeries/cyanite/2.webp",
+        "/assets/projets/galeries/cyanite/3.webp",
+        "/assets/projets/galeries/cyanite/4.webp",
+        "/assets/projets/galeries/cyanite/5.webp",
+        "/assets/projets/galeries/cyanite/6.webp",
+        "/assets/projets/galeries/cyanite/7.webp"
+      ],
+      "features": [
+        "Piscine Privative",
+        "Isolation Phonique",
+        "Dressing",
+        "Domotique",
+        "Reception",
+        "Parking de Stationnement",
+        "Aire de jeux",
+        "Abattoir",
+        "Climatisation centralisée"
+      ],
+      "details": [
+        {
+          "label": "Adresse",
+          "value": "Chéraga"
+        },
+        {
+          "label": "Blocs",
+          "value": "01"
+        },
+        {
+          "label": "État d'avancement",
+          "value": "45 %"
+        }
+      ],
+      "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3196.23760280708!2d2.974886876268521!3d36.76486706968977!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128fb10040bbf7a5%3A0xce81910a714b5a2!2sR%C3%A9sidence%20cyanite%20Aymen%20promotion%20immobili%C3%A8re!5e0!3m2!1sfr!2sdz!4v1774041626213!5m2!1sfr!2sdz",
+      "mapLinkUrl": "https://maps.app.goo.gl/Uq6w6fmFtPx9jqVh8",
+      "plans": [
+        {
+          "type": "Duplex en F5",
+          "area": "149 à 361 m²"
+        },
+        {
+          "type": "F2",
+          "area": "46 à 64 m²"
+        },
+        {
+          "type": "F3",
+          "area": "82 à 111 m²"
+        },
+        {
+          "type": "F4",
+          "area": "114 à 166 m²"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "AZURITE",
+      "location": "Kouba, Alger",
+      "description": "La résidence Azurite, située dans le quartier mythique de Kouba, offre un cadre de vie privilégié...",
+      "image": "/assets/projets/azurite.webp",
+      "lat": 36.726,
+      "lng": 3.087,
+      "status": "EN COURS",
+      "isNightMode": false,
+      "coverImage": "/assets/projets/couvertures/azurite.webp",
+      "fullDescription": "La résidence Azurite, située dans le quartier mythique de Kouba, offre un cadre de vie privilégié, à proximité immédiate de l’université, des commerces et des restaurants prisés. Elle bénéficie également d’un emplacement stratégique, à moins de 10 minutes de Riadh El Feth et de l’hôpital Ain Naadja, et à seulement 20 minutes de l’aéroport d’Alger.",
+      "gallery": [
+        "/assets/projets/galeries/azurite/1.webp",
+        "/assets/projets/galeries/azurite/2.webp",
+        "/assets/projets/galeries/azurite/3.webp",
+        "/assets/projets/galeries/azurite/4.webp",
+        "/assets/projets/galeries/azurite/5.webp",
+        "/assets/projets/galeries/azurite/6.webp",
+        "/assets/projets/galeries/azurite/7.webp"
+      ],
+      "features": [
+        "Climatisation centralisée",
+        "Abattoir",
+        "Parking de Stationnement",
+        "Reception",
+        "Domotique",
+        "Dressing",
+        "Isolation Phonique"
+      ],
+      "details": [
+        {
+          "label": "Adresse",
+          "value": "Kouba"
+        },
+        {
+          "label": "Blocs",
+          "value": "01"
+        },
+        {
+          "label": "État d'avancement",
+          "value": "45 %"
+        }
+      ],
+      "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3197.7363195114867!2d3.078613776267278!3d36.728893471715274!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128fad7bb83c8ea5%3A0x50a7ffdd575e55c4!2sR%C3%A9sidence%20Azurite%2C%20Aymen%20Promotion%20Immobili%C3%A8re!5e0!3m2!1sfr!2sdz!4v1774042127769!5m2!1sfr!2sdz",
+      "mapLinkUrl": "https://maps.app.goo.gl/yRphs45tYaWyNTye8",
+      "plans": [
+        {
+          "type": "Duplex en F5",
+          "area": "175 à 194 m²"
+        },
+        {
+          "type": "F3",
+          "area": "67 à 142 m²"
+        },
+        {
+          "type": "F4",
+          "area": "97 à 144 m²"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "AGATE",
+      "location": "Oued Romane, Alger",
+      "description": "Située à Oued Romane (El Achour), un quartier calme et verdoyant...",
+      "image": "/assets/projets/agate.webp",
+      "status": "EN COURS",
+      "isNightMode": false,
+      "coverImage": "/assets/projets/couvertures/agate.webp",
+      "fullDescription": "Située à Oued Romane (El Achour), un quartier calme et verdoyant, la résidence offre un cadre de vie paisible, propice à la sérénité. Cette résidence contemporaine se compose de deux blocs regroupant 67 appartements aux typologies variées : F2, F3, F4, F5 et duplex. Dans la continuité de notre volonté d’innover et d’améliorer constamment nos réalisations, AGATE propose des espaces de vie conçus pour allier modernité, confort et qualité de finition, garantis dans un cadre harmonieux et élégant. Idéale pour les familles comme pour les jeunes actifs, la résidence AGATE représente un véritable havre de paix où bien-être et raffinement se rencontrent.",
+      "gallery": [
+        "/assets/projets/galeries/agate/1.webp",
+        "/assets/projets/galeries/agate/2.webp",
+        "/assets/projets/galeries/agate/3.webp",
+        "/assets/projets/galeries/agate/4.webp",
+        "/assets/projets/galeries/agate/5.webp",
+        "/assets/projets/galeries/agate/6.webp"
+      ],
+      "features": [
+        "Climatisation centralisée",
+        "Abattoir",
+        "Aire de jeux",
+        "Parking de stationnement",
+        "Reception",
+        "Domotique",
+        "Dressing",
+        "Isolation phonique"
+      ],
+      "details": [
+        {
+          "label": "Adresse",
+          "value": "El Achour"
+        },
+        {
+          "label": "Blocs",
+          "value": "02"
+        },
+        {
+          "label": "État d'avancement",
+          "value": "88 %"
+        }
+      ],
+      "lat": 36.735,
+      "lng": 3.004,
+      "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3197.4521053162093!2d3.0047102762675215!3d36.735717771331124!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128faf6f323ad649%3A0x486fb2be25922103!2sR%C3%A9sidence%20Agate%2C%20Aymen%20Promotion%20Immobili%C3%A8re!5e0!3m2!1sfr!2sdz!4v1774042714270!5m2!1sfr!2sdz",
+      "mapLinkUrl": "https://maps.app.goo.gl/XMJv7AKvSifAYDCLA",
+      "plans": [
+        {
+          "type": "F5",
+          "area": "de 168 à 213 m²"
+        },
+        {
+          "type": "F2",
+          "area": "de 55 à 77 m²"
+        },
+        {
+          "type": "F3",
+          "area": "de 72 à 102 m²"
+        },
+        {
+          "type": "F4",
+          "area": "de 109 à 125 m²"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "AMÉTRINE",
+      "location": "Said Hamdine, Alger",
+      "description": "Résidence Amétrine, le récent chef-d'œuvre d'Aymen Promotion Immobilière...",
+      "image": "/assets/projets/ametrine.webp",
+      "status": "EN COURS",
+      "isNightMode": false,
+      "coverImage": "/assets/projets/couvertures/ametrine.webp",
+      "fullDescription": "Résidence Amétrine , le récent chef-d'œuvre d'Aymen Promotion Immobilière, se distingue par son caractère intimiste et son emplacement privilégié à Saïd Hamdine, dans la commune de Bir Mourad Raïs. Ce projet d'exception propose 27 appartements de haut standing , avec diverses typologies s'étendant du F2 de 49 m² au somptueux F5 de 321 m². Le design contemporain des trois façades révèle une esthétique avant-gardiste, s'intégrant harmonieusement dans l'environnement urbain moderne.\n    \nChaque appartement bénéficie d'une finition haut de gamme, avec des matériaux de qualité , et de vastes baies vitrées permettant une luminosité naturelle optimale tout au long de la journée. Certains logements exclusifs disposent de terrasses privées agrémentées de piscines, offrant un espace de détente privilégié à leurs résidents.\n\nLa Résidence Amétrine se distingue également par sa situation géographique stratégique, avec un accès direct à l'autoroute, et sa proximité immédiate des entreprises, universités, salles de sport, des boutiques prisées de Sidi Yahia, ainsi que des commodités et services de la commune d'Hydra.",
+      "gallery": [
+        "/assets/projets/galeries/ametrine/1.webp",
+        "/assets/projets/galeries/ametrine/2.webp",
+        "/assets/projets/galeries/ametrine/3.webp",
+        "/assets/projets/galeries/ametrine/4.webp",
+        "/assets/projets/galeries/ametrine/5.webp",
+        "/assets/projets/galeries/ametrine/6.webp"
+      ],
+      "features": [
+        "Climatisation centralisée",
+        "Abattoir",
+        "Aire de jeux",
+        "Parking de stationnement",
+        "Reception",
+        "Dressing",
+        "Isolation phonique",
+        "Piscine Commune",
+        "Bache a eau",
+        "Ascenseur",
+        "Cuisine",
+        "Fenetre",
+        "Groupe electrogene",
+        "Gestion copropriété"
+      ],
+      "details": [
+        {
+          "label": "Adresse",
+          "value": "Said Hamdine"
+        },
+        {
+          "label": "Blocs",
+          "value": "01"
+        },
+        {
+          "label": "État d'avancement",
+          "value": "87 %"
+        }
+      ],
+      "lat": 36.7354,
+      "lng": 3.0306,
+      "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3197.464692113453!2d3.030681076267498!3d36.73541557134814!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128fad14f143aacd%3A0x8cdae64c5b935328!2sR%C3%A9sidence%20Am%C3%A9trine%20-%20Aymen%20Promotion%20Immobili%C3%A8re!5e0!3m2!1sfr!2sdz!4v1774042805526!5m2!1sfr!2sdz",
+      "mapLinkUrl": "https://maps.app.goo.gl/hbDKZQBrtYuqscnQA",
+      "plans": [
+        {
+          "type": "F2",
+          "area": "de 49 m² à 79 m²"
+        },
+        {
+          "type": "F3",
+          "area": "de 65 m² à 121 m²"
+        },
+        {
+          "type": "F4",
+          "area": "de 126 m² à 226 m²"
+        },
+        {
+          "type": "F5",
+          "area": "321 m²"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "CORNALINE",
+      "location": "Hydra, Alger",
+      "lat": 36.743,
+      "lng": 3.036,
+      "description": "Érigée au cœur de la commune de Hydra, la résidence Cornaline dévoile ses atouts...",
+      "image": "/assets/projets/cornaline.webp",
+      "status": "EN COURS",
+      "isNightMode": false,
+      "coverImage": "/assets/projets/couvertures/cornaline.webp",
+      "fullDescription": "Érigée au cœur de la commune de Hydra, la résidence Cornaline dévoile ses atouts de caractère dans un cadre propice au développement et à la relaxation.\n\nAymen Promotion Immobilière vous convie à découvrir cette résidence one building intimiste, alliant charme et élégance contemporaine. Véritable écrin de prestige, cette résidence se compose d’appartements F2, F3, F4 et F5 en simplex et en duplex, soigneusement répartis au sein d'un bloc unique, avec des superficies variées.\n\nBaignés de lumière naturelle grâce à une conception ingénieuse, les intérieurs offrent une ambiance chaleureuse et accueillante, où il fait bon vivre. Les appartements, aux finitions raffinées et aux matériaux nobles importés d’Italie, dévoilent des espaces généreux et fonctionnels. Chaque détail a été pensé avec soin pour répondre aux exigences les plus élevées. Certains logements bénéficient même d'agréables terrasses privatives, parfaites pour savourer les douceurs du climat méditerranéen.\n\nAu cœur de ce havre de paix, les résidents pourront également profiter de parkings en sous-sol sécurisés, offrant un accès direct aux différents paliers. La résidence Cornaline est l'adresse de choix pour les amateurs de calme, à la recherche d'un cadre privilégié à Hydra. Un pur condensé de raffinement et d'élégance, pour une vie résidentielle digne des plus grands.\n",
+      "gallery": [
+        "/assets/projets/galeries/cornaline/01.webp",
+        "/assets/projets/galeries/cornaline/2.webp"
+      ],
+      "features": [
+        "Climatisation centralisée",
+        "Abattoir",
+        "Parking de Stationnement",
+        "Reception",
+        "Domotique",
+        "Dressing",
+        "Isolation Phonique",
+        "Bache a eau",
+        "Ascenseur",
+        "Cuisine",
+        "Fenetre",
+        "Groupe electrogene",
+        "Gestion copropriété",
+        "Salle d'eau"
+      ],
+      "details": [
+        {
+          "label": "Adresse",
+          "value": "Hydra"
+        },
+        {
+          "label": "Blocs",
+          "value": "01"
+        },
+        {
+          "label": "État d'avancement",
+          "value": "98 %"
+        }
+      ],
+      "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3197.114852661403!2d3.0367976762678013!3d36.743814170875346!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128fadf8fe60d695%3A0x94468592c12c7c0d!2sR%C3%A9sidence%20Cornaline%2C%20Aymen%20Promotion%20Immobili%C3%A8re!5e0!3m2!1sfr!2sdz!4v1774042859806!5m2!1sfr!2sdz",
+      "mapLinkUrl": "https://maps.app.goo.gl/kwAxUXzTKrq52jJN7",
+      "plans": [
+        {
+          "type": "Duplex",
+          "area": "de 323 m² et 386 m²"
+        },
+        {
+          "type": "F2",
+          "area": "de 67 m² et 71 m²"
+        },
+        {
+          "type": "F3",
+          "area": "de 77 m² à 118 m²"
+        },
+        {
+          "type": "F4",
+          "area": "de 154 m² à 164 m²"
+        },
+        {
+          "type": "F5",
+          "area": "202 m²"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "title": "SÉRAPHINITE",
+      "location": "Ruisseau, Alger",
+      "description": "C'est à Ruisseau, quartier prisé des Algérois, qu'Aymen Promotion...",
+      "image": "/assets/projets/seraphinite.webp",
+      "status": "EN COURS",
+      "isNightMode": false,
+      "coverImage": "/assets/projets/couvertures/seraphinite.webp",
+      "fullDescription": "C’est à Ruisseau, quartier prisé des Algérois, qu’Aymen Promotion Immobilière a choisi d’implanter son nouveau joyau immobilier : la résidence Séraphinite. Ce projet se situe à proximité du jardin d’Essai d’EL Hamma, l’un des jardins botaniques les plus remarquables au monde, de la gare ferroviaire, du tramway, du métro et de l’iconique hôtel Sofitel.\n\nCette adresse est un trait d’union entre patrimoine et modernité, offrant une architecture s’inspirant des charmes méditerranéens et proposant des appartements luxueux allant du F2 au F5 en simplex, ainsi que de somptueux Triplex pour un confort optimal. Certains appartements disposent même d’une piscine privative pour des moments de détente privilégiés.\n\nEn plus des intérieurs raffinés, ce complexe résidentiel offre diverses commodités telles qu’une piscine collective, une salle de sport, une réception style hôtelier ainsi qu’une aire de jeux pour le plaisir des petits et des grands.\n\nOptez pour le confort luxueux de la résidence Séraphinite à Ruisseau et de ses commodités incomparables.",
+      "gallery": [
+        "/assets/projets/galeries/seraphinite/1.jpg",
+        "/assets/projets/galeries/seraphinite/2.jpg",
+        "/assets/projets/galeries/seraphinite/3.jpg",
+        "/assets/projets/galeries/seraphinite/4.jpg",
+        "/assets/projets/galeries/seraphinite/5.jpg",
+        "/assets/projets/galeries/seraphinite/6.jpg"
+      ],
+      "features": [
+        "Climatisation centralisée",
+        "Abattoir",
+        "Aire de jeux",
+        "Parking de stationnement",
+        "Reception",
+        "Dressing",
+        "Isolation phonique",
+        "Piscine Commune",
+        "Salle de sport",
+        "Piscine privative",
+        "Bache a eau",
+        "Ascenseur",
+        "Cuisine",
+        "Fenetre",
+        "Groupe electrogene",
+        "Gestion copropriété",
+        "Salle d'eau"
+      ],
+      "details": [
+        {
+          "label": "Adresse",
+          "value": "Ruisseau"
+        },
+        {
+          "label": "Blocs",
+          "value": "03"
+        },
+        {
+          "label": "État d'avancement",
+          "value": "76 %"
+        }
+      ],
+      "lat": 36.7454,
+      "lng": 3.0798,
+      "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3197.045189812168!2d3.0798578762678632!3d36.7454863707811!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128fb3aa2c424905%3A0xec2b8f2e7c25b4c2!2sR%C3%A9sidence%20S%C3%A9raphinite%20-%20Aymen%20Promotion%20Immobili%C3%A8re!5e0!3m2!1sfr!2sdz!4v1774042946095!5m2!1sfr!2sdz",
+      "mapLinkUrl": "https://maps.app.goo.gl/ZJcFqx35UEMvZxix7",
+      "plans": [
+        {
+          "type": "F2",
+          "area": "55 m²"
+        },
+        {
+          "type": "F3",
+          "area": "de 96 m² à 147 m²"
+        },
+        {
+          "type": "F4",
+          "area": "de 112 m² à 160 m²"
+        },
+        {
+          "type": "F5",
+          "area": "186 m²"
+        },
+        {
+          "type": "Triplex",
+          "area": "de 355 m² à 500 m²"
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "title": "CÉLESTINE",
+      "location": "Bab Ezzouar, Alger",
+      "description": "Aymen Promotion Immobilière lance son premier projet dans la commune dynamique...",
+      "image": "/assets/projets/celestine.webp",
+      "status": "EN COURS",
+      "isNightMode": false,
+      "coverImage": "/assets/projets/couvertures/celestine.jpg",
+      "fullDescription": "Aymen Promotion Immobilière lance son premier projet dans la commune dynamique de Bab Ezzouar !\n\nCe complexe résidentiel arbore un design extérieur résolument contemporain et dynamique, apportant une touche d'élégance à son environnement urbain immédiat, qui lui-même regorge de nombreux attraits. Bab Ezzouar, en tant que pôle d'affaires et de commerce de premier plan, offre une gamme variée de commodités, notamment des centres commerciaux, des restaurants renommés, une multitude d'entreprises, ainsi que plusieurs installations de divertissement et de bien-être.\n\nCette résidence de choix se compose de 07 blocs distincts, s'étendant sur plusieurs étages. Vous y trouverez une variété d'appartements de différentes typologies, allant du F2 de 55 m² au Triplex de 339 m², de quoi satisfaire les attentes de tous.\n\nAymen Promotion Immobilière s'engage à offrir à ses clients un cadre de vie d'exception, en sélectionnant avec soin des matériaux et des finitions de haute qualité. De la conception à la réalisation, nos équipes sont mobilisées pour créer des appartements qui allient confort, sécurité et esthétique.",
+      "gallery": [
+        "/assets/projets/galeries/celestine/01.webp",
+        "/assets/projets/galeries/celestine/2.webp",
+        "/assets/projets/galeries/celestine/3.webp"
+      ],
+      "features": [
+        "Climatisation centralisée",
+        "Abattoir",
+        "Aire de jeux",
+        "Parking de stationnement",
+        "Reception",
+        "Dressing",
+        "Isolation phonique",
+        "Piscine Commune",
+        "Salle de sport",
+        "Piscine privative",
+        "Bache a eau",
+        "Ascenseur",
+        "Creche garderie",
+        "Cuisine",
+        "Fenetre",
+        "Groupe electrogene",
+        "Gestion copropriété",
+        "Salle d'eau"
+      ],
+      "details": [
+        {
+          "label": "Adresse",
+          "value": "Bab Ezzouar"
+        },
+        {
+          "label": "Blocs",
+          "value": "07"
+        },
+        {
+          "label": "État d'avancement",
+          "value": "83 %"
+        }
+      ],
+      "lat": 36.735,
+      "lng": 3.1908,
+      "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3197.479402976189!2d3.1908907762674947!3d36.73506237136796!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128e51de8836bb85%3A0xa2c5507a03025529!2sR%C3%A9sidence%20C%C3%A9lestine%20-%20aymen%20promotion%20immobili%C3%A8re!5e0!3m2!1sfr!2sdz!4v1774043007067!5m2!1sfr!2sdz",
+      "mapLinkUrl": "https://maps.app.goo.gl/cZBVhmJPB7GyRP5n9",
+      "plans": [
+        {
+          "type": "F2",
+          "area": "de 55 m² à 78 m²"
+        },
+        {
+          "type": "F3",
+          "area": "de 92 m² à 121 m²"
+        },
+        {
+          "type": "F4",
+          "area": "de 111 m² à 156 m²"
+        },
+        {
+          "type": "Triplex",
+          "area": "de 254 m² à 339 m²"
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "title": "LARIMAR",
+      "location": "Birkhadem, Alger",
+      "description": "Idéalement située à Tixeraïne, Birkhadem, la résidence Larimar est une perle rare...",
+      "image": "/assets/projets/larimar.webp",
+      "status": "EN COURS",
+      "isNightMode": false,
+      "coverImage": "/assets/projets/couvertures/larimar.webp",
+      "fullDescription": "Idéalement située à Tixeraïne, Birkhadem, la résidence Larimar est une perle rare qui émerge en réponse au succès retentissant de la résidence Aymen, également située à Tixeraïne. Forts de l'engouement rencontré par la résidence Aymen, nous avons pris l'initiative de créer Larimar, une résidence d'exception qui promet un cadre de vie unique.\n\nDotée de deux parkings souterrains, Larimar assure une expérience résidentielle sans stress. Une vingtaine d’appartements, allant du F3 au F4, sont disponibles et offrent des espaces de vie spacieux, variant de 80 m² à 141 m². Les pièces raffinées allient astucieusement fonctionnalité et bien-être, grâce à un agencement pensé par des experts et à une finition apportée avec minutie. La résidence abrite également en son sein un bloc administratif.\n\nPlongez dans un cadre urbain moderne et élégant, où le confort se marie harmonieusement avec des résidences conçues avec goût, alliant fonctionnalité et esthétique. Larimar incarne l'évolution naturelle de notre engagement envers l'excellence résidentielle, tout en tirant profit des commodités exceptionnelles proposées par la commune de Birkhadem.",
+      "gallery": [
+        "/assets/projets/galeries/larimar/1.webp",
+        "/assets/projets/galeries/larimar/2.webp",
+        "/assets/projets/galeries/larimar/3.webp",
+        "/assets/projets/galeries/larimar/4.webp",
+        "/assets/projets/galeries/larimar/5.webp",
+        "/assets/projets/galeries/larimar/6.webp"
+      ],
+      "features": [
+        "Climatisation centralisée",
+        "Abattoir",
+        "Parking de Stationnement",
+        "Reception",
+        "Domotique",
+        "Dressing",
+        "Isolation Phonique",
+        "Bache a eau",
+        "Ascenseur",
+        "Cuisine",
+        "Fenetre",
+        "Groupe electrogene",
+        "Gestion copropriété",
+        "Salle d'eau"
+      ],
+      "details": [
+        {
+          "label": "Adresse",
+          "value": "Tixeraïne"
+        },
+        {
+          "label": "Blocs",
+          "value": "02"
+        },
+        {
+          "label": "État d'avancement",
+          "value": "86 %"
+        }
+      ],
+      "lat": 36.7181,
+      "lng": 3.031,
+      "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3198.1853190337097!2d3.031054276266902!3d36.718110272322065!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128fad0b0eb287fb%3A0xe8b6e1c1a9628bb3!2sR%C3%A9sidence%20Larimar%2C%20Aymen%20Promotion%20Immobili%C3%A8re!5e0!3m2!1sfr!2sdz!4v1774043074220!5m2!1sfr!2sdz",
+      "mapLinkUrl": "https://maps.app.goo.gl/boZbn72ew8LqyJv88",
+      "plans": [
+        {
+          "type": "F3",
+          "area": "de 80 m² à 94 m²"
+        },
+        {
+          "type": "F4",
+          "area": "de 117 m² à 141 m²"
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "title": "SELENITE",
+      "location": "Birkhadem, Alger",
+      "description": "Conçue pour allier esthétisme et fonctionnalité, la résidence one building Sélenite...",
+      "image": "/assets/projets/selenite.webp",
+      "status": "FINIS",
+      "isNightMode": true,
+      "coverImage": "/assets/projets/couvertures/selenite.webp",
+      "fullDescription": "Conçue pour allier esthétisme et fonctionnalité, la résidence one building Sélénite incarne le summum de la modernité. Cet édifice élégant se positionne judicieusement dans la commune affectionnée de Birkhadem.\n\nRedéfinissant les concepts de confort et d’élégance, la résidence Sélénite vous offre le choix entre des appartements de typologies F4 et F5, avec des surfaces allant de 104 m² à 251 m².\n\nEn plus d’une sécurité optimale assurée 24h/24, deux niveaux souterrains dédiés au stationnement sont disponibles, vous garantissant une tranquillité d’esprit au quotidien.\n\nVivez une expérience résidentielle paisible dans ce projet intimiste, où le calme règne en maître.",
+      "gallery": [
+        "/assets/projets/galeries/selenite/1.webp",
+        "/assets/projets/galeries/selenite/2.webp",
+        "/assets/projets/galeries/selenite/3.webp",
+        "/assets/projets/galeries/selenite/4.webp",
+        "/assets/projets/galeries/selenite/5.webp",
+        "/assets/projets/galeries/selenite/6.webp",
+        "/assets/projets/galeries/selenite/7.webp"
+      ],
+      "features": [
+        "Climatisation centralisée",
+        "Abattoir",
+        "Parking de Stationnement",
+        "Reception",
+        "Domotique",
+        "Dressing",
+        "Isolation Phonique",
+        "Bache a eau",
+        "Ascenseur",
+        "Cuisine",
+        "Fenetre",
+        "Groupe Electrogene",
+        "gestion copropriété",
+        "Salle d'eau"
+      ],
+      "details": [
+        {
+          "label": "Adresse",
+          "value": "Birkhadem"
+        },
+        {
+          "label": "Blocs",
+          "value": "01"
+        },
+        {
+          "label": "État d'avancement",
+          "value": "100 %"
+        }
+      ],
+      "lat": 36.7206,
+      "lng": 3.0474,
+      "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3198.0780094888632!2d3.047403876267012!3d36.72068767217687!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128fad91dcbed98d%3A0xf66b2423dbe2ae65!2sR%C3%A9sidence%20S%C3%A9l%C3%A9nite%20-%20Aymen%20Promotion%20Immobili%C3%A8re!5e0!3m2!1sfr!2sdz!4v1774043128432!5m2!1sfr!2sdz",
+      "mapLinkUrl": "https://maps.app.goo.gl/8TaPdKNP2uKAY4n86",
+      "plans": [
+        {
+          "type": "F4",
+          "area": "de 103 m² à 207 m²"
+        },
+        {
+          "type": "F5",
+          "area": "250 m²"
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "title": "DIAR EL AMANE",
+      "location": "Birkhadem, Alger",
+      "description": "Connue autrefois pour ses champs d'arbres fruitiers à perte de vue...",
+      "image": "/assets/projets/diar-el-amane.webp",
+      "status": "EN COURS",
+      "isNightMode": false,
+      "coverImage": "/assets/projets/couvertures/diar-el-amane.webp",
+      "fullDescription": "Connue autrefois pour ses champs d’arbres fruitiers à perte de vue, la région des Vergers à Birkhadem connaît depuis quelque temps une croissance importante. Devenue une région très recherchée par les acquéreurs, elle abrite aujourd’hui un symbole de la nouvelle génération de résidences en Algérie qui sublime son patrimoine urbain : la résidence Diar El Amane de la prestigieuse promotion immobilière Aymen.\n\nCette merveille architecturale transcende l'idée de résidence. En effet, en plus de son design épuré et contemporain, les espaces intérieurs bénéficient également d’une conception ingénieuse et d’espaces de vie idéalement agencés. Un vaste choix de typologies vous attend, allant du charmant F2 de 54 m² au spacieux F5 de 188 m² en simplex. Si vous souhaitez plus d’espace, vous pouvez découvrir des duplex exclusifs d'une opulence inégalée, variant du F4 de 134 m² à 188 m².\n\nDe plus, une myriade de commodités a été méticuleusement aménagée pour élever chaque instant de votre quotidien. Découvrez une piscine extérieure, une salle de sport ultramoderne, et un spa luxueux avec sauna et hammam, le tout au sein de votre résidence.\n\nEn définitive, la résidence Diar El Amane est une allégorie de l’art de vivre, ou luxe et fonctionnalité subsistent en parfaite symbiose.",
+      "gallery": [
+        "/assets/projets/galeries/diar-el-amane/1.webp",
+        "/assets/projets/galeries/diar-el-amane/2.jpg",
+        "/assets/projets/galeries/diar-el-amane/3.jpg",
+        "/assets/projets/galeries/diar-el-amane/4.jpg",
+        "/assets/projets/galeries/diar-el-amane/5.jpg"
+      ],
+      "features": [
+        "Climatisation centralisée",
+        "Abattoir",
+        "Aire de jeux",
+        "Parking de stationnement",
+        "Reception",
+        "Dressing",
+        "Isolation phonique",
+        "Piscine Commune",
+        "Salle de sport",
+        "Piscine privative",
+        "Spa Hammam Sauna",
+        "Bache a eau",
+        "Ascenseur",
+        "Cuisine",
+        "Fenetre",
+        "Groupe electrogene",
+        "Gestion copropriété",
+        "Salle d'eau"
+      ],
+      "details": [
+        {
+          "label": "Adresse",
+          "value": "Birkhadem"
+        },
+        {
+          "label": "Blocs",
+          "value": "04"
+        },
+        {
+          "label": "État d'avancement",
+          "value": "97 %"
+        }
+      ],
+      "lat": 36.72564127189821,
+      "lng": 3.049064176267157,
+      "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3197.8717491506304!2d3.049064176267157!3d36.72564127189821!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128fadb0f0a065d5%3A0xd3f3d2aa088a3be5!2sR%C3%A9sidence%20Diar%20El%20Amane%20-%20Aymen%20Promotion%20Immobili%C3%A8re!5e0!3m2!1sfr!2sdz!4v1774043858867!5m2!1sfr!2sdz",
+      "mapLinkUrl": "https://maps.app.goo.gl/PWdWuSaFd3phn6c37",
+      "plans": [
+        {
+          "type": "F2",
+          "area": "de 54 m² à 64 m²"
+        },
+        {
+          "type": "F4",
+          "area": "de 100 m² à 244 m²"
+        },
+        {
+          "type": "F5",
+          "area": "de 145 m² à 309 m²"
+        },
+        {
+          "type": "F6",
+          "area": "de 218 m² à 396 m²"
+        },
+        {
+          "type": "F7",
+          "area": "de 253 m² à 530 m²"
+        },
+        {
+          "type": "F8",
+          "area": "423 m²"
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "title": "PYRITE",
+      "location": "Chéraga, Alger",
+      "description": "Située à Dar Diaf, au cœur de la commune de Chéraga...",
+      "image": "/assets/projets/pyrite.webp",
+      "status": "FINIS",
+      "isNightMode": true,
+      "coverImage": "/assets/projets/couvertures/pyrite.webp",
+      "fullDescription": "Située à Dar Diaf, au cœur de la commune dynamique de Chéraga, la résidence Haut Standing Pyrite s'étend sur 3 blocs et propose une large variété de logements d'exception. Ce projet innovant donne sur les accès autoroutiers, facilitant grandement les déplacements des résidents.\n\nEn plus de profiter d’une mobilité aisée et rapide au quotidien, les habitants bénéficient d’un cadre de vie unique dans des appartements idéalement aménagés et équipés avec les dernières technologies : climatisation centralisée, fenêtres en aluminium avec double vitrage, volets électriques, etc. Une large variété de superficie est également disponible, allant du F2 de 45 m², au F5 de 165 m². De plus, cette somptueuse résidence offre un environnement paisible et sécurisé, gage de tranquillité pour ses résidents, grâce à un service de gardiennage et de maintenance dévoué en permanence, ainsi qu'à des accès contrôlés via un système sophistiqué de digicode.",
+      "gallery": [
+        "/assets/projets/galeries/pyrite/1.JPG",
+        "/assets/projets/galeries/pyrite/2.JPG",
+        "/assets/projets/galeries/pyrite/3.JPG",
+        "/assets/projets/galeries/pyrite/4.JPG",
+        "/assets/projets/galeries/pyrite/5.JPG",
+        "/assets/projets/galeries/pyrite/6.JPG"
+      ],
+      "features": [
+        "Climatisation centralisée",
+        "Abattoir",
+        "Parking de Stationnement",
+        "Reception",
+        "Domotique",
+        "Dressing",
+        "Isolation Phonique",
+        "Bache a eau",
+        "Ascenseur",
+        "Cuisine",
+        "Fenetre",
+        "Groupe electrogene",
+        "gestion copropriété",
+        "Salle d'eau"
+      ],
+      "details": [
+        {
+          "label": "Adresse",
+          "value": "Cheraga"
+        },
+        {
+          "label": "Blocs",
+          "value": "03"
+        },
+        {
+          "label": "État d'avancement",
+          "value": "100 %"
+        }
+      ],
+      "lat": 36.7651695,
+      "lng": 2.900291548632811,
+      "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d51139.59996388404!2d2.900291548632811!3d36.7651695!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128fb1a012718dbf%3A0x6b5b59f84fd539d8!2sR%C3%A9sidence%20Pyrite%2C%20Aymen%20Promotion%20Immobili%C3%A8re!5e0!3m2!1sfr!2sdz!4v1774043957032!5m2!1sfr!2sdz",
+      "mapLinkUrl": "https://maps.app.goo.gl/mLXTZtLCnc811PKA9",
+      "plans": [
+        {
+          "type": "F2",
+          "area": "de 41 m² à 68 m²"
+        },
+        {
+          "type": "F3",
+          "area": "de 61 m² à 113 m²"
+        },
+        {
+          "type": "F4",
+          "area": "de 115 m² à 154 m²"
+        },
+        {
+          "type": "F5",
+          "area": "de 149 m² à 165 m²"
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "title": "JAIS",
+      "location": "Draria, Alger",
+      "description": "La résidence Jais, véritable joyau d'Aymen Promotion Immobilière...",
+      "image": "/assets/projets/jais.webp",
+      "status": "FINIS",
+      "isNightMode": true,
+      "coverImage": "/assets/projets/couvertures/jais.webp",
+      "fullDescription": "La résidence Jais, véritable joyau d’Aymen Promotion Immobilière, incarne le calme et la sophistication à l’état pur et offre une multitude d'aménagements pour un cadre de vie des plus confortables.\n\nIdéalement situé à Sebala, dans la commune résidentielle de Draria à Alger, Jais bénéficie de toutes les commodités qu'offre cette région. Entre ses restaurants réputés et ses rues commerçantes animées, les environs sauront vous captiver et vous divertir.\n\nCette résidence propose une gamme variée d'appartements, allant du F3 au F5 en duplex, avec des superficies allant de 79 m² à 226 m², afin de répondre aux besoins et aux attentes de chacun. Alliant qualité et innovation, ce projet haut standing est construit avec des matériaux nobles et équipés des dernières technologies.\n\nQue vous recherchiez de vastes espaces intérieurs ou un appartement de taille moyenne, avec un agencement idéal, vous frappez à la bonne porte !",
+      "gallery": [
+        "/assets/projets/galeries/jais/1.webp",
+        "/assets/projets/galeries/jais/2.webp",
+        "/assets/projets/galeries/jais/3.webp",
+        "/assets/projets/galeries/jais/4.webp"
+      ],
+      "features": [
+        "Climatisation centralisée",
+        "Abattoir",
+        "Parking de Stationnement",
+        "Reception",
+        "Domotique",
+        "Dressing",
+        "Isolation Phonique",
+        "Bache a eau",
+        "Ascenseur",
+        "Cuisine",
+        "Fenetre",
+        "Groupe Electrogene",
+        "gestion copropriété",
+        "Salle d'eau"
+      ],
+      "details": [
+        {
+          "label": "Adresse",
+          "value": "Draria"
+        },
+        {
+          "label": "Blocs",
+          "value": "02"
+        },
+        {
+          "label": "État d'avancement",
+          "value": "100 %"
+        }
+      ],
+      "lat": 36.722126772095976,
+      "lng": 3.0124101762670312,
+      "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3198.018090026358!2d3.0124101762670312!3d36.722126772095976!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128faf4dd21a4553%3A0x4831d5f8c5a69072!2sR%C3%A9sidence%20Jais%20-%20Aymen%20promotion%20immobili%C3%A8re!5e0!3m2!1sfr!2sdz!4v1774044178547!5m2!1sfr!2sdz",
+      "mapLinkUrl": "https://maps.app.goo.gl/rk9PbuRArnoxquB1A",
+      "virtualTourUrl": "https://my.matterport.com/show/?m=szZpWtzGjfw",
+      "plans": [
+        {
+          "type": "Duplex",
+          "area": "de 133 m² à 226 m²"
+        },
+        {
+          "type": "F3",
+          "area": "de 79 m² à 105 m²"
+        },
+        {
+          "type": "F4",
+          "area": "de 88 m² à 144 m²"
+        }
+      ]
+    },
+    {
+      "id": 30,
+      "title": "BÉRYL",
+      "location": "Dely Ibrahim, Alger",
+      "description": "Idéalement nichée au cœur de la charmante commune de Dely Ibrahim, la résidence Béryl se dresse dans...",
+      "image": "/assets/projets/beryl.webp",
+      "status": "FINIS",
+      "isNightMode": true,
+      "coverImage": "/assets/projets/couvertures/beryl.webp",
+      "gallery": [
+        "/assets/projets/galeries/beryl/1.webp",
+        "/assets/projets/galeries/beryl/2.webp",
+        "/assets/projets/galeries/beryl/3.jpg"
+      ],
+      "virtualTourUrl": "https://my.matterport.com/show/?m=U46WNp2h8sw"
+    },
+    {
+      "id": 13,
+      "title": "LES CRÊTES",
+      "location": "Draria, Alger",
+      "description": "Au cœur d'un des quartiers les plus prestigieux de la commune de Draria...",
+      "image": "/assets/projets/les-cretes.webp",
+      "status": "FINIS",
+      "isNightMode": true,
+      "coverImage": "/assets/projets/couvertures/les-cretes.webp",
+      "fullDescription": "Au cœur d'un des quartiers les plus prestigieux de la commune de Draria, se dévoile la somptueuse Résidence Les Crêtes. Présentant un design moderne et raffiné, cette résidence se distingue par ses façades ornées de magnifiques angles vitrés. Implanté sur plusieurs niveaux, ce projet immobilier contemporain s'intègre harmonieusement au tissu urbain environnant. Il offre une gamme d'appartements allant du F2 de 47 m² au F5 de 210 m² en simplex, répartis sur quatre blocs disposés autour d'une esplanade, espace de détente et de convivialité agrémenté d'une aire de jeux, pour le plus grand plaisir des petits et des grands !\n\nCette résidence offre également toutes les commodités essentielles pour une vie quotidienne dynamique et épanouissante. En effet, vous serez idéalement situés à proximité des axes autoroutiers pour une mobilité optimale, ainsi que des artères commerçantes, des salles de sport de premier plan et diverses infrastructures dédiées au bien-être et aux loisirs.",
+      "gallery": [
+        "/assets/projets/galeries/les-cretes/1.webp",
+        "/assets/projets/galeries/les-cretes/2.webp",
+        "/assets/projets/galeries/les-cretes/3.webp",
+        "/assets/projets/galeries/les-cretes/4.webp",
+        "/assets/projets/galeries/les-cretes/5.webp",
+        "/assets/projets/galeries/les-cretes/6.webp"
+      ],
+      "features": [
+        "Climatisation centralisée",
+        "Abattoir",
+        "Parking de Stationnement",
+        "Reception",
+        "Domotique",
+        "Dressing",
+        "Isolation Phonique",
+        "Bache a eau",
+        "Ascenseur",
+        "Cuisine",
+        "Fenetre",
+        "Groupe Electrogene",
+        "gestion copropriété",
+        "Salle d'eau"
+      ],
+      "details": [
+        {
+          "label": "Adresse",
+          "value": "Draria"
+        },
+        {
+          "label": "Blocs",
+          "value": "04"
+        },
+        {
+          "label": "État d'avancement",
+          "value": "100 %"
+        }
+      ],
+      "lat": 36.70465407307895,
+      "lng": 2.989030776266416,
+      "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3198.745460188751!2d2.989030776266416!3d36.70465407307895!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128faf2c739b35a5%3A0x3192e8819a499890!2sR%C3%A9sidence%20Les%20Cr%C3%AAtes%20-%20aymen%20promotion!5e0!3m2!1sfr!2sdz!4v1774044224869!5m2!1sfr!2sdz",
+      "mapLinkUrl": "https://maps.app.goo.gl/t7mirZ4wCvr8FDPd6",
+      "plans": [
+        {
+          "type": "F2",
+          "area": "de 41 m² à 70 m²"
+        },
+        {
+          "type": "F3",
+          "area": "de 61 m² à 155 m²"
+        },
+        {
+          "type": "F4",
+          "area": "de 92 m² à 155 m²"
+        },
+        {
+          "type": "F5",
+          "area": "de 140 m² à 210 m²"
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "title": "TURQUOISE",
+      "location": "Les Sources, Alger",
+      "description": "Aymen Promotion Immobilière détient l'art subtil de créer des résidences...",
+      "image": "/assets/projets/turquoise.webp",
+      "status": "FINIS",
+      "isNightMode": true,
+      "coverImage": "/assets/projets/couvertures/turquoise.webp",
+      "fullDescription": "Aymen Promotion Immobilière détient l'art subtil de créer des résidences raffinées et intimistes. Parmi ces créations prestigieuses, se trouve la résidence Turquoise, un véritable havre de paix niché au cœur des Sources à Alger.\n\nCette résidence d'exception se compose de 14 appartements, allant du F2 au F7 en attique, offrant un confort sans pareil. L'intérieur de ces appartements a été pensé avec minutie pour allier modernité et praticité, procurant ainsi un cadre de vie harmonieux et fonctionnel aux résidents. Située à seulement 4 kilomètres du centre d'Alger, la résidence Turquoise jouit d'une situation privilégiée, offrant une proximité enviable avec divers points stratégiques de la capitale. Les résidents ont la chance de se retrouver à quelques pas des musées fascinants, des monuments historiques emblématiques, de restaurants raffinés, et des rues commerçantes animées. La résidence Turquoise représente ainsi bien plus qu'un simple lieu de vie, c'est un véritable joyau architectural et fonctionnel.",
+      "gallery": [
+        "/assets/projets/galeries/turquoise/1.jpg"
+      ],
+      "features": [
+        "Climatisation centralisée",
+        "Abattoir",
+        "Parking de Stationnement",
+        "Reception",
+        "Domotique",
+        "Dressing",
+        "Isolation Phonique",
+        "Bache a eau",
+        "Ascenseur",
+        "Cuisine",
+        "Fenetre",
+        "Groupe electrogene",
+        "Gestion copropriété",
+        "Salle d'eau"
+      ],
+      "details": [
+        {
+          "label": "Adresse",
+          "value": "Les Sources"
+        },
+        {
+          "label": "Blocs",
+          "value": "01"
+        },
+        {
+          "label": "État d'avancement",
+          "value": "100 %"
+        }
+      ],
+      "lat": 36.734573471395414,
+      "lng": 3.054970976267499,
+      "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3197.4997655752104!2d3.054970976267499!3d36.734573471395414!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128fad271494c921%3A0x7bcfde55e4d25c10!2sR%C3%A9sidence%20Turquoise%20-%20Aymen%20Promotion!5e0!3m2!1sfr!2sdz!4v1774044268787!5m2!1sfr!2sdz",
+      "mapLinkUrl": "https://maps.app.goo.gl/H8M8mpQJkkHg8oV48",
+      "plans": [
+        {
+          "type": "F2",
+          "area": "de 58 m² et 61 m²"
+        },
+        {
+          "type": "F3",
+          "area": "de 80 m² à 95 m²"
+        },
+        {
+          "type": "F4",
+          "area": "de 117 m² à 144 m²"
+        },
+        {
+          "type": "F5",
+          "area": "154 m²"
+        },
+        {
+          "type": "F6",
+          "area": "256 m²"
+        },
+        {
+          "type": "F8",
+          "area": "426 m²"
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "title": "BOIS DES CARS",
+      "location": "Dely Ibrahim, Alger",
+      "description": "La résidence Bois des Cars, sise à Dely Ibrahim...",
+      "image": "/assets/projets/bois-des-cars.webp",
+      "status": "FINIS",
+      "isNightMode": true,
+      "coverImage": "/assets/projets/couvertures/bois-des-cars.webp",
+      "fullDescription": "La résidence Bois des Cars, sise à Dely Ibrahim, représente un projet exclusif et sophistiqué de la société Aymen Promotion Immobilière. Ce projet propose une gamme d'appartements spacieux, allant du F3 de 105 m² au F5 en duplex dépassant les 160 m². Outre les avantages inhérents à la localité de Dely Ibrahim, tels que les commerces de proximité et les infrastructures de divertissement et de bien-être, la résidence offre des commodités pratiques, simplifiant le quotidien de ses résidents. En effet, les divers appartements sont facilement accessibles depuis les différents niveaux du parking souterrain, bénéficient d'une isolation de qualité, sont équipés de systèmes de climatisation et de chauffage centralisés, ainsi que de cuisines et salles d'eau entièrement équipées.",
+      "gallery": [
+        "/assets/projets/galeries/bois-des-cars/1.jpg"
+      ],
+      "features": [
+        "Climatisation centralisée",
+        "Abattoir",
+        "Parking de Stationnement",
+        "Reception",
+        "Domotique",
+        "Dressing",
+        "Isolation Phonique",
+        "Bache a eau",
+        "Ascenseur",
+        "Cuisine",
+        "Fenetre",
+        "Groupe electrogene",
+        "Gestion copropriété",
+        "Salle d'eau"
+      ],
+      "details": [
+        {
+          "label": "Adresse",
+          "value": "Dely Ibrahim"
+        },
+        {
+          "label": "Blocs",
+          "value": "01"
+        },
+        {
+          "label": "État d'avancement",
+          "value": "100 %"
+        }
+      ],
+      "lat": 36.763715469754665,
+      "lng": 2.9844818762684575,
+      "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3196.2855997976017!2d2.9844818762684575!3d36.763715469754665!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128fb1ec974211b9%3A0xbf573ff6bb5925e4!2sR%C3%A9sidence%20Bois%20des%20Cars%2C%20Aymen%20Promotion%20Immobili%C3%A8re!5e0!3m2!1sfr!2sdz!4v1774044506155!5m2!1sfr!2sdz",
+      "mapLinkUrl": "https://maps.app.goo.gl/atAuFgCQisBMTf4A8",
+      "plans": [
+        {
+          "type": "F3",
+          "area": "de 105 m² à 112 m²"
+        },
+        {
+          "type": "F4",
+          "area": "de 117 m² à 163 m²"
+        },
+        {
+          "type": "F5",
+          "area": "de 276 m² et 280 m²"
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "title": "PÉRIDOT",
+      "location": "Hydra, Alger",
+      "description": "Raffinée et discrète, la résidence Péridot...",
+      "image": "/assets/projets/peridot.webp",
+      "status": "FINIS",
+      "isNightMode": true,
+      "coverImage": "/assets/projets/couvertures/peridot.webp",
+      "fullDescription": "Raffinée et discrète, la résidence Péridot d'Aymen Promotion Immobilière représente un véritable refuge de tranquillité, niché au cœur de la prestigieuse commune d'Hydra.\n\nIdéalement situé à seulement 3 minutes des principaux axes autoroutiers, ce projet offre à ses résidents une multitude d'avantages pour rendre leur quotidien remarquablement agréable. La résidence propose une aire de détente et de jeux dédiée aux enfants, un accès sécurisé via un digicode, ainsi que des ascenseurs reliant les parkings souterrains aux différents étages. Les appartements, conçus avec minutie, offrent des aménagements intérieurs soignés et complets. Chaque espace est méticuleusement agencé, des cuisines entièrement équipées aux salles d'eau finement aménagées, chaque détail est pensé pour répondre aux besoins et aux attentes les plus exigeants.",
+      "gallery": [
+        "/assets/projets/galeries/peridot/1.jpg"
+      ],
+      "features": [
+        "Climatisation centralisée",
+        "Abattoir",
+        "Parking de Stationnement",
+        "Reception",
+        "Domotique",
+        "Dressing",
+        "Isolation Phonique",
+        "Bache a eau",
+        "Ascenseur",
+        "Cuisine",
+        "Fenetre",
+        "Groupe electrogene",
+        "Gestion copropriété",
+        "Salle d'eau"
+      ],
+      "details": [
+        {
+          "label": "Adresse",
+          "value": "Hydra"
+        },
+        {
+          "label": "Blocs",
+          "value": "02"
+        },
+        {
+          "label": "État d'avancement",
+          "value": "100 %"
+        }
+      ],
+      "lat": 36.74286687092868,
+      "lng": 3.0368419762677465,
+      "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3197.1543154030037!2d3.0368419762677465!3d36.74286687092868!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128fad97f3d3ae1b%3A0xf6da9dbeff7dc837!2sR%C3%A9sidence%20P%C3%A9ridot%20-%20Aymen%20Promotion%20Immobili%C3%A8re!5e0!3m2!1sfr!2sdz!4v1774044646152!5m2!1sfr!2sdz",
+      "mapLinkUrl": "https://maps.app.goo.gl/CZTbcy4RMZGhu8YQ9",
+      "plans": [
+        {
+          "type": "Duplex",
+          "area": "de 147 m² à 188 m²"
+        },
+        {
+          "type": "F2",
+          "area": "de 58 m²"
+        },
+        {
+          "type": "F3",
+          "area": "de 59 m² à 92 m²"
+        },
+        {
+          "type": "F4",
+          "area": "de 106 m² à 191 m²"
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "title": "CORAIL",
+      "location": "Hydra, Alger",
+      "description": "La résidence Corail, un joyau au cœur d'Hydra...",
+      "image": "/assets/projets/corail.webp",
+      "status": "FINIS",
+      "isNightMode": true,
+      "coverImage": "/assets/projets/couvertures/corail.webp",
+      "fullDescription": "Découvrez la résidence Corail, un véritable bijou immobilier au cœur de Hydra !\n\nNotre résidence offre une expérience de vie luxueuse et moderne grâce à des logements d'exception, allant du F3 de 77 m² au spacieux penthouses en F6 de 322 m². Chaque espace est conçu avec soin, mis en valeur par un design contemporain et des finitions de qualité qui sont réalisées par les meilleurs artisans du pays.\n\nSituée dans un quartier résidentiel calme et familial, la résidence Corail bénéficie également d'un accès facile et rapide à toutes les infrastructures de divertissement et commerces de proximité proposés par la commune dynamique de Hydra.\n\nPour ceux qui recherchent un niveau de confort optimal, certains appartements disposent de vastes terrasses avec piscine extérieure privée, idéales pour se détendre et profiter des beaux jours.\n\nChaque résident pourra personnaliser son expérience selon ses préférences. Aussi, les suites parentales avec dressings ajoutent une touche de raffinement, tandis que les vastes séjours et les cuisines modernes offrent des espaces conviviaux et pratiques pour toute la famille.",
+      "gallery": [
+        "/assets/projets/galeries/corail/1.webp",
+        "/assets/projets/galeries/corail/2.webp"
+      ],
+      "features": [
+        "Climatisation centralisée",
+        "Abattoir",
+        "Parking de Stationnement",
+        "Reception",
+        "Domotique",
+        "Dressing",
+        "Isolation Phonique",
+        "Bache a eau",
+        "Ascenseur",
+        "Cuisine",
+        "Fenetre",
+        "Groupe electrogene",
+        "Gestion copropriété",
+        "Salle d'eau"
+      ],
+      "details": [
+        {
+          "label": "Adresse",
+          "value": "Hydra"
+        },
+        {
+          "label": "Blocs",
+          "value": "01"
+        },
+        {
+          "label": "État d'avancement",
+          "value": "100 %"
+        }
+      ],
+      "lat": 36.74286687092868,
+      "lng": 3.0368419762677465,
+      "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3197.1543154030037!2d3.0368419762677465!3d36.74286687092868!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128fb3baed307d15%3A0x4d892b04ec34cd23!2sR%C3%A9sidence%20CORAIL%20-%20Aymen%20promotion%20immobili%C3%A8re!5e0!3m2!1sfr!2sdz!4v1774044732026!5m2!1sfr!2sdz",
+      "mapLinkUrl": "https://maps.app.goo.gl/VWWCFePkhZv3UUU87",
+      "plans": [
+        {
+          "type": "F2",
+          "area": "45 m²"
+        },
+        {
+          "type": "F4",
+          "area": "de 121 m² à 185 m²"
+        },
+        {
+          "type": "F5",
+          "area": "314 m²"
+        },
+        {
+          "type": "F6",
+          "area": "321 m²"
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "title": "OPALE",
+      "location": "El Achour, Alger",
+      "description": "La résidence Opale, une référence à El Achour...",
+      "image": "/assets/projets/opale.webp",
+      "status": "FINIS",
+      "isNightMode": true,
+      "coverImage": "/assets/projets/couvertures/opale.webp",
+      "fullDescription": "Plongez au cœur de la résidence Opale d’Aymen Promotion Immobilière, là où confort, modernité et sécurité se marient joliment.\n\nAu-delà de son emplacement stratégique à Oued Romane, El Achour, qui vous offre une connexion aisée avec la ville et les autres localités d’Alger, cette résidence bénéficie de prestations de qualité supérieure. Les appartements sont conçus pour baigner dans une luminosité constante grâce à des ouvertures pensivement positionnées, invitant les rayons du soleil à envahir chaque recoin, tandis qu'une brise rafraîchissante traverse chaque espace grâce à une conception favorisant une ventilation naturelle.\n\nL'architecture innovante en forme de H redéfinit l'art de vivre avec des intérieurs traversants et multi-orientés s’étendant vers l'extérieur à travers de spacieux balcons et terrasses.\n\nAu sein de ce projet immobilier, vous avez la possibilité de choisir parmi une gamme variée d'appartements, allant du studio douillet de 30 m² aux vastes F5 de 247 m².\n\nMême si les typologies de ces logements divergent, ils ont en commun une finition d'une qualité supérieure qui témoigne d'un souci méticuleux du détail. Chaque espace est judicieusement agencé pour une utilisation optimale, vous permettant de vivre et de travailler au sein d’un cadre serein.",
+      "gallery": [
+        "/assets/projets/galeries/opale/1.JPG",
+        "/assets/projets/galeries/opale/2.webp",
+        "/assets/projets/galeries/opale/3.JPG",
+        "/assets/projets/galeries/opale/4.JPG"
+      ],
+      "features": [
+        "Climatisation centralisée",
+        "Abattoir",
+        "Parking de Stationnement",
+        "Reception",
+        "Domotique",
+        "Dressing",
+        "Isolation Phonique",
+        "Bache a eau",
+        "Ascenseur",
+        "Cuisine",
+        "Fenetre",
+        "Groupe electrogene",
+        "Gestion copropriété",
+        "Salle d'eau"
+      ],
+      "details": [
+        {
+          "label": "Adresse",
+          "value": "El Achour"
+        },
+        {
+          "label": "Blocs",
+          "value": "02"
+        },
+        {
+          "label": "État d'avancement",
+          "value": "100 %"
+        }
+      ],
+      "lat": 36.73472467138717,
+      "lng": 3.0053718762674935,
+      "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3197.493468146657!2d3.0053718762674935!3d36.73472467138717!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128faf6906783591%3A0x5031396afe05cbcc!2sR%C3%A9sidence%20Opale%20-%20Aymen%20Promotion%20Immobili%C3%A8re!5e0!3m2!1sfr!2sdz!4v1774044834111!5m2!1sfr!2sdz",
+      "mapLinkUrl": "https://maps.app.goo.gl/i4qB6Wn2JAF6gUrp8",
+      "plans": [
+        {
+          "type": "Duplex",
+          "area": "247 m²"
+        },
+        {
+          "type": "F2",
+          "area": "de 46 m² à 65 m²"
+        },
+        {
+          "type": "F3",
+          "area": "de 67 m² à 120 m²"
+        },
+        {
+          "type": "F4",
+          "area": "de 100 m² à 146 m²"
+        },
+        {
+          "type": "Studio",
+          "area": "30 m²"
+        }
+      ]
+    },
+    {
+      "id": 21,
+      "title": "CITRINE",
+      "location": "Birkhadem, Alger",
+      "description": "La résidence Citrine, un projet d'exception à Birkhadem...",
+      "image": "/assets/projets/citrine.webp",
+      "status": "FINIS",
+      "isNightMode": true,
+      "coverImage": "/assets/projets/couvertures/citrine.webp",
+      "fullDescription": "Découvrez la résidence Citrine d'Aymen Promotion Immobilière, où l'élégance architecturale rencontre l'art de vivre au quotidien. Implantée à Birkhadem, dans un quartier à la fois vivant et parfaitement desservi, la résidence bénéficie d'un emplacement privilégié : axes routiers structurants, établissements scolaires reconnus, services publics et privés de proximité — tout ce qui fait la commodité d'un quotidien fluide se trouve à quelques pas.\n\nSon architecture contemporaine affirme une signature nette, où les lignes épurées et les volumes maîtrisés dessinent une présence sereine dans le paysage urbain. Chaque appartement a été pensé pour accueillir la lumière naturelle et offrir des espaces généreux, fonctionnels, conçus pour être vécus pleinement.\n\nCitrine vous propose une gamme de logements de haut standing allant du F3 au F6, permettant à chaque famille de trouver l'espace qui lui correspond — du foyer qui s'installe à celui qui s'agrandit. La résidence intègre également des box de stationnement privatifs répartis sur deux niveaux de parking, pour un confort d'usage sans compromis.\n\nAu-delà de ses prestations, Citrine incarne une certaine idée de l'habitat : celle d'un cadre où modernité et confort ne s'opposent jamais, mais se répondent. Chaque détail d'exécution témoigne d'une exigence de qualité qui accompagne Aymen Promotion Immobilière depuis vingt ans.\n\nÀ Birkhadem, Citrine vous ouvre les portes d'un quotidien pensé pour durer.",
+      "gallery": [
+        "/assets/projets/galeries/citrine/1.JPG",
+        "/assets/projets/galeries/citrine/2.JPG",
+        "/assets/projets/galeries/citrine/3.JPG",
+        "/assets/projets/galeries/citrine/4.JPG",
+        "/assets/projets/galeries/citrine/5.JPG"
+      ],
+      "features": [
+        "Climatisation centralisée",
+        "Abattoir",
+        "Parking de Stationnement",
+        "Reception",
+        "Domotique",
+        "Dressing",
+        "Isolation phonique",
+        "Salle de sport",
+        "Spa",
+        "Bache a eau",
+        "Ascenseur",
+        "Cuisine",
+        "Fenetre",
+        "Groupe electrogene",
+        "Gestion copropriété",
+        "Salle d'eau"
+      ],
+      "details": [
+        {
+          "label": "Adresse",
+          "value": "Birkhadem"
+        },
+        {
+          "label": "Blocs",
+          "value": "03"
+        },
+        {
+          "label": "État d'avancement",
+          "value": "100 %"
+        }
+      ],
+      "lat": 36.72112197215251,
+      "lng": 3.0473577762669963,
+      "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3198.059926856193!2d3.0473577762669963!3d36.72112197215251!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128fad0efaaa02b9%3A0xd4de34abc3e7343f!2sR%C3%A9sidence%20Citrine%20-%20Aymen%20Promotion%20Immobili%C3%A8re!5e0!3m2!1sfr!2sdz!4v1774044889941!5m2!1sfr!2sdz",
+      "mapLinkUrl": "https://maps.app.goo.gl/xPpAs44H9ZmUtsJj6",
+      "virtualTourUrl": "https://my.matterport.com/show/?m=5pLpokLmiqT",
+      "plans": [
+        {
+          "type": "F2",
+          "area": "de 65 m² à 66 m²"
+        },
+        {
+          "type": "F3",
+          "area": "de 81 m² à 114 m²"
+        },
+        {
+          "type": "F4",
+          "area": "de 109 m² à 183 m²"
+        },
+        {
+          "type": "F5",
+          "area": "de 276 m²"
+        },
+        {
+          "type": "F6",
+          "area": "311 m²"
+        }
+      ]
+    },
+    {
+      "id": 22,
+      "title": "ANGÉLITE",
+      "location": "Dar El Beida, Alger",
+      "description": "Idéalement nichée au coeur de la charmante commune...",
+      "image": "/assets/projets/angelite.webp",
+      "status": "FINIS",
+      "isNightMode": true,
+      "coverImage": "/assets/projets/couvertures/angelite.jpg",
+      "fullDescription": "Découvrez la splendeur de la Résidence Angélite, un bijou de l'immobilier signé Aymen Promotion, situé dans la charmante commune de Dar El Beïda.\n\nDes appartements F3 de 70 m² aux somptueux F5 en attique de 207 m², chacun des logements a été pensé pour vous offrir un confort exceptionnel.\n\nCertains s'étendent gracieusement sur de vastes terrasses, invitant à des moments de détente en plein air. Les espaces intérieurs, quant à eux, se distinguent également grâce à des séjours spacieux et des pièces à vivre baignés par la lumière naturelle. Aussi, comme pour chaque résidence d’Aymen Promotion Immobilière, les exigences de confort et de modernité sont respectées: salles d’eau équipées, cuisines ouvertes sur salon et ascenseurs qui donnent du parking aux divers niveaux du bâtiment.\n\nCe projet immobilier bénéficie d'un emplacement privilégié à proximité de centres commerciaux, de divertissements tels que le bowling et le karting, de piscines, ainsi que de centres de remise en forme pour une vie dynamique et équilibrée, offrant ainsi une harmonie parfaite entre confort intérieur et commodités extérieures.",
+      "gallery": [
+        "/assets/projets/galeries/angelite/1.webp",
+        "/assets/projets/galeries/angelite/2.webp",
+        "/assets/projets/galeries/angelite/3.jpg"
+      ],
+      "features": [
+        "Climatisation centralisée",
+        "Abattoir",
+        "Parking de Stationnement",
+        "Reception",
+        "Domotique",
+        "Dressing",
+        "Isolation Phonique",
+        "Bache a eau",
+        "Ascenseur",
+        "Cuisine",
+        "Fenetre",
+        "Groupe electrogene",
+        "Gestion copropriété",
+        "Salle d'eau"
+      ],
+      "details": [
+        {
+          "label": "Adresse",
+          "value": "Dar El Beida"
+        },
+        {
+          "label": "Blocs",
+          "value": "01"
+        },
+        {
+          "label": "État d'avancement",
+          "value": "100 %"
+        }
+      ],
+      "lat": 36.718960272274174,
+      "lng": 3.2033662762669284,
+      "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3198.1499301651847!2d3.2033662762669284!3d36.718960272274174!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128e519deea7f9c9%3A0x5d53691e933a4ea1!2sR%C3%A9sidence%20Ang%C3%A9lite%2C%20Aymen%20Promotion%20Immobili%C3%A8re!5e0!3m2!1sfr!2sdz!4v1774044942560!5m2!1sfr!2sdz",
+      "mapLinkUrl": "https://maps.app.goo.gl/uj2rzGjkhPGNQC2u5",
+      "plans": [
+        {
+          "type": "F3",
+          "area": "de 70 m² à 114 m²"
+        },
+        {
+          "type": "F4",
+          "area": "de 97 m² à 145 m²"
+        },
+        {
+          "type": "F5",
+          "area": "de 194 m² à 207 m²"
+        }
+      ]
+    },
+    {
+      "id": 23,
+      "title": "RUBIS",
+      "location": "El Achour, Alger",
+      "description": "Véritable bijou de la promotion immobilière Aymen...",
+      "image": "/assets/projets/rubis.webp",
+      "status": "FINIS",
+      "isNightMode": true,
+      "coverImage": "/assets/projets/couvertures/rubis.jpg",
+      "fullDescription": "Véritable bijou de la promotion immobilière Aymen, la résidence Rubis se situe au niveau de la commune de Oued Romane, dans un quartier à caractère résidentiel, calme et sécurisé.\n\nCette résidence haut standing, au design épuré, embellit subtilement le tissu urbain environnant et propose des prestations de qualité pour ses habitants. Au sein de la résidence, vous bénéficiez d’une sécurité garantie 24h/24, d’accès par ascenseur à tous les paliers à partir du parking, ainsi que de l’entretien et de la maintenance des équipements et espaces communs au quotidien.\n\nLes espaces intérieurs sont également conçus avec minutie et une attention particulière est apportée aux détails. Du F2 de 60 m² idéalement agencé, au spacieux F4 de 143 m², les disponibilités répondent à tous les besoins.\n\nQue vous recherchiez un espace confortable pour votre vie quotidienne ou un investissement immobilier prometteur, la résidence Rubis est l'adresse parfaite.",
+      "gallery": [
+        "/assets/projets/galeries/rubis/1.webp",
+        "/assets/projets/galeries/rubis/2.webp",
+        "/assets/projets/galeries/rubis/3.webp",
+        "/assets/projets/galeries/rubis/4.webp",
+        "/assets/projets/galeries/rubis/5.webp"
+      ],
+      "features": [
+        "Climatisation centralisée",
+        "Abattoir",
+        "Parking de Stationnement",
+        "Reception",
+        "Domotique",
+        "Dressing",
+        "Isolation Phonique",
+        "Bache a eau",
+        "Ascenseur",
+        "Cuisine",
+        "Fenetre",
+        "Groupe electrogene",
+        "Gestion copropriété",
+        "Salle d'eau"
+      ],
+      "details": [
+        {
+          "label": "Adresse",
+          "value": "El Achour"
+        },
+        {
+          "label": "Blocs",
+          "value": "02"
+        },
+        {
+          "label": "État d'avancement",
+          "value": "100 %"
+        }
+      ],
+      "lat": 36.7328762714911,
+      "lng": 3.0036080762674042,
+      "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3197.570451849796!2d3.0036080762674042!3d36.7328762714911!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128faf273876846f%3A0xceb1dfe124bcce47!2sR%C3%A9sidence%20Rubis!5e0!3m2!1sfr!2sdz!4v1774045054805!5m2!1sfr!2sdz",
+      "mapLinkUrl": "https://maps.app.goo.gl/cyTPJ4zsQdvUo2hi7",
+      "virtualTourUrl": "https://my.matterport.com/show/?m=7PQKHRdKkTE",
+      "plans": [
+        {
+          "type": "F2",
+          "area": "de 60 m² à 84 m²"
+        },
+        {
+          "type": "F3",
+          "area": "de 79 m² à 103 m²"
+        },
+        {
+          "type": "F4",
+          "area": "de 93 m² à 161 m²"
+        },
+        {
+          "type": "F5",
+          "area": "de 171 m²"
+        }
+      ]
+    },
+    {
+      "id": 24,
+      "title": "ONYX",
+      "location": "Oued Romane, Alger",
+      "description": "Aymen Promotion Immobilière, reconnue pour ses résidences...",
+      "image": "/assets/projets/onyx.webp",
+      "status": "FINIS",
+      "isNightMode": true,
+      "coverImage": "/assets/projets/couvertures/onyx.webp",
+      "fullDescription": "Aymen Promotion Immobilière, reconnue pour ses résidences haut standing, tient une fois de plus sa promesse de qualité avec la résidence Onyx, située à Oued Romane. Cette somptueuse résidence achevée se compose de deux blocs, proposant une qualité de vie supérieure à ses résidents. Les appartements en simplex, allant du F2 au F5 et d'une superficie variant entre 52 m² et 157 m², sont conçus pour répondre à toutes les attentes.\n\nChaque détail a été soigneusement pensé pour offrir un confort optimal. Les cuisines et salles de bains sont équipées avec les meilleurs matériaux et équipements, garantissant ainsi une expérience de vie agréable au quotidien. La résidence Onyx bénéficie de tous les équipements et services haut de gamme qui caractérisent les résidences d'Aymen Promotion. Les résidents profiteront ainsi d'accès contrôlés via digicode, de places de parking, et d'un ascenseur depuis le sous-sol. Découvrez une nouvelle dimension de vie haut standing grâce aux appartements des résidences Aymen Promotion immobilière !",
+      "gallery": [
+        "/assets/projets/galeries/onyx/1.jpg"
+      ],
+      "features": [
+        "RECEPTION",
+        "DOMOTIQUE",
+        "CLIMATISATION CENTRALISÉE",
+        "ABATTOIR",
+        "AIRE DE JEUX"
+      ],
+      "details": [
+        {
+          "label": "Adresse",
+          "value": "Oued Romane"
+        },
+        {
+          "label": "Blocs",
+          "value": "02"
+        },
+        {
+          "label": "État d'avancement",
+          "value": "100 %"
+        }
+      ],
+      "lat": 36.73672437127432,
+      "lng": 3.0055608762675385,
+      "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3197.4101792275524!2d3.0055608762675385!3d36.73672437127432!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128fafe307eabde9%3A0x566f03c019a0740c!2sR%C3%A9sidence%20Onyx%20-%20Aymen%20Promotion%20Immobili%C3%A8re!5e0!3m2!1sfr!2sdz!4v1774045117534!5m2!1sfr!2sdz",
+      "mapLinkUrl": "https://maps.app.goo.gl/Pn4oFqrSAeJNovYu5",
+      "plans": [
+        {
+          "type": "F2",
+          "area": "de 52 m² à 94 m²"
+        },
+        {
+          "type": "F3",
+          "area": "de 73 m² à 113 m²"
+        },
+        {
+          "type": "F4",
+          "area": "de 110 m² à 173 m²"
+        },
+        {
+          "type": "F5",
+          "area": "156 m²"
+        }
+      ]
+    },
+    {
+      "id": 25,
+      "title": "EL MORDJANE",
+      "location": "Said Hamdine, Alger",
+      "description": "Au cœur d'Alger, dans le quartier de Said Hamdine...",
+      "image": "/assets/projets/el-mordjane.webp",
+      "status": "FINIS",
+      "isNightMode": true,
+      "coverImage": "/assets/projets/couvertures/mordjan.jpg",
+      "fullDescription": "Au cœur d'Alger, dans le quartier de Saïd Hamdine, à quelques pas de la prestigieuse rue Sidi Yahia, se dresse fièrement la résidence El Mordjane d’Aymen Promotion Immobilière. Cette résidence propose une sélection variée de logements, allant du F3 de 88 m² au spacieux F5 de 162 m², répondant parfaitement aux besoins divers de sa clientèle exigeante.\n\nAutour de la résidence, on retrouve des lieux de vie élégants tels que des restaurants chics, des cafés branchés et des boutiques haut de gamme, offrant ainsi une expérience urbaine vibrante. L'intérieur de la résidence est conçu avec une finesse et une attention aux détails qui crée un cadre de vie véritablement unique.",
+      "gallery": [
+        "/assets/projets/galeries/el-mordjane/1.jpg"
+      ],
+      "features": [
+        "Climatisation centralisée",
+        "Abattoir",
+        "Parking de Stationnement",
+        "Reception",
+        "Domotique",
+        "Dressing",
+        "Isolation Phonique",
+        "Bache a eau",
+        "Ascenseur",
+        "Cuisine",
+        "Fenetre",
+        "Groupe electrogene",
+        "Gestion copropriété",
+        "Salle d'eau"
+      ],
+      "details": [
+        {
+          "label": "Adresse",
+          "value": "Said Hamdine"
+        },
+        {
+          "label": "Blocs",
+          "value": "02"
+        },
+        {
+          "label": "État d'avancement",
+          "value": "100 %"
+        }
+      ],
+      "lat": 36.73660967128083,
+      "lng": 3.0287269762675857,
+      "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3197.4149566689553!2d3.0287269762675857!3d36.73660967128083!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128fad0060742b89%3A0x24a961e90cc4aa09!2sR%C3%A9sidence%20El%20Mordjane!5e0!3m2!1sfr!2sdz!4v1774045178393!5m2!1sfr!2sdz",
+      "mapLinkUrl": "https://maps.app.goo.gl/1D2GTMH4HNhLXmAk7",
+      "plans": [
+        {
+          "type": "F2",
+          "area": "71 m²"
+        },
+        {
+          "type": "F3",
+          "area": "de 78 m² à 132 m²"
+        },
+        {
+          "type": "F4",
+          "area": "de 100 m² à 171 m²"
+        },
+        {
+          "type": "F5",
+          "area": "161 m²"
+        }
+      ]
+    },
+    {
+      "id": 26,
+      "title": "Aymen",
+      "location": "Birkhadem, Alger",
+      "description": "Située à proximité de la petite ville Birkhadem...",
+      "image": "/assets/projets/136.webp",
+      "status": "FINIS",
+      "isNightMode": true,
+      "coverImage": "/assets/projets/couvertures/aymen.webp",
+      "fullDescription": "Située à proximité de la petite ville Birkhadem, plus précisément à Tixeraïne, la résidence Aymen se distingue en tant que projet emblématique ayant marqué le début de l'aventure d’Aymen Promotion Immobilière.\n\nCette résidence exceptionnelle s'ouvre sur une vaste réception aux allures hôtelières, accessible même par une rampe dédiée aux personnes à mobilité réduite (PMR). Les deux blocs architecturaux sont harmonieusement reliés par une cour agrémentée d'une aire de jeux pour les plus jeunes. L'accès aux appartements se fait aisément grâce à des ascenseurs reliant les différents niveaux de stationnement souterrain du projet.\n\nOffrant une variété d'options, les appartements de la résidence Aymen s'étendent du F3 de 59 m² à des unités spacieuses de 198 m². En outre, le projet s'engage à assurer confort et praticité en intégrant une crèche et une salle de sport au sein de la résidence, contribuant ainsi à une vie active et épanouissante pour ses résidents.",
+      "gallery": [
+        "/assets/projets/galeries/aymen/1.webp",
+        "/assets/projets/galeries/aymen/2.webp",
+        "/assets/projets/galeries/aymen/3.JPG",
+        "/assets/projets/galeries/aymen/4.JPG",
+        "/assets/projets/galeries/aymen/5.JPG",
+        "/assets/projets/galeries/aymen/6.JPG",
+        "/assets/projets/galeries/aymen/7.JPG"
+      ],
+      "features": [
+        "Climatisation centralisée",
+        "Abattoir",
+        "Parking de Stationnement",
+        "Reception",
+        "Domotique",
+        "Creche garderie",
+        "Dressing",
+        "Isolation Phonique",
+        "Bache a eau",
+        "Ascenseur",
+        "Cuisine",
+        "Fenetre",
+        "Groupe electrogene",
+        "Gestion copropriété",
+        "Salle d'eau"
+      ],
+      "details": [
+        {
+          "label": "Adresse",
+          "value": "Birkhadem"
+        },
+        {
+          "label": "Blocs",
+          "value": "05"
+        },
+        {
+          "label": "État d'avancement",
+          "value": "100 %"
+        }
+      ],
+      "lat": 36.72547817190747,
+      "lng": 3.0261116762671247,
+      "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3197.878540766086!2d3.0261116762671247!3d36.72547817190747!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128fad007a5bd173%3A0x1778cd0831322818!2sResidence%20Aymen%20136%20tixeraine!5e0!3m2!1sfr!2sdz!4v1774045267369!5m2!1sfr!2sdz",
+      "mapLinkUrl": "https://maps.app.goo.gl/mJnV3a9iXrzuVFDE9",
+      "plans": [
+        {
+          "type": "Duplex",
+          "area": "de 171 m² à 281 m²"
+        },
+        {
+          "type": "F3",
+          "area": "de 73 m² à 108 m²"
+        },
+        {
+          "type": "F4",
+          "area": "de 118 m² à 194 m²"
+        }
+      ]
+    },
+    {
+      "id": 27,
+      "title": "COQUELICOT",
+      "location": "Hydra, Alger",
+      "description": "Découvrez le nouvel opus urbain exceptionnel...",
+      "image": "/assets/projets/coquelicot.webp",
+      "status": "FINIS",
+      "isNightMode": true,
+      "coverImage": "/assets/projets/couvertures/coquelicot.webp",
+      "fullDescription": "Découvrez le nouvel opus urbain exceptionnel d’Aymen Promotion Immobilière, pour un style de vie luxueux et des prestations de qualité supérieure !\n\nSituée dans un quartier prestigieux dans les hauteurs de Hydra, la résidence Coquelicot est composée de 4 blocs idéalement orientés ainsi que d’une esplanade aménagée qui se double d’une aire de jeux pour les enfants et d’une aire de repos pour les adultes.\n\nCe projet immobilier propose une gamme d'appartements haut standing allant du 3 pièces en simplex au 6 pièces en duplex. Chaque appartement est soigneusement conçu pour offrir un espace de vie pratique empreint d’élégance. Les balcons et les terrasses ensoleillés prolongent votre espace de vie vers l'extérieur, créant un lien harmonieux avec la nature environnante. Les superficies, quant à elles, varient entre 63 m² et 403 m², de quoi répondre aux attentes de tous les potentiels acquéreurs.\n\nAussi, vous pouvez vivre en toute sérénité en sachant que votre foyer est protégé en permanence, le tout au sein d'un cadre de vie relaxant !",
+      "gallery": [
+        "/assets/projets/galeries/coquelicot/1.JPG",
+        "/assets/projets/galeries/coquelicot/2.JPG",
+        "/assets/projets/galeries/coquelicot/3.JPG",
+        "/assets/projets/galeries/coquelicot/4.JPG",
+        "/assets/projets/galeries/coquelicot/5.webp"
+      ],
+      "features": [
+        "Climatisation centralisée",
+        "Abattoir",
+        "Parking de Stationnement",
+        "Reception",
+        "Domotique"
+      ],
+      "details": [
+        {
+          "label": "Adresse",
+          "value": "Hydra"
+        },
+        {
+          "label": "Blocs",
+          "value": "04"
+        },
+        {
+          "label": "État d'avancement",
+          "value": "100 %"
+        }
+      ],
+      "lat": 36.747190070685306,
+      "lng": 3.0176324762678886,
+      "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3196.9742118911804!2d3.0176324762678886!3d36.747190070685306!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128fb3f252322f81%3A0xe6f0a1bfdcd638c5!2sR%C3%A9sidence%20Le%20Coquelicot%20-%20Aymen%20Promotion%20Immobili%C3%A8re!5e0!3m2!1sfr!2sdz!4v1774045320709!5m2!1sfr!2sdz",
+      "mapLinkUrl": "https://maps.app.goo.gl/ZQJGZtbhoKQMf6Y9A",
+      "plans": [
+        {
+          "type": "F3",
+          "area": "de 63 m² à 115 m²"
+        },
+        {
+          "type": "F4",
+          "area": "de 112 m² à 161 m²"
+        },
+        {
+          "type": "F5",
+          "area": "171 m²"
+        }
+      ]
+    },
+    {
+      "id": 28,
+      "title": "PERLA",
+      "location": "Dar El Beida, Alger",
+      "description": "Aymen Promotion Immobilière, reconnue pour ses résidences...",
+      "image": "/assets/projets/perla.webp",
+      "status": "FINIS",
+      "isNightMode": true,
+      "coverImage": "/assets/projets/couvertures/perla.webp",
+      "fullDescription": "Qui ne rêve pas de la quiétude et de la tranquillité que propose le projet phare d’ Aymen Promotion Immobilière : Perla.\n\nL'aspect contemporain de cette résidence intimiste située à Dar el Beïda se marie parfaitement à la praticité de son agencement intérieur. Elle offre également une multitude de typologies d'appartements, variant entre le F3 à 90 m² et le Penthouse en F6 à 310 m².\n\nUn soin tout particulier est apporté aux finitions intérieures de cette résidence. Les appartements disposent de salles d’eau et cuisines équipées avec les dernières technologies, de climatisation et de chauffage centralisés et d’une isolation phonique, visuelle et thermique pour une intimité optimale. Aussi, plusieurs appartements se prolongent sur de vastes terrasses, pour profiter d’une magnifique vue et du soleil en famille.\n\nLa résidence offre également une aire de jeu sécurisée pour le divertissement des enfants, ainsi qu'un parking. De plus, elle bénéficie d'un accès rapide aux autoroutes, aux centres commerciaux et à l'aéroport d'Alger Houari Boumediene.",
+      "gallery": [
+        "/assets/projets/galeries/perla/1.webp",
+        "/assets/projets/galeries/perla/2.webp",
+        "/assets/projets/galeries/perla/3.webp",
+        "/assets/projets/galeries/perla/4.webp",
+        "/assets/projets/galeries/perla/5.webp",
+        "/assets/projets/galeries/perla/6.webp",
+        "/assets/projets/galeries/perla/7.webp"
+      ],
+      "features": [
+        "Climatisation centralisée",
+        "Abattoir",
+        "Parking de Stationnement",
+        "Reception",
+        "Domotique",
+        "Dressing",
+        "Isolation Phonique",
+        "Bache a eau",
+        "Ascenseur",
+        "Cuisine",
+        "Fenetre",
+        "Groupe electrogene",
+        "Gestion copropriété",
+        "Salle d'eau"
+      ],
+      "details": [
+        {
+          "label": "Adresse",
+          "value": "Dar El Beida"
+        },
+        {
+          "label": "Blocs",
+          "value": "02"
+        },
+        {
+          "label": "État d'avancement",
+          "value": "100 %"
+        }
+      ],
+      "lat": 36.72144717213418,
+      "lng": 3.2043432762670236,
+      "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3198.0463866204304!2d3.2043432762670236!3d36.72144717213418!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128e5156309178f7%3A0x81ac68e98d3b97c!2sR%C3%A9sidence%20Perla%20Aymen%20Promotion!5e0!3m2!1sfr!2sdz!4v1774045372160!5m2!1sfr!2sdz",
+      "mapLinkUrl": "https://maps.app.goo.gl/ySCxerVwdxEJcFnn9",
+      "plans": [
+        {
+          "type": "Duplex",
+          "area": "de 222 m² à 310 m²"
+        },
+        {
+          "type": "F3",
+          "area": "de 90 m² à 125 m²"
+        },
+        {
+          "type": "F4",
+          "area": "de 129 m² à 192 m²"
+        }
+      ]
+    }
+  ],
+  "localities": [
+    {
+      "id": 1,
+      "name": "KOUBA, ALGER",
+      "description": "Située sur les hauteurs d'Alger, Kouba est un quartier résidentiel prisé pour son cadre de vie agréable et sa proximité avec le centre-ville. Elle offre un équilibre parfait entre calme et accessibilité, avec de nombreuses commodités à proximité.",
+      "image": "/assets/locality-icon/kouba-icon.png",
+      "heroImage": "/assets/locality/kouba.webp"
+    },
+    {
+      "id": 2,
+      "name": "HYDRA, ALGER",
+      "description": "Fièrement dressée sur les hauteurs d'Alger, Hydra est l'un des quartiers les plus prestigieux de la capitale. Réputée pour ses ambassades, ses résidences de luxe et ses espaces verts, elle incarne l'élégance et le raffinement.",
+      "image": "/assets/locality-icon/hydra-icon.png",
+      "heroImage": "/assets/locality/hydra.webp"
+    },
+    {
+      "id": 3,
+      "name": "BIRKHADEM, ALGER",
+      "description": "Autrefois célèbre pour ses vastes vergers, Birkhadem a su préserver son âme tout en se développant harmonieusement. Ce quartier résidentiel offre un cadre de vie paisible à proximité des principaux axes de la capitale.",
+      "image": "/assets/locality-icon/birkhadem-icon.png",
+      "heroImage": "/assets/locality/birkhadem.webp"
+    },
+    {
+      "id": 4,
+      "name": "DAR EL BEIDA, ALGER",
+      "description": "Porte d'entrée stratégique d'Alger avec son aéroport international, Dar El Beida est un pôle économique en pleine expansion. Le quartier allie dynamisme commercial et zones résidentielles en développement.",
+      "image": "/assets/locality-icon/dar-el-beida-icon.png",
+      "heroImage": "/assets/locality/dar-el-beida.webp"
+    },
+    {
+      "id": 5,
+      "name": "DELY IBRAHIM, ALGER",
+      "description": "Dely Ibrahim est une commune prisée pour son cadre verdoyant et sa qualité de vie. Ses villas cossues et ses résidences modernes en font un lieu de résidence recherché par les familles.",
+      "image": "/assets/locality-icon/dely-ibrahim-icon.png",
+      "heroImage": "/assets/locality/dely-ibrahim.webp"
+    },
+    {
+      "id": 6,
+      "name": "BAB EZZOUAR, ALGER",
+      "description": "Pôle universitaire et technologique majeur, Bab Ezzouar est un quartier dynamique et moderne. Son grand centre commercial, ses universités et ses zones d'activités en font un lieu de vie animé et connecté.",
+      "image": "/assets/locality-icon/beb-ezzouar-icon.png",
+      "heroImage": "/assets/locality/beb-ezzouar.webp"
+    },
+    {
+      "id": 7,
+      "name": "CHÉRAGA, ALGER",
+      "description": "Située sur les hauteurs d'Alger, Chéraga est une commune résidentielle qui a su préserver son caractère authentique. Elle offre un cadre de vie agréable avec des quartiers calmes et verdoyants.",
+      "image": "/assets/locality-icon/cheraga-icon.png",
+      "heroImage": "/assets/locality/cheraga.webp"
+    },
+    {
+      "id": 8,
+      "name": "DRARIA, ALGER",
+      "description": "Fièrement dressée sur les hauteurs d'Alger, Draria est un quartier résidentiel en plein essor. Elle séduit par son cadre de vie agréable et sa proximité avec les principaux axes routiers.",
+      "image": "/assets/locality-icon/draria-icon.png",
+      "heroImage": "/assets/locality/draria.webp"
+    },
+    {
+      "id": 9,
+      "name": "EL ACHOUR, ALGER",
+      "description": "Voisine de Draria et de Dely Ibrahim, El Achour est un quartier résidentiel paisible qui offre un cadre de vie agréable à ses habitants. Ses rues calmes et ses espaces verts en font un lieu de résidence prisé.",
+      "image": "/assets/locality-icon/el-achour-icon.png",
+      "heroImage": "/assets/locality/el-achour.webp"
+    },
+    {
+      "id": 10,
+      "name": "SAID HAMDINE, ALGER",
+      "description": "Quartier résidentiel et administratif, Said Hamdine est réputé pour son cadre de vie agréable et sa proximité avec le centre-ville. Ses rues arborées et ses résidences de standing en font un lieu de résidence prisé.",
+      "image": "/assets/locality-icon/said-hamdine-icon.png",
+      "heroImage": "/assets/locality/said-hamdine.webp"
+    },
+    {
+      "id": 11,
+      "name": "RUISSEAU, ALGER",
+      "description": "Carrefour stratégique entre le centre-ville et les hauteurs d'Alger, le Ruisseau est un quartier dynamique et bien desservi. Il offre un cadre de vie urbain avec toutes les commodités à proximité.",
+      "image": "/assets/locality-icon/ruisseau-icon.png",
+      "heroImage": "/assets/locality/ruisseau.webp"
+    },
+    {
+      "id": 12,
+      "name": "CHEVALLEY, ALGER",
+      "description": "Chevalley est un quartier prestigieux situé dans la commune de Bouzareah à Alger. Stratégiquement positionné, à la jonction des quartiers résidentiels d'El Biar et de Ben Aknoun, il bénéficie d'une excellente connectivité aux grands axes routiers, permettant de rejoindre aisément l'ensemble des communes d'Alger. Au cœur de ce secteur prisé se trouve un périmètre réputé pour ses villas de luxe au design contemporain et son niveau de sécurité d'exception. Le quartier dispose d'une offre de proximité complète, alliant marchés traditionnels, commerces, restaurants et cafés à l'ambiance conviviale. Établissements universitaires, structures hospitalières, instituts de beauté et salles de sport modernes complètent un environnement pensé pour le bien-être au quotidien. Les amateurs de loisirs profitent de la proximité du complexe sportif du 5 Juillet et d'un terrain de golf, tandis que le Parc Dounia et la forêt de Ben Aknoun offrent de véritables escapades en plein air, idéales pour se ressourcer en famille. Conjuguant héritage architectural et modernité, Chevalley s'affirme aujourd'hui comme l'une des adresses résidentielles les plus recherchées d'Alger.",
+      "image": "/assets/locality-icon/chevalley-icon.png",
+      "heroImage": "/assets/locality/chevalley.webp"
+    }
+  ]
+}

@@ -36,11 +36,23 @@ function mapProjectSummary(project) {
     status: plain.status,
     type: plain.type,
     address: plain.address,
-    coverImage: plain.coverImage || null,
+    coverImage: resolveCoverImage(plain),
     locality: plain.locality ? { id: String(plain.locality.id), name: plain.locality.name } : null,
     deliveryDate: plain.deliveryDate,
     price: { visibility: 'hidden', amount: null, currency: 'DZD', label: 'Sur demande' },
   };
+}
+
+// `coverImage` n'est pas déclaré comme colonne sur le modèle Project
+// (docs/audit_backend.md §2) : l'image de couverture est dérivée de la
+// relation ProjectImage (isCover=true), avec repli sur la première image
+// puis sur un éventuel champ `coverImage` si une évolution future l'ajoute.
+function resolveCoverImage(plain) {
+  if (Array.isArray(plain.images) && plain.images.length) {
+    const cover = plain.images.find((img) => img.isCover) || plain.images[0];
+    if (cover?.url) return cover.url;
+  }
+  return plain.coverImage || null;
 }
 
 function mapProjectDetail(project, similar) {
@@ -66,7 +78,7 @@ function mapProjectDetail(project, similar) {
 exports.home = async (req, res) => {
   try {
     const latestProjects = await Project.findAll({
-      include: ['locality'],
+      include: ['locality', 'images'],
       order: [['createdAt', 'DESC']],
       limit: 5,
     });
