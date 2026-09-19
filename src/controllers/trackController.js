@@ -81,7 +81,23 @@ exports.getStats = async (req, res) => {
 
     let byCampaignRows;
     let dailyRows;
+    let bySourceRows = [];
     try {
+      // Détail par source (= slug de /batimat/<slug> ou utm_source) : aucune
+      // colonne à ajouter, `qr_scans.source` existe déjà.
+      bySourceRows = await QrScan.findAll({
+        where: { ...where, source: { [Op.ne]: null } },
+        attributes: [
+          'campaign',
+          'source',
+          [fn('COUNT', col('id')), 'scans'],
+          [fn('COUNT', fn('DISTINCT', col('visitor_id'))), 'uniques'],
+          [fn('MAX', col('created_at')), 'lastScanAt'],
+        ],
+        group: ['campaign', 'source'],
+        raw: true,
+      });
+
       // Totaux par campagne : scans + visiteurs uniques.
       byCampaignRows = await QrScan.findAll({
         where,
@@ -130,6 +146,26 @@ exports.getStats = async (req, res) => {
     // Resté tolérant tant que la colonne `qr_campaign` n'a pas été ajoutée
     // (voir backend/sql/qr_tracking.sql) : on renvoie simplement 0 conversion.
     const conversionsByCampaign = {};
+    const conversionsBySource = {};
+    try {
+      const sourceConversionRows = await BatimatPreinscription.findAll({
+        where: {
+          qrCampaign: campaignFilter ? { [Op.in]: campaignFilter } : { [Op.ne]: null },
+          qrSource: { [Op.ne]: null },
+          created_at: { [Op.gte]: since },
+        },
+        attributes: ['qrCampaign', 'qrSource', [fn('COUNT', col('id')), 'conversions']],
+        group: ['qrCampaign', 'qrSource'],
+        raw: true,
+      });
+      sourceConversionRows.forEach((r) => {
+        const key = `${String(r.qrCampaign).toLowerCase()}|${String(r.qrSource).toLowerCase()}`;
+        conversionsBySource[key] = Number(r.conversions);
+      });
+    } catch (e) {
+      console.warn('[track] conversions par source indisponibles:', e.message);
+    }
+
     try {
       const conversionRows = await BatimatPreinscription.findAll({
         where: {
@@ -181,6 +217,21 @@ exports.getStats = async (req, res) => {
       since,
       totals,
       byCampaign,
+      bySource: bySourceRows
+        .sort((a, b) => Number(b.scans) - Number(a.scans))
+        .map((r) => {
+          const scans = Number(r.scans);
+          const conversions = conversionsBySource[`${r.campaign}|${String(r.source).toLowerCase()}`] || 0;
+          return {
+            campaign: r.campaign,
+            source: r.source,
+            scans,
+            uniques: Number(r.uniques),
+            conversions,
+            conversionRate: scans ? Math.round((conversions / scans) * 1000) / 10 : 0,
+            lastScanAt: r.lastScanAt,
+          };
+        }),
       daily: dailyRows.map((r) => ({
         day: r.day instanceof Date ? r.day.toISOString().slice(0, 10) : String(r.day).slice(0, 10),
         campaign: r.campaign,

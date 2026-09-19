@@ -2,7 +2,7 @@
 //
 //  - TRACKING_DASHBOARD_TOKEN / BATIMAT_DASHBOARD_TOKEN  -> voit TOUTES les campagnes
 //  - TRACKING_TOKEN_FLYER                                -> voit uniquement "flyer"
-//  - TRACKING_TOKEN_BATIMAT                              -> voit uniquement "batimat-bache"
+//  - TRACKING_TOKEN_BATIMAT                              -> voit "batimat-bache" et "batimat"
 //
 // Le périmètre est posé sur req.trackingScope = { all: bool, campaigns: string[]|null }.
 module.exports = function requireTrackingToken() {
@@ -16,9 +16,11 @@ module.exports = function requireTrackingToken() {
     const provided = (bearer || String(req.get('x-api-key') || '').trim()).trim();
 
     const masters = [env('TRACKING_DASHBOARD_TOKEN'), env('BATIMAT_DASHBOARD_TOKEN')].filter(Boolean);
+    // "batimat" = liens nommés /batimat/<slug> (le slug est stocké dans `source`) ;
+    // "batimat-bache" = QR figé de la bâche. Même responsable, même token.
     const scoped = [
-      { campaign: 'flyer', token: env('TRACKING_TOKEN_FLYER') },
-      { campaign: 'batimat-bache', token: env('TRACKING_TOKEN_BATIMAT') },
+      { campaigns: ['flyer'], token: env('TRACKING_TOKEN_FLYER') },
+      { campaigns: ['batimat-bache', 'batimat'], token: env('TRACKING_TOKEN_BATIMAT') },
     ].filter((s) => s.token);
 
     if (!masters.length && !scoped.length) {
@@ -33,7 +35,7 @@ module.exports = function requireTrackingToken() {
       return next();
     }
 
-    const allowed = scoped.filter((s) => s.token === provided).map((s) => s.campaign);
+    const allowed = scoped.filter((s) => s.token === provided).flatMap((s) => s.campaigns);
     if (allowed.length) {
       req.trackingScope = { all: false, campaigns: allowed };
       return next();
