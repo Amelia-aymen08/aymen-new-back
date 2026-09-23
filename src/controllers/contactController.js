@@ -1,6 +1,7 @@
 const db = require('../models');
 const { Contact } = require('../models');
 const { buildMessage, trackLeadInHubspot } = require('../services/hubspotForms');
+const { notifyCrm, requestContext } = require('../services/crmWebhook');
 
 exports.createContact = async (req, res) => {
   console.log("🚀 [CONTROLLER] createContact appelé !");
@@ -21,6 +22,8 @@ exports.createContact = async (req, res) => {
       attachment: attachmentPath,
       consent: consent === 'true' || consent === true
     });
+
+    notifyCrm('contact', contact, requestContext(req, { pageUri: clientPageUri, pageName }));
 
     try {
       const pageUri = clientPageUri || req.get('referer') || null;

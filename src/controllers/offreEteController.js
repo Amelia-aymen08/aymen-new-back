@@ -1,5 +1,6 @@
 const { OffreEteLead } = require('../models');
 const { buildMessage, trackLeadInHubspot } = require('../services/hubspotForms');
+const { notifyCrm, requestContext } = require('../services/crmWebhook');
 
 exports.createLead = async (req, res) => {
   try {
@@ -43,6 +44,8 @@ exports.createLead = async (req, res) => {
       preference,
       ipAddress,
     });
+
+    notifyCrm('offres_ete', lead, requestContext(req, { pageUri: clientPageUri, pageName }));
 
     try {
       const pageUri = clientPageUri || req.get('referer') || null;

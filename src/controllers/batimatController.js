@@ -1,5 +1,6 @@
 const { BatimatPreinscription } = require('../models');
 const { buildMessage, trackLeadInHubspot } = require('../services/hubspotForms');
+const { notifyCrm, requestContext } = require('../services/crmWebhook');
 const { COUNTRY_DIAL_CODES } = require('../data/countryDialCodes');
 
 // Format E.164 : indicatif + numéro national, 8 à 15 chiffres au total.
@@ -74,6 +75,8 @@ exports.createLead = async (req, res) => {
         throw e;
       }
     }
+
+    notifyCrm('batimat_2026', lead, requestContext(req, { pageUri: clientPageUri, pageName }));
 
     try {
       const pageUri = clientPageUri || req.get('referer') || null;

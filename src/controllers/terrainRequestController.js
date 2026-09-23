@@ -1,5 +1,6 @@
 const db = require('../models');
 const { buildMessage, trackLeadInHubspot } = require('../services/hubspotForms');
+const { notifyCrm, requestContext } = require('../services/crmWebhook');
 
 const createTerrainRequest = async (req, res) => {
   try {
@@ -54,6 +55,8 @@ const createTerrainRequest = async (req, res) => {
       papers: paperEntries.length ? JSON.stringify(paperEntries) : null,
       consent: consent === true || consent === 'true',
     });
+
+    notifyCrm('terrain_request', terrainRequest, requestContext(req, { pageUri: clientPageUri, pageName }));
 
     try {
       const pageUri = clientPageUri || req.get('referer') || null;

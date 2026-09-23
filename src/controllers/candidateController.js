@@ -1,6 +1,7 @@
 const db = require('../models');
 const Candidate = db.Candidate;
 const { buildMessage, trackLeadInHubspot } = require('../services/hubspotForms');
+const { notifyCrm, requestContext } = require('../services/crmWebhook');
 
 exports.createCandidate = async (req, res) => {
   try {
@@ -53,6 +54,8 @@ exports.createCandidate = async (req, res) => {
     const data = await Candidate.create(candidate);
     
     console.log("✅ [Candidate] Inséré avec succès:", data.toJSON());
+
+    notifyCrm('careers', data, requestContext(req, { pageUri: clientPageUri, pageName }));
 
     try {
       const pageUri = clientPageUri || req.get('referer') || null;

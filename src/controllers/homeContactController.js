@@ -1,5 +1,6 @@
 const { HomeContact } = require('../models');
 const { buildMessage, trackLeadInHubspot } = require('../services/hubspotForms');
+const { notifyCrm, requestContext } = require('../services/crmWebhook');
 
 exports.createHomeContact = async (req, res) => {
   try {
@@ -21,6 +22,8 @@ exports.createHomeContact = async (req, res) => {
       message,
       consent: consentValue,
     });
+
+    notifyCrm('home_contact', homeContact, requestContext(req, { pageUri: clientPageUri, pageName }));
 
     try {
       const pageUri = clientPageUri || req.get('referer') || null;

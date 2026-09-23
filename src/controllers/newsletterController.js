@@ -1,5 +1,6 @@
 const db = require('../models');
 const { trackLeadInHubspot } = require('../services/hubspotForms');
+const { notifyCrm, requestContext } = require('../services/crmWebhook');
 
 exports.subscribe = async (req, res) => {
   try {
@@ -14,7 +15,7 @@ exports.subscribe = async (req, res) => {
     const clientPageUri = req.body?.pageUri;
     const pageName = req.body?.pageName;
 
-    const [, created] = await db.Newsletter.findOrCreate({
+    const [subscriber, created] = await db.Newsletter.findOrCreate({
       where: { email },
       defaults: { email, source },
     });
@@ -22,6 +23,8 @@ exports.subscribe = async (req, res) => {
     if (!created) {
       return res.status(200).json({ success: true, message: 'Vous êtes déjà inscrit à notre newsletter.' });
     }
+
+    notifyCrm('newsletter', subscriber, requestContext(req, { pageUri: clientPageUri, pageName }));
 
     try {
       const pageUri = clientPageUri || req.get('referer') || null;

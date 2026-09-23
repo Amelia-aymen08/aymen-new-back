@@ -1,5 +1,6 @@
 const db = require('../models');
 const { Op } = require('sequelize');
+const { notifyCrm, requestContext } = require('../services/crmWebhook');
 
 function toInt(value, fallback) {
   const n = Number.parseInt(String(value || ''), 10);
@@ -50,6 +51,8 @@ async function createApplication(req, res) {
       studentCardPath: `uploads/concours-batitec/${file.filename}`,
       studentCardMime: file.mimetype,
     });
+
+    notifyCrm('concours_batitec', created, requestContext(req, { pageUri: req.body?.pageUri, pageName: req.body?.pageName }));
 
     return res.status(201).json({
       success: true,

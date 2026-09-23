@@ -1,5 +1,6 @@
 const db = require('../models');
 const { signToken } = require('../utils/batimatechAuth');
+const { notifyCrm, requestContext } = require('../services/crmWebhook');
 
 function parsePositiveInt(value, fallback) {
   const n = Number.parseInt(String(value ?? ''), 10);
@@ -108,6 +109,8 @@ async function createLead(req, res) {
       appointmentSlot: null,
       note: typeof note === 'string' && note.trim() ? note.trim().slice(0, 1200) : null,
     });
+
+    notifyCrm('batimatech_lead', lead, requestContext(req));
 
     return res.status(201).json({
       success: true,

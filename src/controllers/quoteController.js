@@ -1,6 +1,7 @@
 // controllers/quoteController.js
 const db = require('../models');
 const { buildMessage, trackLeadInHubspot } = require('../services/hubspotForms');
+const { notifyCrm, requestContext } = require('../services/crmWebhook');
 
 console.log('=== CHARGEMENT DU CONTROLLER QUOTE ===');
 console.log('db.Quote disponible:', !!db.Quote);
@@ -59,6 +60,8 @@ const createQuote = async (req, res) => {
     console.log('Création du devis...');
     const data = await db.Quote.create(quoteData);
     console.log('✅ Devis créé avec succès, ID:', data.id);
+
+    notifyCrm('quote', data, requestContext(req, { pageUri: clientPageUri, pageName }));
 
     try {
       const pageUri = clientPageUri || req.get('referer') || null;
