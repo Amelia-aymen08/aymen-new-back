@@ -2,6 +2,7 @@
 const db = require('../models');
 const { buildMessage, trackLeadInHubspot } = require('../services/hubspotForms');
 const { notifyCrm, requestContext } = require('../services/crmWebhook');
+const { pushLeadToOdoo } = require('../services/odooForms');
 
 console.log('=== CHARGEMENT DU CONTROLLER QUOTE ===');
 console.log('db.Quote disponible:', !!db.Quote);
@@ -98,7 +99,31 @@ const createQuote = async (req, res) => {
     } catch (e) {
       console.warn('[HubSpot] quote submit failed:', e?.message || e);
     }
-    
+
+    let odooStatus = null;
+    try {
+      odooStatus = await pushLeadToOdoo({
+        residence_id: String(sourceProject || ''),
+        nom: String(lastName || ''),
+        prenom: String(firstName || ''),
+        pays: String(country || ''),
+        email: String(email || ''),
+        telephone: String(phone || ''),
+        budget_estime: String(budget || ''),
+        wilaya: String(wilaya || ''),
+        profession: String(profession || ''),
+        type_financement: String(financing || ''),
+        interesse_par: String(interest || ''),
+        localisation_souhaitee: Array.isArray(locations) ? locations.join(', ') : String(locations || ''),
+        jour_contact: Array.isArray(contactDays) ? contactDays.join(', ') : String(contactDays || ''),
+        heure_contact: String(contactTime || ''),
+        statut_projet: String(projectStatus || ''),
+        projet: String(sourceProject || ''),
+      });
+    } catch (e) {
+      console.warn('[Odoo] quote submit failed:', e?.message || e);
+    }
+
     res.status(201).json({
       success: true,
       message: "Votre demande de devis a été envoyée avec succès !",
