@@ -120,8 +120,13 @@ const createQuote = async (req, res) => {
         statut_projet: String(projectStatus || ''),
         projet: String(sourceProject || ''),
       });
+      if (odooStatus?.sent) {
+        console.log('✅ [Odoo] Devis', data.id, 'poussé avec succès:', JSON.stringify(odooStatus.result));
+      } else {
+        console.warn('⚠️ [Odoo] Devis', data.id, 'NON poussé vers Odoo, raison:', odooStatus?.reason, odooStatus?.error || '');
+      }
     } catch (e) {
-      console.warn('[Odoo] quote submit failed:', e?.message || e);
+      console.warn('❌ [Odoo] quote submit failed:', e?.message || e);
     }
 
     res.status(201).json({
