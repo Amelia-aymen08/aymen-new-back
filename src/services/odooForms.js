@@ -93,6 +93,13 @@ async function sendLeadToOdoo(data, sessionCookies) {
     throw new Error(`Odoo lead submit failed (${res.statusCode}): ${res.raw}`);
   }
 
+  // Le endpoint JSON-RPC répond en HTTP 200 même en cas d'erreur applicative
+  // (ex: validation refusée côté Odoo) : l'erreur est dans le corps, pas le statut.
+  if (res.body?.error) {
+    const msg = res.body.error.data?.message || res.body.error.message || 'Odoo RPC error';
+    throw new Error(msg);
+  }
+
   return res.body;
 }
 
