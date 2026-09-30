@@ -77,7 +77,7 @@ async function sendBadgeEmail(reg) {
   try {
     const pdf = await generateBadgePdf(reg);
     const { subject, text, html } = buildEmail(reg);
-    await transporter.sendMail({
+    const info = await transporter.sendMail({
       from: process.env.MAIL_FROM || 'contact@aymenpromotion.com',
       envelope: process.env.SMTP_ENVELOPE_FROM
         ? { from: process.env.SMTP_ENVELOPE_FROM, to: reg.email }
@@ -90,6 +90,9 @@ async function sendBadgeEmail(reg) {
         { filename: 'badge-aymen-promotion-paris.pdf', content: pdf, contentType: 'application/pdf' },
       ],
     });
+    console.log(
+      `[batimat-after] badge accepté par le SMTP pour ${reg.email} — accepté: ${JSON.stringify(info.accepted)}, rejeté: ${JSON.stringify(info.rejected)}, réponse: ${info.response}, id: ${info.messageId}`
+    );
     return { sent: true };
   } catch (err) {
     console.error('[batimat-after] Échec envoi badge:', err.message);
