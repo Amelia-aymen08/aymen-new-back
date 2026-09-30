@@ -1,6 +1,58 @@
 {
   "projects": [
     {
+      "id": 31,
+      "title": "HÉLÉNITE",
+      "location": "Ain Allah, Dely Ibrahim, Alger",
+      "description": "Après le succès de ses résidences signatures, Aymen Promotion Immobilière présente la Résidence Hélénite, une nouvelle adresse d'exception à Ain Allah...",
+      "image": "/assets/projets/helenite.webp",
+      "status": "EN COURS",
+      "isNightMode": false,
+      "coverImage": "/assets/projets/couvertures/helenite.webp",
+      "fullDescription": "Hélénite, laissez-vous séduire par une nouvelle façon de vivre Alger.\n\nAprès le succès de ses résidences signatures, Aymen Promotion Immobilière présente la Résidence Hélénite, une nouvelle adresse d'exception à Ain Allah, sur les hauteurs de l'ouest algérois. Sa façade, animée de balcons ondulés et soulignée d'un éclairage doré, donne à la résidence une silhouette lumineuse, reconnaissable dès la tombée de la nuit.\n\nHélénite propose des appartements de haut standing du F2 au F5, des duplex, des appartements avec piscine privative, une rareté au cœur d'Alger, et des locaux commerciaux. La lumière naturelle entre largement dans les intérieurs et se prolonge vers de vastes balcons et terrasses ouverts sur l'horizon, du coucher du soleil aux lumières de la ville.\n\nAin Allah offre le calme d'une adresse résidentielle, tout près du cœur de la capitale : Garden City et Ben Aknoun à quelques minutes, les restaurants du Val et La Madrague, son port et ses tables de poissons, rapidement accessibles. Le F3 type de 107 m² dispose de deux chambres et de deux balcons ; le F4 type de 124 m² offre un séjour ouvert de près de 37 m², une suite parentale avec dressing et une terrasse de plus de 19 m².\n\nAymen Promotion assure la gestion complète de la copropriété : entretien des parties communes, jardinage, parking et gardiennage permanent. Nos conseillers accompagnent également les clients de la diaspora, de la visite à distance jusqu'à la remise des clés.",
+      "gallery": [
+        "/assets/projets/galeries/helenite/1.webp",
+        "/assets/projets/galeries/helenite/2.webp",
+        "/assets/projets/galeries/helenite/3.webp"
+      ],
+      "features": [
+        "Piscine Privative",
+        "Climatisation centralisée",
+        "Reception",
+        "Parking de Stationnement",
+        "Ascenseur",
+        "Fenetre",
+        "Cuisine",
+        "Bache a eau",
+        "Groupe electrogene"
+      ],
+      "details": [
+        {
+          "label": "Adresse",
+          "value": "Ain Allah, Dely Ibrahim"
+        },
+        {
+          "label": "Typologie",
+          "value": "F2 au F5, Duplex, Piscines privatives"
+        },
+        {
+          "label": "État d'avancement",
+          "value": "0 %"
+        }
+      ],
+      "mapLinkUrl": "https://www.google.com/maps/search/?api=1&query=Ain+Allah+Dely+Ibrahim+Alger",
+      "plans": [
+        {
+          "type": "F3",
+          "area": "107 m²"
+        },
+        {
+          "type": "F4",
+          "area": "124 m²"
+        }
+      ]
+    },
+    {
       "id": 29,
       "title": "ALTHEA",
       "location": "Chevalley, Alger",
