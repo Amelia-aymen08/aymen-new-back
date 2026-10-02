@@ -90,7 +90,11 @@ exports.createRegistration = async (req, res) => {
 // Liste pour le dashboard interne (token partagé).
 exports.getAll = async (req, res) => {
   try {
-    const rows = await BatimatAfterRegistration.findAll({ order: [['created_at', 'DESC']] });
+    // Le jeton du QR code et l'IP ne sortent pas de la base : le dashboard n'en a pas besoin.
+    const rows = await BatimatAfterRegistration.findAll({
+      attributes: { exclude: ['qrToken', 'ipAddress'] },
+      order: [['created_at', 'DESC']],
+    });
     return res.status(200).json(rows);
   } catch (error) {
     console.error('❌ [batimat-after] Error fetching registrations:', error);

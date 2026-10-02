@@ -3,7 +3,7 @@
     {
       "id": 31,
       "title": "HÉLÉNITE",
-      "location": "Ain Allah, Dely Ibrahim, Alger",
+      "location": "Ain Allah, Alger",
       "description": "Après le succès de ses résidences signatures, Aymen Promotion Immobilière présente la Résidence Hélénite, une nouvelle adresse d'exception à Ain Allah...",
       "image": "/assets/projets/helenite.webp",
       "status": "EN COURS",
@@ -29,7 +29,7 @@
       "details": [
         {
           "label": "Adresse",
-          "value": "Ain Allah, Dely Ibrahim"
+          "value": "Ain Allah"
         },
         {
           "label": "Typologie",
