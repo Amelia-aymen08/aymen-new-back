@@ -56,4 +56,6 @@ app.use('/api/batimat-after', require('./routes/batimatAfterRoutes'));
 app.use('/api/track', trackRoutes);
 app.use('/api/mobile/v1', mobileRoutes);
 
+app.use('/api/batimat-scanner', require('./routes/batimatScannerRoutes'));
+
 module.exports = app;
