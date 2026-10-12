@@ -53,6 +53,7 @@ app.use('/api/offres-ete', offreEteRoutes);
 app.use('/api/visite-virtuelle-rdv', visiteVirtuelleRdvRoutes);
 app.use('/api/batimat', batimatRoutes);
 app.use('/api/batimat-after', require('./routes/batimatAfterRoutes'));
+app.use('/api/jpo-helenite', require('./routes/jpoHeleniteRoutes'));
 app.use('/api/track', trackRoutes);
 app.use('/api/mobile/v1', mobileRoutes);
 
