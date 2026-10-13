@@ -1,4 +1,5 @@
 const nodemailer = require('nodemailer');
+const { generateBadgePdf, formatVisitDate } = require('./jpoHeleniteBadge');
 
 let cachedTransporter = null;
 
@@ -18,24 +19,17 @@ const escapeHtml = (v) =>
   String(v ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
 const SITE_URL = 'https://aymenpromotion-dz.com';
-const DAY_NAMES = ['dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi'];
-
-// « 2026-10-23 » → « Vendredi 23 octobre 2026 » (date calculée en UTC : pas de décalage de fuseau).
-function formatVisitDate(iso) {
-  const [y, m, d] = iso.split('-').map(Number);
-  const day = DAY_NAMES[new Date(Date.UTC(y, m - 1, d)).getUTCDay()];
-  return `${day.charAt(0).toUpperCase()}${day.slice(1)} ${d} octobre ${y}`;
-}
-
 function buildEmail(reg) {
   const dateLabel = formatVisitDate(reg.visitDate);
   const name = escapeHtml(reg.firstName);
 
-  const subject = 'Votre demande est bien reçue — Avant-première Hélénite';
+  const subject = 'Votre badge et votre inscription — Avant-première Hélénite';
   const text = [
     `Bonjour ${reg.firstName},`,
     '',
     'Merci pour votre inscription à l’avant-première de la Résidence Hélénite. Votre demande est bien enregistrée.',
+    '',
+    'Votre badge visiteur est en pièce jointe : présentez-le (imprimé ou sur votre téléphone) à l’accueil. Son QR code est personnel.',
     '',
     `Jour souhaité : ${dateLabel}`,
     `Créneau préféré : ${reg.timeSlot}`,
@@ -67,7 +61,8 @@ function buildEmail(reg) {
 <tr><td style="height:4px;background:#F7C66A;line-height:4px;font-size:0;">&nbsp;</td></tr>
 <tr><td style="padding:28px 32px;font-size:15px;line-height:1.6;">
 <p style="margin:0 0 14px;">Bonjour ${name},</p>
-<p style="margin:0 0 20px;">Merci pour votre inscription. Votre demande est bien enregistrée : vous faites partie des premiers à pouvoir découvrir <strong>Hélénite</strong>, son plan, ses prestations et ses conditions de lancement.</p>
+<p style="margin:0 0 14px;">Merci pour votre inscription. Votre demande est bien enregistrée : vous faites partie des premiers à pouvoir découvrir <strong>Hélénite</strong>, son plan, ses prestations et ses conditions de lancement.</p>
+<p style="margin:0 0 20px;">Votre <strong>badge visiteur</strong> est en pièce jointe : présentez-le, imprimé ou sur votre téléphone, à l’accueil. Son QR code est personnel, merci de ne pas le partager.</p>
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f2f7f5;border-left:4px solid #F7C66A;border-radius:8px;margin:0 0 20px;">
 <tr><td style="padding:14px 20px;">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
@@ -90,7 +85,7 @@ ${row('Lieu', 'Siège Commercial Aymen Promotion,<br>Said Hamdine')}
   return { subject, text, html };
 }
 
-// Envoie l'e-mail de confirmation de réception. Ne lève jamais : renvoie { sent, reason? }
+// Envoie l'e-mail de confirmation avec le badge en pièce jointe. Ne lève jamais : renvoie { sent, reason? }
 // pour que l'inscription (déjà enregistrée en base) ne soit pas perdue si le SMTP tombe.
 async function sendConfirmationEmail(reg) {
   const transporter = getTransporter();
@@ -99,6 +94,7 @@ async function sendConfirmationEmail(reg) {
     return { sent: false, reason: 'smtp_not_configured' };
   }
   try {
+    const pdf = await generateBadgePdf(reg);
     const { subject, text, html } = buildEmail(reg);
     const info = await transporter.sendMail({
       from: process.env.MAIL_FROM || 'contact@aymenpromotion.com',
@@ -109,6 +105,9 @@ async function sendConfirmationEmail(reg) {
       subject,
       text,
       html,
+      attachments: [
+        { filename: 'badge-helenite-aymen-promotion.pdf', content: pdf, contentType: 'application/pdf' },
+      ],
     });
     console.log(
       `[jpo-helenite] confirmation acceptée par le SMTP pour ${reg.email} — accepté: ${JSON.stringify(info.accepted)}, rejeté: ${JSON.stringify(info.rejected)}, id: ${info.messageId}`
