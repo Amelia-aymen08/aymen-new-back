@@ -77,7 +77,7 @@ function submitToHubspotForm({ portalId, formGuid, fields, context }) {
   });
 }
 
-async function trackLeadInHubspot({ kind, email, phone, fullName, firstName: givenFirst, lastName: givenLast, message, pageUri, pageName, ipAddress, userAgent, hutk }) {
+async function trackLeadInHubspot({ kind, email, phone, phoneFieldNames, fullName, firstName: givenFirst, lastName: givenLast, message, pageUri, pageName, ipAddress, userAgent, hutk }) {
   const portalId = getEnv('HUBSPOT_PORTAL_ID') || DEFAULT_PORTAL_ID;
   const formGuid = resolveHubspotFormGuid(kind);
   console.log(`[HubSpot] kind="${kind}" -> portalId=${portalId || 'MISSING'} formGuid=${formGuid || 'MISSING'}`);
@@ -87,13 +87,17 @@ async function trackLeadInHubspot({ kind, email, phone, fullName, firstName: giv
   const { firstName, lastName } = givenFirst || givenLast
     ? { firstName: givenFirst || '', lastName: givenLast || '' }
     : splitFullName(fullName);
-  const fields = [
+  // Nom(s) du champ téléphone : `phone` par défaut ; un formulaire dont le champ s'appelle autrement
+  // (ex. mobilephone) ignore silencieusement `phone`, d'où la possibilité d'en envoyer plusieurs.
+  const phoneNames = Array.isArray(phoneFieldNames) && phoneFieldNames.length ? phoneFieldNames : ['phone'];
+  const buildFields = (names) => [
     email ? { name: 'email', value: email } : null,
-    phone ? { name: 'phone', value: phone } : null,
+    ...(phone ? names.map((name) => ({ name, value: phone })) : []),
     firstName ? { name: 'firstname', value: firstName } : null,
     lastName ? { name: 'lastname', value: lastName } : null,
     message ? { name: 'message', value: message } : null,
   ].filter(Boolean);
+  const fields = buildFields(phoneNames);
 
   const context = {
     pageUri: pageUri || undefined,
@@ -102,7 +106,17 @@ async function trackLeadInHubspot({ kind, email, phone, fullName, firstName: giv
     hutk: hutk || undefined,
   };
 
-  await submitToHubspotForm({ portalId, formGuid, fields, context });
+  try {
+    await submitToHubspotForm({ portalId, formGuid, fields, context });
+  } catch (e) {
+    // Un nom de champ absent du formulaire fait refuser la soumission (400) : on réessaie avec `phone` seul.
+    if (phoneNames.length > 1 && /\(400\)/.test(e.message)) {
+      console.warn('[HubSpot] 400 avec les variantes du champ téléphone, nouvel essai avec « phone » seul:', e.details || '');
+      await submitToHubspotForm({ portalId, formGuid, fields: buildFields(['phone']), context });
+      return { sent: true, fallback: true };
+    }
+    throw e;
+  }
   return { sent: true };
 }
 

@@ -116,11 +116,13 @@ exports.createRegistration = async (req, res) => {
       kind: 'jpo_helenite',
       email: registration.email,
       phone: registration.phone,
+      phoneFieldNames: ['phone', 'mobilephone', 'phone_number'],
       firstName: registration.firstName,
       lastName: registration.lastName,
       message: buildMessage({
         title: 'Avant-première Résidence Hélénite (JPO)',
         lines: [
+          `Téléphone: ${registration.phone}`,
           `Jour souhaité: ${registration.visitDate}`,
           `Créneau: ${registration.timeSlot}`,
           registration.profile && `Profil: ${registration.profile}`,
