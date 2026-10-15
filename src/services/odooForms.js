@@ -28,6 +28,8 @@ function requestJson(targetUrl, { headers = {}, body } = {}) {
         method: 'POST',
         hostname: url.hostname,
         port: url.port || (url.protocol === 'http:' ? 80 : 443),
+        // IPv4 uniquement : une adresse IPv6 (AAAA) qui ne répond pas ferait expirer la connexion.
+        family: 4,
         path: `${url.pathname}${url.search}`,
         headers: {
           'Content-Type': 'application/json',
