@@ -38,7 +38,8 @@ function requestJson(targetUrl, { headers = {}, body } = {}) {
         },
         // Instance Odoo exposée en HTTPS sur IP brute avec certificat auto-signé.
         rejectUnauthorized: false,
-        timeout: 15000,
+        // Le visiteur n'attend plus Odoo (envoi en arrière-plan) : on laisse le temps de créer le lead.
+        timeout: 45000,
       },
       (res) => {
         const chunks = [];
@@ -126,13 +127,14 @@ async function pushLeadToOdoo(fields) {
       return null;
     });
 
-    // Une 2e tentative sur coupure réseau / délai dépassé (pas sur un refus applicatif d'Odoo).
+    // 2e tentative uniquement si la connexion n'a pas pu s'établir (la requête n'est alors jamais partie).
+    // Jamais sur un délai dépassé / une coupure en cours de route : Odoo a pu créer le lead, un renvoi ferait un doublon.
     let result;
     try {
       result = await sendLeadToOdoo(fields, sessionCookies);
     } catch (e) {
-      if (!/timeout|ECONN|EAI_AGAIN|ETIMEDOUT|socket hang up/i.test(String(e?.message || e) + String(e?.code || ''))) throw e;
-      console.warn('[Odoo] Réseau indisponible, nouvelle tentative dans 3 s:', e?.message || e);
+      if (!/ECONNREFUSED|EAI_AGAIN|ENOTFOUND/.test(String(e?.code || '') + String(e?.message || ''))) throw e;
+      console.warn('[Odoo] Connexion impossible, nouvelle tentative dans 3 s:', e?.message || e);
       await new Promise((r) => setTimeout(r, 3000));
       result = await sendLeadToOdoo(fields, sessionCookies);
     }
