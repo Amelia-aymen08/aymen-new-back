@@ -101,14 +101,15 @@ const createQuote = async (req, res) => {
       console.warn('[HubSpot] quote submit failed:', e?.message || e);
     }
 
-    let odooStatus = null;
+    // Odoo en arrière-plan : le visiteur n'attend pas la réponse du CRM (qui peut être lente ou
+    // injoignable). Le résultat est journalisé : `pm2 logs aymen-backend | grep Odoo`.
     try {
       // Odoo attend l'id numérique de la résidence (ex. « 2 »), pas son nom (« AZURITE »).
       const residenceId = resolveResidenceId(sourceProject);
       if (!residenceId) {
         console.warn('⚠️ [Odoo] Résidence inconnue pour sourceProject =', JSON.stringify(sourceProject));
       }
-      odooStatus = await pushLeadToOdoo({
+      pushLeadToOdoo({
         residence_id: residenceId,
         nom: String(lastName || ''),
         prenom: String(firstName || ''),
@@ -125,12 +126,15 @@ const createQuote = async (req, res) => {
         heure_contact: String(contactTime || ''),
         statut_projet: String(projectStatus || ''),
         projet: String(sourceProject || ''),
-      });
-      if (odooStatus?.sent) {
-        console.log('✅ [Odoo] Devis', data.id, 'poussé avec succès:', JSON.stringify(odooStatus.result));
-      } else {
-        console.warn('⚠️ [Odoo] Devis', data.id, 'NON poussé vers Odoo, raison:', odooStatus?.reason, odooStatus?.error || '');
-      }
+      })
+        .then((odooStatus) => {
+          if (odooStatus?.sent) {
+            console.log('✅ [Odoo] Devis', data.id, 'poussé avec succès:', JSON.stringify(odooStatus.result));
+          } else {
+            console.warn('⚠️ [Odoo] Devis', data.id, 'NON poussé vers Odoo, raison:', odooStatus?.reason, odooStatus?.error || '');
+          }
+        })
+        .catch((e) => console.warn('❌ [Odoo] quote submit failed:', e?.message || e));
     } catch (e) {
       console.warn('❌ [Odoo] quote submit failed:', e?.message || e);
     }
