@@ -11,6 +11,12 @@ function getEnv(name) {
   return typeof v === 'string' && v.trim() ? v.trim() : null;
 }
 
+// ODOO_URL peut être saisie avec un « / » final : on le retire pour ne pas appeler « //api/crm/lead ».
+function odooBaseUrl() {
+  const url = getEnv('ODOO_URL');
+  return url ? url.replace(/\/+$/, '') : null;
+}
+
 function requestJson(targetUrl, { headers = {}, body } = {}) {
   return new Promise((resolve, reject) => {
     const url = new URL(targetUrl);
@@ -58,7 +64,7 @@ function requestJson(targetUrl, { headers = {}, body } = {}) {
 }
 
 async function authenticateOdoo() {
-  const url = getEnv('ODOO_URL');
+  const url = odooBaseUrl();
   const db = getEnv('ODOO_DB');
   const login = getEnv('ODOO_USERNAME');
   const password = getEnv('ODOO_PASSWORD');
@@ -78,14 +84,15 @@ async function authenticateOdoo() {
 }
 
 async function sendLeadToOdoo(data, sessionCookies) {
-  const url = getEnv('ODOO_URL');
+  const url = odooBaseUrl();
   const apiKey = getEnv('ODOO_APIKEY');
 
   const res = await requestJson(`${url}/api/crm/lead`, {
     body: data,
     headers: {
       Authorization: `Bearer ${apiKey}`,
-      Cookie: sessionCookies.map((c) => c.split(';')[0]).join('; '),
+      // La clé API (Bearer) suffit pour /api/crm/lead : la session n'est jointe que si elle a pu être ouverte.
+      ...(sessionCookies?.length ? { Cookie: sessionCookies.map((c) => c.split(';')[0]).join('; ') } : {}),
     },
   });
 
@@ -108,14 +115,16 @@ async function sendLeadToOdoo(data, sessionCookies) {
  * un statut { sent, reason? } pour que l'appelant journalise sans planter.
  */
 async function pushLeadToOdoo(fields) {
-  const url = getEnv('ODOO_URL');
+  const url = odooBaseUrl();
   if (!url) return { sent: false, reason: 'missing_config' };
 
   try {
-    const sessionCookies = await authenticateOdoo();
-    if (!sessionCookies) {
-      return { sent: false, reason: 'auth_failed' };
-    }
+    // Session facultative : un échec d'authentification (base ODOO_DB, mot de passe…) ne bloque plus
+    // l'envoi, qui passe avec la clé API seule (comme un curl avec le Bearer).
+    const sessionCookies = await authenticateOdoo().catch((e) => {
+      console.warn('[Odoo] Authentification impossible, envoi avec la clé API seule:', e?.message || e);
+      return null;
+    });
 
     const result = await sendLeadToOdoo(fields, sessionCookies);
     return { sent: true, result };

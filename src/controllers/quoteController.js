@@ -3,6 +3,7 @@ const db = require('../models');
 const { buildMessage, trackLeadInHubspot } = require('../services/hubspotForms');
 const { notifyCrm, requestContext } = require('../services/crmWebhook');
 const { pushLeadToOdoo } = require('../services/odooForms');
+const { resolveResidenceId } = require('../data/odooResidences');
 
 console.log('=== CHARGEMENT DU CONTROLLER QUOTE ===');
 console.log('db.Quote disponible:', !!db.Quote);
@@ -102,8 +103,13 @@ const createQuote = async (req, res) => {
 
     let odooStatus = null;
     try {
+      // Odoo attend l'id numérique de la résidence (ex. « 2 »), pas son nom (« AZURITE »).
+      const residenceId = resolveResidenceId(sourceProject);
+      if (!residenceId) {
+        console.warn('⚠️ [Odoo] Résidence inconnue pour sourceProject =', JSON.stringify(sourceProject));
+      }
       odooStatus = await pushLeadToOdoo({
-        residence_id: String(sourceProject || ''),
+        residence_id: residenceId,
         nom: String(lastName || ''),
         prenom: String(firstName || ''),
         pays: String(country || ''),
