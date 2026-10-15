@@ -21,10 +21,17 @@ function buildMessage({ title, lines }) {
   return [title ? String(title) : null, ...safeLines].filter(Boolean).join('\n');
 }
 
+// Formulaires HubSpot dédiés (identifiants publics, présents dans le code d'intégration HubSpot).
+const DEFAULT_FORM_GUIDS = {
+  JPO_HELENITE: 'fc662e1a-fcf0-4ca5-a0e7-088e5193b033',
+};
+const DEFAULT_PORTAL_ID = '39983056';
+
 function resolveHubspotFormGuid(kind) {
   const k = typeof kind === 'string' ? kind.toUpperCase() : '';
   return (
     getEnv(`HUBSPOT_FORM_GUID_${k}`) ||
+    DEFAULT_FORM_GUIDS[k] ||
     getEnv('HUBSPOT_FORM_GUID') ||
     null
   );
@@ -70,13 +77,16 @@ function submitToHubspotForm({ portalId, formGuid, fields, context }) {
   });
 }
 
-async function trackLeadInHubspot({ kind, email, phone, fullName, message, pageUri, pageName, ipAddress, userAgent, hutk }) {
-  const portalId = getEnv('HUBSPOT_PORTAL_ID');
+async function trackLeadInHubspot({ kind, email, phone, fullName, firstName: givenFirst, lastName: givenLast, message, pageUri, pageName, ipAddress, userAgent, hutk }) {
+  const portalId = getEnv('HUBSPOT_PORTAL_ID') || DEFAULT_PORTAL_ID;
   const formGuid = resolveHubspotFormGuid(kind);
   console.log(`[HubSpot] kind="${kind}" -> portalId=${portalId || 'MISSING'} formGuid=${formGuid || 'MISSING'}`);
   if (!portalId || !formGuid) return { sent: false, reason: 'missing_config' };
 
-  const { firstName, lastName } = splitFullName(fullName);
+  // Prénom / nom déjà séparés (prénoms composés) sinon découpage du nom complet.
+  const { firstName, lastName } = givenFirst || givenLast
+    ? { firstName: givenFirst || '', lastName: givenLast || '' }
+    : splitFullName(fullName);
   const fields = [
     email ? { name: 'email', value: email } : null,
     phone ? { name: 'phone', value: phone } : null,

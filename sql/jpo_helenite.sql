@@ -30,6 +30,8 @@ CREATE TABLE IF NOT EXISTS `jpo_helenite_registrations` (
   `status`            VARCHAR(20)  NOT NULL DEFAULT 'nouveau',
   `qr_campaign`       VARCHAR(60)  NULL,
   `qr_source`         VARCHAR(60)  NULL,
+  `qr_medium`         VARCHAR(60)  NULL,
+  `badge_sent_at`     DATETIME     NULL,
   `ip_address`        VARCHAR(45)  NULL,
   `created_at`        DATETIME     NOT NULL,
   `updated_at`        DATETIME     NOT NULL,

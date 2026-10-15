@@ -1,4 +1,6 @@
-const { JpoHeleniteRegistration } = require('../models');
+const { Op, fn, col } = require('sequelize');
+const { JpoHeleniteRegistration, QrScan } = require('../models');
+const { buildMessage, trackLeadInHubspot } = require('../services/hubspotForms');
 const { notifyCrm, requestContext } = require('../services/crmWebhook');
 const { COUNTRY_DIAL_CODES } = require('../data/countryDialCodes');
 const { sendConfirmationEmail } = require('../services/jpoHeleniteMailer');
@@ -39,7 +41,7 @@ exports.createRegistration = async (req, res) => {
       firstName, lastName, email, phone, countryCode, visitDate, timeSlot,
       profile, typology, horizon, message,
       newsletterOptIn, consent,
-      pageUri: clientPageUri, pageName, qrCampaign, qrSource,
+      pageUri: clientPageUri, pageName, qrCampaign, qrSource, qrMedium,
     } = req.body;
 
     if (!firstName?.trim() || !lastName?.trim() || !email?.trim() || !phone?.trim()) {
@@ -101,12 +103,45 @@ exports.createRegistration = async (req, res) => {
       consent: true,
       qrCampaign: short(qrCampaign, 60)?.toLowerCase() || null,
       qrSource: short(qrSource, 60),
+      qrMedium: short(qrMedium, 60)?.toLowerCase() || null,
       ipAddress,
     });
 
     notifyCrm('jpo_helenite', registration, requestContext(req, { pageUri: clientPageUri, pageName }));
 
+    // Même inscription envoyée au formulaire HubSpot de l'équipe marketing — en arrière-plan,
+    // un échec HubSpot ne doit jamais faire échouer l'inscription.
+    const hubspotCtx = requestContext(req, { pageUri: clientPageUri, pageName });
+    trackLeadInHubspot({
+      kind: 'jpo_helenite',
+      email: registration.email,
+      phone: registration.phone,
+      firstName: registration.firstName,
+      lastName: registration.lastName,
+      message: buildMessage({
+        title: 'Avant-première Résidence Hélénite (JPO)',
+        lines: [
+          `Jour souhaité: ${registration.visitDate}`,
+          `Créneau: ${registration.timeSlot}`,
+          registration.profile && `Profil: ${registration.profile}`,
+          registration.typology && `Typologie: ${registration.typology}`,
+          registration.horizon && `Horizon: ${registration.horizon}`,
+          registration.message && `Précision: ${registration.message}`,
+          registration.qrSource && `Source: ${[registration.qrCampaign, registration.qrSource, registration.qrMedium].filter(Boolean).join(' / ')}`,
+          `Newsletter: ${registration.newsletterOptIn ? 'oui' : 'non'}`,
+        ],
+      }),
+      pageUri: hubspotCtx.pageUri,
+      pageName: hubspotCtx.pageName,
+      ipAddress: hubspotCtx.ipAddress,
+      userAgent: hubspotCtx.userAgent,
+      hutk: typeof req.body.hutk === 'string' ? req.body.hutk : undefined,
+    }).catch((e) => console.warn('[HubSpot] jpo_helenite submit failed:', e?.message || e, e?.details || ''));
+
     const mail = await sendConfirmationEmail(registration);
+    if (mail.sent) {
+      await registration.update({ badgeSentAt: new Date() }).catch(() => {});
+    }
 
     return res.status(201).json({
       id: registration.id,
@@ -135,5 +170,92 @@ exports.getAll = async (req, res) => {
   } catch (error) {
     console.error('❌ [jpo-helenite] Error fetching registrations:', error);
     return res.status(500).json({ message: 'Erreur lors de la récupération des inscriptions.' });
+  }
+};
+
+const STATUSES = ['nouveau', 'confirme', 'annule'];
+
+// Change le statut de suivi interne d'une inscription.
+exports.updateStatus = async (req, res) => {
+  try {
+    const { status } = req.body || {};
+    if (!STATUSES.includes(status)) {
+      return res.status(400).json({ message: 'Statut invalide.' });
+    }
+    const registration = await JpoHeleniteRegistration.findByPk(req.params.id);
+    if (!registration) return res.status(404).json({ message: 'Inscription introuvable.' });
+    await registration.update({ status });
+    return res.status(200).json({ id: registration.id, status });
+  } catch (error) {
+    console.error('❌ [jpo-helenite] Error updating status:', error);
+    return res.status(500).json({ message: 'Erreur lors de la mise à jour du statut.' });
+  }
+};
+
+// Renvoie le badge (e-mail tombé en spam, SMTP en panne à l'inscription…).
+exports.resendBadge = async (req, res) => {
+  try {
+    const registration = await JpoHeleniteRegistration.findByPk(req.params.id);
+    if (!registration) return res.status(404).json({ message: 'Inscription introuvable.' });
+
+    const mail = await sendConfirmationEmail(registration);
+    if (!mail.sent) {
+      return res.status(502).json({ message: "L'envoi du badge a échoué.", reason: mail.reason });
+    }
+    await registration.update({ badgeSentAt: new Date() });
+    return res.status(200).json({ message: 'Badge renvoyé.' });
+  } catch (error) {
+    console.error('❌ [jpo-helenite] Error resending badge:', error);
+    return res.status(500).json({ message: 'Erreur lors du renvoi du badge.' });
+  }
+};
+
+// Visites des liens suivis (utm / /jpo_helenite/<source>) : table `qr_scans`, filtrée sur les
+// pages /jpo_helenite*. Les inscriptions sont agrégées côté dashboard à partir de GET /.
+exports.getLinkStats = async (req, res) => {
+  try {
+    const includeBots = String(req.query.includeBots || '') === '1';
+    const where = { landingPath: { [Op.like]: '/jpo_helenite%' } };
+    if (!includeBots) where.isBot = false;
+
+    const links = await QrScan.findAll({
+      where,
+      attributes: [
+        'campaign',
+        'source',
+        'medium',
+        [fn('COUNT', col('id')), 'scans'],
+        [fn('COUNT', fn('DISTINCT', col('visitor_id'))), 'uniques'],
+        [fn('MAX', col('created_at')), 'lastScanAt'],
+      ],
+      group: ['campaign', 'source', 'medium'],
+      raw: true,
+    });
+
+    // DATE_FORMAT : chaîne yyyy-mm-dd (un DATE() brut serait renvoyé comme objet Date, décalé par le fuseau).
+    const dayExpr = fn('DATE_FORMAT', col('created_at'), '%Y-%m-%d');
+    const daily = await QrScan.findAll({
+      where,
+      attributes: [[dayExpr, 'day'], [fn('COUNT', col('id')), 'scans']],
+      group: [dayExpr],
+      order: [[dayExpr, 'ASC']],
+      raw: true,
+    });
+
+    return res.status(200).json({
+      links: links.map((l) => ({
+        campaign: l.campaign,
+        source: l.source,
+        medium: l.medium,
+        scans: Number(l.scans) || 0,
+        uniques: Number(l.uniques) || 0,
+        lastScanAt: l.lastScanAt,
+      })),
+      daily: daily.map((d) => ({ day: d.day, scans: Number(d.scans) || 0 })),
+    });
+  } catch (error) {
+    // Table qr_scans absente / mauvaise base : le dashboard reste utilisable sans les visites.
+    console.warn('[jpo-helenite] link stats indisponibles:', error.original?.sqlMessage || error.message);
+    return res.status(200).json({ links: [], daily: [], unavailable: true });
   }
 };

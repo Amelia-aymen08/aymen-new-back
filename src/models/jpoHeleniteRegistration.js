@@ -63,6 +63,17 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: true,
       field: 'qr_source',
     },
+    qrMedium: {
+      type: DataTypes.STRING(60),
+      allowNull: true,
+      field: 'qr_medium',
+    },
+    // Renseigné quand l'e-mail avec le badge a été accepté par le SMTP.
+    badgeSentAt: {
+      type: DataTypes.DATE,
+      allowNull: true,
+      field: 'badge_sent_at',
+    },
     ipAddress: {
       type: DataTypes.STRING(45),
       allowNull: true,
