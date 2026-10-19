@@ -27,6 +27,7 @@ try {
   db.BatimatPreinscription = require('./batimatPreinscription')(sequelize, DataTypes);
   db.BatimatAfterRegistration = require('./batimatAfterRegistration')(sequelize, DataTypes);
   db.JpoHeleniteRegistration = require('./jpoHeleniteRegistration')(sequelize, DataTypes);
+  db.JpoHeleniteDraft = require('./jpoHeleniteDraft')(sequelize, DataTypes);
   db.QrScan = require('./qrScan')(sequelize, DataTypes);
   
   // Vérifions que le fichier quote.js existe

@@ -4,6 +4,7 @@ const { buildMessage, trackLeadInHubspot } = require('../services/hubspotForms')
 const { notifyCrm, requestContext } = require('../services/crmWebhook');
 const { pushLeadToOdoo } = require('../services/odooForms');
 const { resolveResidenceId } = require('../data/odooResidences');
+const { buildOdooLead } = require('../services/odooQuoteLead');
 
 console.log('=== CHARGEMENT DU CONTROLLER QUOTE ===');
 console.log('db.Quote disponible:', !!db.Quote);
@@ -109,24 +110,7 @@ const createQuote = async (req, res) => {
       if (!residenceId) {
         console.warn('⚠️ [Odoo] Résidence inconnue pour sourceProject =', JSON.stringify(sourceProject));
       }
-      pushLeadToOdoo({
-        residence_id: residenceId,
-        nom: String(lastName || ''),
-        prenom: String(firstName || ''),
-        pays: String(country || ''),
-        email: String(email || ''),
-        telephone: String(phone || ''),
-        budget_estime: String(budget || ''),
-        wilaya: String(wilaya || ''),
-        profession: String(profession || ''),
-        type_financement: String(financing || ''),
-        interesse_par: String(interest || ''),
-        localisation_souhaitee: Array.isArray(locations) ? locations.join(', ') : String(locations || ''),
-        jour_contact: Array.isArray(contactDays) ? contactDays.join(', ') : String(contactDays || ''),
-        heure_contact: String(contactTime || ''),
-        statut_projet: String(projectStatus || ''),
-        projet: String(sourceProject || ''),
-      })
+      pushLeadToOdoo(buildOdooLead({ sourceProject, lastName, firstName, country, email, phone, budget, wilaya, profession, financing, interest, locations, contactDays, contactTime: contactTime, projectStatus }))
         .then((odooStatus) => {
           if (odooStatus?.sent) {
             console.log('✅ [Odoo] Devis', data.id, 'poussé avec succès:', JSON.stringify(odooStatus.result));
