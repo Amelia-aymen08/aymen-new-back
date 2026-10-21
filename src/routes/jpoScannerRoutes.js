@@ -10,6 +10,7 @@ const service = createJpoScannerService({
   Lead: models.JpoHeleniteLead,
   Scan: models.JpoHeleniteScan,
   Registration: models.JpoHeleniteRegistration,
+  Checkin: models.JpoHeleniteCheckin,
   sequelize: models.sequelize,
 });
 
@@ -20,6 +21,13 @@ const auth = makeAuth({
 
 const router = express.Router();
 router.use(auth);
+
+// Accès par rôle : « commercial » scanne et qualifie des prospects ; « accueil » enregistre seulement les
+// arrivées ; « manager » a les deux. Tous peuvent lire /session, /stats et chercher un visiteur.
+const allow = (...roles) => (req, res, next) =>
+  roles.includes(req.jpoAgent.role) ? next() : res.status(403).json({ code: 'FORBIDDEN', message: 'Cette action n’est pas disponible pour ce compte.' });
+const forLeads = allow('commercial', 'manager');
+const forReception = allow('accueil', 'manager');
 const wrap = (fn) => async (req, res, next) => {
   try {
     await fn(req, res);
@@ -39,7 +47,7 @@ router.get('/session', (req, res) =>
     temperatures: TEMPERATURES,
   }));
 router.get('/stats', wrap(async (req, res) => res.json(await service.stats(req.jpoAgent))));
-router.post('/scan', wrap(async (req, res) => {
+router.post('/scan', forLeads, wrap(async (req, res) => {
   const result = await service.scan(req.jpoAgent, { payload: req.body?.payload, registrationId: req.body?.registrationId });
   console.info(JSON.stringify({
     type: 'jpo_scan',
@@ -50,9 +58,17 @@ router.post('/scan', wrap(async (req, res) => {
   }));
   res.json(result);
 }));
-router.get('/leads', wrap(async (req, res) => res.json(await service.listLeads(req.jpoAgent, req.query))));
-router.get('/leads/:id', wrap(async (req, res) => res.json(await service.getLead(req.jpoAgent, req.params.id))));
-router.patch('/leads/:id', wrap(async (req, res) => res.json(await service.updateLead(req.jpoAgent, req.params.id, req.body))));
+router.get('/leads', forLeads, wrap(async (req, res) => res.json(await service.listLeads(req.jpoAgent, req.query))));
+router.get('/leads/:id', forLeads, wrap(async (req, res) => res.json(await service.getLead(req.jpoAgent, req.params.id))));
+router.patch('/leads/:id', forLeads, wrap(async (req, res) => res.json(await service.updateLead(req.jpoAgent, req.params.id, req.body))));
+router.post('/checkin', forReception, wrap(async (req, res) => {
+  const result = await service.checkIn(req.jpoAgent, { payload: req.body?.payload, registrationId: req.body?.registrationId });
+  console.info(JSON.stringify({
+    type: 'jpo_checkin', agent: req.jpoAgent.email, registrationId: result.visitor.id,
+    firstTime: result.firstTime, at: new Date().toISOString(),
+  }));
+  res.json(result);
+}));
 router.get('/registrations', wrap(async (req, res) => res.json(await service.searchRegistrations(req.jpoAgent, req.query))));
 
 router.use((error, req, res, next) => {

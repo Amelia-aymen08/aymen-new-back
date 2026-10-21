@@ -128,8 +128,37 @@ function endOfTodayAlgiers(now) {
   return new Date(shifted.getTime() - 3600000);
 }
 
-function createJpoScannerService({ Agent, Lead, Scan, Registration, sequelize, now = () => new Date() }) {
+function createJpoScannerService({ Agent, Lead, Scan, Registration, Checkin = null, sequelize, now = () => new Date() }) {
   const isManager = (agent) => agent.role === 'manager';
+
+  // Arrivée d'un visiteur : 1re arrivée conservée. `rescan` (accueil) incrémente le nombre de passages.
+  // Renvoie { row, firstTime }. Sans table des arrivées (Checkin absent), ne fait rien.
+  async function recordArrival(agent, regId, { rescan }) {
+    if (!Checkin) return null;
+    const at = now();
+    let row = await Checkin.findOne({ where: { registrationId: regId } });
+    if (row) {
+      if (rescan) {
+        await row.increment('scanCount');
+        await row.reload();
+      }
+      return { row, firstTime: false };
+    }
+    try {
+      row = await Checkin.create({ registrationId: regId, agentId: agent.id, checkedInAt: at, scanCount: 1 });
+      return { row, firstTime: true };
+    } catch (error) {
+      if (error.name !== 'SequelizeUniqueConstraintError') throw error;
+      row = await Checkin.findOne({ where: { registrationId: regId } });
+      return { row, firstTime: false };
+    }
+  }
+
+  async function arrivalsByRegistration(ids) {
+    if (!Checkin || !ids.length) return new Map();
+    const rows = await Checkin.findAll({ where: { registrationId: { [Op.in]: ids } } });
+    return new Map(rows.map((r) => [r.registrationId, r]));
+  }
 
   async function agentNames(ids) {
     const unique = [...new Set(ids)];
@@ -191,6 +220,13 @@ function createJpoScannerService({ Agent, Lead, Scan, Registration, sequelize, n
         return { lead, duplicate };
       });
 
+      // Un visiteur scanné par un commercial est forcément arrivé : l'arrivée est enregistrée si l'accueil ne l'a pas fait.
+      try {
+        await recordArrival(agent, regId, { rescan: false });
+      } catch (error) {
+        console.warn('[jpo-scanner] arrivée non enregistrée:', error.original?.sqlMessage || error.message);
+      }
+
       const names = await agentNames([result.lead.agentId]);
       const view = leadView(result.lead, registration, names.get(result.lead.agentId));
       return {
@@ -198,6 +234,23 @@ function createJpoScannerService({ Agent, Lead, Scan, Registration, sequelize, n
         mine: result.lead.agentId === agent.id,
         editable: canEdit(agent, result.lead),
         duplicate: result.duplicate && { ...result.duplicate, ownerName: view.agentName },
+      };
+    },
+
+    // Poste « accueil » : enregistre l'arrivée d'un visiteur (badge scanné ou inscription choisie à la main).
+    async checkIn(agent, { payload, registrationId }) {
+      if (!Checkin) fail(503, 'UNAVAILABLE', 'Enregistrement des arrivées indisponible.');
+      const regId = payload !== undefined ? parseBadge(payload) : validId(registrationId);
+      const registration = await Registration.findByPk(regId);
+      if (!registration) fail(404, 'NOT_FOUND', 'Badge introuvable dans les inscriptions.');
+      const { row, firstTime } = await recordArrival(agent, regId, { rescan: true });
+      const names = await agentNames([row.agentId]);
+      return {
+        visitor: publicVisitor(registration),
+        firstTime,
+        checkedInAt: iso(row.checkedInAt),
+        checkedInBy: names.get(row.agentId) || null,
+        scanCount: row.scanCount,
       };
     },
 
@@ -269,6 +322,12 @@ function createJpoScannerService({ Agent, Lead, Scan, Registration, sequelize, n
 
     // Compteurs de l'accueil : mes prospects (ou ceux de tous pour un manager).
     async stats(agent) {
+      if (agent.role === 'accueil') {
+        const arrivals = Checkin ? await Checkin.findAll({ attributes: ['id', 'checkedInAt'] }) : [];
+        const today = new Date(now().getTime() + 3600000).toISOString().slice(0, 10);
+        const arrivedToday = arrivals.filter((a) => new Date(new Date(a.checkedInAt).getTime() + 3600000).toISOString().slice(0, 10) === today).length;
+        return { arrived: arrivals.length, arrivedToday, registered: await Registration.count(), scope: 'reception', serverTime: now().toISOString() };
+      }
       const where = isManager(agent) ? {} : { agentId: agent.id };
       const leads = await Lead.findAll({ where, attributes: ['id', 'temperature', 'status', 'followUpAt', 'treatedAt'] });
       const end = endOfTodayAlgiers(now());
@@ -302,10 +361,11 @@ function createJpoScannerService({ Agent, Lead, Scan, Registration, sequelize, n
       const leads = rows.length ? await Lead.findAll({ where: { registrationId: { [Op.in]: rows.map((r) => r.id) } } }) : [];
       const names = await agentNames(leads.map((l) => l.agentId));
       const byReg = new Map(leads.map((l) => [l.registrationId, l]));
+      const arrivals = await arrivalsByRegistration(rows.map((r) => r.id));
       return {
         items: rows.map((r) => {
           const l = byReg.get(r.id);
-          return { ...publicVisitor(r), leadId: l ? l.id : null, ownerName: l ? names.get(l.agentId) || null : null, mine: l ? l.agentId === agent.id : false };
+          return { ...publicVisitor(r), leadId: l ? l.id : null, ownerName: l ? names.get(l.agentId) || null : null, mine: l ? l.agentId === agent.id : false, arrivedAt: arrivals.get(r.id) ? iso(arrivals.get(r.id).checkedInAt) : null };
         }),
         total: count,
         page,
@@ -321,6 +381,7 @@ function createJpoScannerService({ Agent, Lead, Scan, Registration, sequelize, n
       if (body && 'agentId' in body) {
         const agent = await Agent.findByPk(validId(body.agentId));
         if (!agent) fail(404, 'AGENT_NOT_FOUND', 'Commercial introuvable.');
+        if (agent.role === 'accueil') fail(400, 'INVALID_AGENT', 'Un compte accueil ne peut pas avoir de prospects.');
         changes.agentId = agent.id;
       }
       if (!Object.keys(changes).length) fail(400, 'NOTHING_TO_UPDATE', 'Aucune modification à enregistrer.');

@@ -1,7 +1,7 @@
 -- =============================================================================
 -- JPO HÉLÉNITE — application de scan des commerciaux (prospects, scans, comptes)
 --
--- Au redémarrage du backend, Sequelize (`sync`) crée ces 3 tables si elles n'existent pas :
+-- Au redémarrage du backend, Sequelize (`sync`) crée ces 4 tables si elles n'existent pas :
 -- ce script permet de le faire à la main (phpMyAdmin). Aucune table existante n'est modifiée.
 -- =============================================================================
 
@@ -53,4 +53,18 @@ CREATE TABLE IF NOT EXISTS `jpo_helenite_scans` (
   KEY `jpo_helenite_scans_registration` (`registration_id`),
   KEY `jpo_helenite_scans_agent` (`agent_id`),
   KEY `jpo_helenite_scans_created` (`created_at`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Arrivées des visiteurs (poste « accueil » ou 1er scan d'un commercial).
+CREATE TABLE IF NOT EXISTS `jpo_helenite_checkins` (
+  `id`              INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `registration_id` INT UNSIGNED NOT NULL,
+  `agent_id`        INT UNSIGNED NOT NULL,
+  `checked_in_at`   DATETIME     NOT NULL,
+  `scan_count`      INT          NOT NULL DEFAULT 1,
+  `created_at`      DATETIME     NOT NULL,
+  `updated_at`      DATETIME     NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `jpo_helenite_checkins_registration_id` (`registration_id`),
+  KEY `jpo_helenite_checkins_at` (`checked_in_at`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

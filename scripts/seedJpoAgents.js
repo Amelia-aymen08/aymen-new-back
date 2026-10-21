@@ -58,7 +58,7 @@ async function main() {
       await db.JpoHeleniteAgent.create({ name, email, role: person.role, passwordHash, active: true });
       created += 1;
     }
-    rows.push([String(person.lastName).toUpperCase(), cap(person.firstName), person.role === 'manager' ? 'Manager' : 'Commercial', email, password]);
+    rows.push([String(person.lastName).toUpperCase(), cap(person.firstName), person.role === 'manager' ? 'Manager' : person.role === 'accueil' ? 'Accueil' : 'Commercial', email, password]);
   }
 
   if (rows.length > 1 && sharedPassword) {

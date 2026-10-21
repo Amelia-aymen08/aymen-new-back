@@ -20,5 +20,6 @@
   { "lastName": "sobhani", "firstName": "narimane", "email": "n.sobhani@aymenpromotion.com", "role": "commercial" },
   { "lastName": "boudjella", "firstName": "sidahmed", "email": "s.boudjella@aymenpromotion.com", "role": "commercial" },
   { "lastName": "mouzaoui", "firstName": "hani", "email": "m.mouzaoui@aymenpromotion.com", "role": "commercial" },
-  { "lastName": "Ladj", "firstName": "wassim", "email": "w.ladj@aymenpromotion.com", "role": "manager" }
+  { "lastName": "Ladj", "firstName": "wassim", "email": "w.ladj@aymenpromotion.com", "role": "manager" },
+  { "lastName": "JPO", "firstName": "Accueil", "email": "accueil@aymenpromotion.com", "role": "accueil" }
 ]

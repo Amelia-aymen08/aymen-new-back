@@ -63,13 +63,14 @@ function setup() {
   const Lead = makeModel({ uniqueRegistration: true, fields: { scanCount: 1, treatedAt: null, temperature: null, status: 'a_contacter' } });
   const Scan = makeModel();
   const Registration = makeModel();
+  const Checkin = makeModel({ uniqueRegistration: true, fields: { scanCount: 1 } });
   let clock = new Date('2026-10-24T09:00:00Z');
   const service = createJpoScannerService({
-    Agent, Lead, Scan, Registration,
+    Agent, Lead, Scan, Registration, Checkin,
     sequelize: { transaction: async (fn) => fn({}) },
     now: () => clock,
   });
-  return { Agent, Lead, Scan, Registration, service, setNow: (d) => { clock = d; } };
+  return { Agent, Lead, Scan, Registration, Checkin, service, setNow: (d) => { clock = d; } };
 }
 
 async function world() {
@@ -77,8 +78,9 @@ async function world() {
   const sara = await w.Agent.create({ name: 'Sara Test', email: 'sara@x.com', role: 'commercial', active: true });
   const karim = await w.Agent.create({ name: 'Karim Test', email: 'karim@x.com', role: 'commercial', active: true });
   const boss = await w.Agent.create({ name: 'Boss', email: 'boss@x.com', role: 'manager', active: true });
+  const desk = await w.Agent.create({ name: 'Accueil 1', email: 'accueil@x.com', role: 'accueil', active: true });
   const reg = await w.Registration.create({ firstName: 'Nadia', lastName: 'Ben', email: 'n@b.com', phone: '+213555000111', visitDate: '2026-10-24', timeSlot: '09h - 10h' });
-  return { ...w, sara, karim, boss, reg };
+  return { ...w, sara, karim, boss, desk, reg };
 }
 
 test('parseBadge : accepte AYMEN-JPO26 et refuse le reste', () => {
@@ -220,4 +222,47 @@ test('auth : Basic e-mail/mot de passe, compte inactif refusé, limiteur', async
   assert.equal((await call('inconnu@x.com', 'Secret123')).status, 401);
   for (let i = 0; i < 12; i += 1) await call('a@x.com', 'mauvais');
   assert.equal((await call('a@x.com', 'Secret123')).status, 429, 'bloqué après trop d’échecs');
+});
+
+test('accueil : l’arrivée est enregistrée une fois, les rescans sont comptés', async () => {
+  const { service, desk, reg, Checkin } = await world();
+  const first = await service.checkIn(desk, { payload: `AYMEN-JPO26|${reg.id}|Nadia|Ben` });
+  assert.equal(first.firstTime, true);
+  assert.equal(first.checkedInBy, 'Accueil 1');
+  assert.equal(first.visitor.lastName, 'Ben');
+  const again = await service.checkIn(desk, { registrationId: reg.id });
+  assert.equal(again.firstTime, false);
+  assert.equal(again.scanCount, 2);
+  assert.equal(again.checkedInAt, first.checkedInAt, 'la 1re arrivée est conservée');
+  assert.equal(Checkin.rows.length, 1);
+  await assert.rejects(service.checkIn(desk, { registrationId: 999 }), { code: 'NOT_FOUND' });
+  await assert.rejects(service.checkIn(desk, { payload: 'AYMEN-BA26|1|a|b' }), { code: 'INVALID_QR' });
+});
+
+test('le scan d’un commercial enregistre aussi l’arrivée (sans écraser celle de l’accueil)', async () => {
+  const { service, sara, desk, reg, Registration, Checkin } = await world();
+  await service.scan(sara, { registrationId: reg.id });
+  assert.equal(Checkin.rows.length, 1);
+  assert.equal(Checkin.rows[0].agentId, sara.id);
+  const other = await Registration.create({ firstName: 'Z', lastName: 'Z', email: 'z@z.com', phone: '+2131' });
+  await service.checkIn(desk, { registrationId: other.id });
+  await service.scan(sara, { registrationId: other.id });
+  assert.equal(Checkin.rows.find((c) => c.registrationId === other.id).agentId, desk.id, 'arrivée de l’accueil conservée');
+});
+
+test('stats accueil : arrivés / inscrits, et recherche avec état d’arrivée', async () => {
+  const { service, desk, karim, reg, Registration } = await world();
+  await Registration.create({ firstName: 'B', lastName: 'B', email: 'b@b.com', phone: '+2132' });
+  await service.checkIn(desk, { registrationId: reg.id });
+  const stats = await service.stats(desk);
+  assert.deepEqual({ arrived: stats.arrived, arrivedToday: stats.arrivedToday, registered: stats.registered, scope: stats.scope },
+    { arrived: 1, arrivedToday: 1, registered: 2, scope: 'reception' });
+  const found = await service.searchRegistrations(karim, { q: 'nadia' });
+  assert.ok(found.items[0].arrivedAt, 'arrivée visible dans la recherche');
+});
+
+test('un prospect ne peut pas être affecté à un compte accueil', async () => {
+  const { service, sara, desk, reg } = await world();
+  const { lead } = await service.scan(sara, { registrationId: reg.id });
+  await assert.rejects(service.adminUpdateLead(lead.id, { agentId: desk.id }), { code: 'INVALID_AGENT' });
 });
