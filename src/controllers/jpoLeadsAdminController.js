@@ -4,8 +4,8 @@ const { generatePassword, hashPassword } = require('../services/jpoAgentAuth');
 const { createJpoScannerService, leadView } = require('../services/jpoScannerService');
 
 // Administration (dashboard web, protégé par le token dashboard) des prospects et comptes commerciaux.
-const { JpoHeleniteAgent: Agent, JpoHeleniteLead: Lead, JpoHeleniteScan: Scan, JpoHeleniteRegistration: Registration, JpoHeleniteCheckin: Checkin } = models;
-const service = createJpoScannerService({ Agent, Lead, Scan, Registration, Checkin, sequelize: models.sequelize });
+const { JpoHeleniteAgent: Agent, JpoHeleniteLead: Lead, JpoHeleniteScan: Scan, JpoHeleniteRegistration: Registration, JpoHeleniteCheckin: Checkin, JpoHelenitePassage: Passage } = models;
+const service = createJpoScannerService({ Agent, Lead, Scan, Registration, Checkin, Passage, sequelize: models.sequelize });
 
 const ROLES = ['commercial', 'manager', 'accueil'];
 const agentView = (a) => ({
@@ -29,11 +29,12 @@ const handle = (fn) => async (req, res) => {
 
 // Tout ce dont le dashboard a besoin en un appel : comptes, prospects (avec la fiche du visiteur) et journal des scans.
 exports.overview = handle(async (req, res) => {
-  const [agents, leads, scans, checkins] = await Promise.all([
+  const [agents, leads, scans, checkins, passages] = await Promise.all([
     Agent.findAll({ order: [['name', 'ASC']] }),
     Lead.findAll({ order: [['first_scanned_at', 'DESC']] }),
     Scan.findAll({ order: [['created_at', 'DESC']], limit: 20000 }),
     Checkin.findAll({ order: [['checked_in_at', 'DESC']], limit: 20000 }),
+    Passage.findAll({ order: [['id', 'ASC']], limit: 50000 }),
   ]);
   const regs = leads.length ? await Registration.findAll({ where: { id: leads.map((l) => l.registrationId) } }) : [];
   const regById = new Map(regs.map((r) => [r.id, r]));
@@ -49,6 +50,7 @@ exports.overview = handle(async (req, res) => {
       isDuplicate: s.isDuplicate,
       scannedAt: new Date(s.created_at).toISOString(),
     })),
+    passages: passages.map((p) => ({ registrationId: p.registrationId, agentId: p.agentId, direction: p.direction, at: new Date(p.created_at).toISOString() })),
     checkins: checkins.map((c) => ({ registrationId: c.registrationId, agentId: c.agentId, scanCount: c.scanCount, checkedInAt: new Date(c.checkedInAt).toISOString() })),
   });
 });

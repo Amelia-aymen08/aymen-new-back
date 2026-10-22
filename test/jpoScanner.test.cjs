@@ -64,13 +64,14 @@ function setup() {
   const Scan = makeModel();
   const Registration = makeModel();
   const Checkin = makeModel({ uniqueRegistration: true, fields: { scanCount: 1 } });
+  const Passage = makeModel();
   let clock = new Date('2026-10-24T09:00:00Z');
   const service = createJpoScannerService({
-    Agent, Lead, Scan, Registration, Checkin,
+    Agent, Lead, Scan, Registration, Checkin, Passage,
     sequelize: { transaction: async (fn) => fn({}) },
     now: () => clock,
   });
-  return { Agent, Lead, Scan, Registration, Checkin, service, setNow: (d) => { clock = d; } };
+  return { Agent, Lead, Scan, Registration, Checkin, Passage, service, setNow: (d) => { clock = d; } };
 }
 
 async function world() {
@@ -265,4 +266,46 @@ test('un prospect ne peut pas être affecté à un compte accueil', async () => 
   const { service, sara, desk, reg } = await world();
   const { lead } = await service.scan(sara, { registrationId: reg.id });
   await assert.rejects(service.adminUpdateLead(lead.id, { agentId: desk.id }), { code: 'INVALID_AGENT' });
+});
+
+test('entrée / sortie à l’accueil : sortie, retour, doublons', async () => {
+  const { service, desk, reg } = await world();
+  const badge = `AYMEN-JPO26|${reg.id}|Nadia|Ben`;
+  const inn = await service.checkIn(desk, { payload: badge });
+  assert.equal(inn.outcome, 'arrived');
+  assert.equal((await service.checkIn(desk, { payload: badge })).outcome, 'already_inside');
+  const out = await service.checkOut(desk, { payload: badge });
+  assert.equal(out.outcome, 'left');
+  assert.equal(out.leftBy, 'Accueil 1');
+  assert.equal((await service.checkOut(desk, { payload: badge })).outcome, 'already_left');
+  const back = await service.checkIn(desk, { payload: badge });
+  assert.equal(back.outcome, 'returned', 'un visiteur sorti peut revenir');
+  assert.equal(back.firstTime, false);
+  assert.equal((await service.checkOut(desk, { registrationId: reg.id })).outcome, 'left');
+});
+
+test('sortie : un visiteur checké par un commercial peut sortir ; jamais arrivé = refusé', async () => {
+  const { service, desk, sara, reg, Registration } = await world();
+  await service.scan(sara, { registrationId: reg.id }); // arrivée via le commercial
+  const out = await service.checkOut(desk, { registrationId: reg.id });
+  assert.equal(out.outcome, 'left');
+  const stranger = await Registration.create({ firstName: 'X', lastName: 'Y', email: 'x@y.com', phone: '+2139' });
+  await assert.rejects(service.checkOut(desk, { registrationId: stranger.id }), { code: 'NOT_CHECKED_IN' });
+  await assert.rejects(service.checkOut(desk, { registrationId: 9999 }), { code: 'NOT_FOUND' });
+});
+
+test('stats accueil et recherche : présents, sortis, état de présence', async () => {
+  const { service, desk, sara, reg, Registration } = await world();
+  const b = await Registration.create({ firstName: 'Bea', lastName: 'B', email: 'bea@b.com', phone: '+2138' });
+  const c = await Registration.create({ firstName: 'Cam', lastName: 'C', email: 'cam@c.com', phone: '+2137' });
+  await service.checkIn(desk, { registrationId: reg.id });
+  await service.scan(sara, { registrationId: b.id });           // arrivée par un commercial
+  await service.checkOut(desk, { registrationId: reg.id });     // sort
+  const stats = await service.stats(desk);
+  assert.deepEqual({ arrived: stats.arrived, inside: stats.inside, departed: stats.departed, registered: stats.registered },
+    { arrived: 2, inside: 1, departed: 1, registered: 3 });
+  const found = await service.searchRegistrations(desk, {});
+  const state = Object.fromEntries(found.items.map((i) => [i.firstName, i.presence]));
+  assert.deepEqual(state, { Nadia: 'left', Bea: 'inside', Cam: 'registered' });
+  assert.ok(c);
 });

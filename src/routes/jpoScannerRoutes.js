@@ -11,6 +11,7 @@ const service = createJpoScannerService({
   Scan: models.JpoHeleniteScan,
   Registration: models.JpoHeleniteRegistration,
   Checkin: models.JpoHeleniteCheckin,
+  Passage: models.JpoHelenitePassage,
   sequelize: models.sequelize,
 });
 
@@ -66,6 +67,14 @@ router.post('/checkin', forReception, wrap(async (req, res) => {
   console.info(JSON.stringify({
     type: 'jpo_checkin', agent: req.jpoAgent.email, registrationId: result.visitor.id,
     firstTime: result.firstTime, at: new Date().toISOString(),
+  }));
+  res.json(result);
+}));
+router.post('/checkout', forReception, wrap(async (req, res) => {
+  const result = await service.checkOut(req.jpoAgent, { payload: req.body?.payload, registrationId: req.body?.registrationId });
+  console.info(JSON.stringify({
+    type: 'jpo_checkout', agent: req.jpoAgent.email, registrationId: result.visitor.id,
+    outcome: result.outcome, at: new Date().toISOString(),
   }));
   res.json(result);
 }));

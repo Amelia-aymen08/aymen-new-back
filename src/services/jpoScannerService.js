@@ -128,7 +128,7 @@ function endOfTodayAlgiers(now) {
   return new Date(shifted.getTime() - 3600000);
 }
 
-function createJpoScannerService({ Agent, Lead, Scan, Registration, Checkin = null, sequelize, now = () => new Date() }) {
+function createJpoScannerService({ Agent, Lead, Scan, Registration, Checkin = null, Passage = null, sequelize, now = () => new Date() }) {
   const isManager = (agent) => agent.role === 'manager';
 
   // Arrivée d'un visiteur : 1re arrivée conservée. `rescan` (accueil) incrémente le nombre de passages.
@@ -153,6 +153,17 @@ function createJpoScannerService({ Agent, Lead, Scan, Registration, Checkin = nu
       return { row, firstTime: false };
     }
   }
+
+  // Dernier passage (entrée ou sortie) de chaque inscription : registrationId -> ligne.
+  async function lastPassages(ids) {
+    if (!Passage || !ids.length) return new Map();
+    const rows = await Passage.findAll({ where: { registrationId: { [Op.in]: ids } }, order: [['id', 'ASC']] });
+    const byReg = new Map();
+    rows.forEach((r) => byReg.set(r.registrationId, r));
+    return byReg;
+  }
+  // registered = pas encore arrivé · inside = présent · left = sorti (dernier passage « out »).
+  const presenceState = (arrival, last) => (!arrival ? 'registered' : last && last.direction === 'out' ? 'left' : 'inside');
 
   async function arrivalsByRegistration(ids) {
     if (!Checkin || !ids.length) return new Map();
@@ -237,21 +248,47 @@ function createJpoScannerService({ Agent, Lead, Scan, Registration, Checkin = nu
       };
     },
 
-    // Poste « accueil » : enregistre l'arrivée d'un visiteur (badge scanné ou inscription choisie à la main).
+    // Poste « accueil » — ENTRÉE : arrivée d'un visiteur (badge scanné ou inscription choisie à la main).
+    // outcome : 'arrived' (1re arrivée) · 'returned' (revient après une sortie) · 'already_inside'.
     async checkIn(agent, { payload, registrationId }) {
       if (!Checkin) fail(503, 'UNAVAILABLE', 'Enregistrement des arrivées indisponible.');
       const regId = payload !== undefined ? parseBadge(payload) : validId(registrationId);
       const registration = await Registration.findByPk(regId);
       if (!registration) fail(404, 'NOT_FOUND', 'Badge introuvable dans les inscriptions.');
       const { row, firstTime } = await recordArrival(agent, regId, { rescan: true });
+      const last = (await lastPassages([regId])).get(regId);
+      const wasOut = Boolean(last) && last.direction === 'out';
+      const outcome = firstTime ? 'arrived' : wasOut ? 'returned' : 'already_inside';
+      if (Passage && outcome !== 'already_inside') {
+        await Passage.create({ registrationId: regId, agentId: agent.id, direction: 'in' });
+      }
       const names = await agentNames([row.agentId]);
       return {
         visitor: publicVisitor(registration),
+        outcome,
         firstTime,
         checkedInAt: iso(row.checkedInAt),
         checkedInBy: names.get(row.agentId) || null,
         scanCount: row.scanCount,
       };
+    },
+
+    // Poste « accueil » — SORTIE : possible pour tout visiteur déjà arrivé (accueil OU scan d'un commercial).
+    // outcome : 'left' · 'already_left'. Un visiteur jamais arrivé est refusé (409).
+    async checkOut(agent, { payload, registrationId }) {
+      if (!Checkin || !Passage) fail(503, 'UNAVAILABLE', 'Enregistrement des sorties indisponible.');
+      const regId = payload !== undefined ? parseBadge(payload) : validId(registrationId);
+      const registration = await Registration.findByPk(regId);
+      if (!registration) fail(404, 'NOT_FOUND', 'Badge introuvable dans les inscriptions.');
+      const arrival = await Checkin.findOne({ where: { registrationId: regId } });
+      if (!arrival) fail(409, 'NOT_CHECKED_IN', 'Aucune arrivée enregistrée pour ce visiteur : il ne peut pas sortir.');
+      const last = (await lastPassages([regId])).get(regId);
+      if (last && last.direction === 'out') {
+        const names = await agentNames([last.agentId]);
+        return { visitor: publicVisitor(registration), outcome: 'already_left', leftAt: iso(last.created_at), leftBy: names.get(last.agentId) || null, checkedInAt: iso(arrival.checkedInAt) };
+      }
+      const passage = await Passage.create({ registrationId: regId, agentId: agent.id, direction: 'out' });
+      return { visitor: publicVisitor(registration), outcome: 'left', leftAt: iso(passage.created_at), leftBy: agent.name, checkedInAt: iso(arrival.checkedInAt) };
     },
 
     async getLead(agent, id) {
@@ -326,7 +363,15 @@ function createJpoScannerService({ Agent, Lead, Scan, Registration, Checkin = nu
         const arrivals = Checkin ? await Checkin.findAll({ attributes: ['id', 'checkedInAt'] }) : [];
         const today = new Date(now().getTime() + 3600000).toISOString().slice(0, 10);
         const arrivedToday = arrivals.filter((a) => new Date(new Date(a.checkedInAt).getTime() + 3600000).toISOString().slice(0, 10) === today).length;
-        return { arrived: arrivals.length, arrivedToday, registered: await Registration.count(), scope: 'reception', serverTime: now().toISOString() };
+        const lastByReg = new Map();
+        if (Passage) (await Passage.findAll({ order: [['id', 'ASC']] })).forEach((p) => lastByReg.set(p.registrationId, p));
+        const arrivedIds = new Set((Checkin ? await Checkin.findAll({ attributes: ['id', 'registrationId'] }) : []).map((a) => a.registrationId));
+        let departed = 0;
+        for (const id of arrivedIds) if (lastByReg.get(id)?.direction === 'out') departed += 1;
+        return {
+          arrived: arrivals.length, arrivedToday, departed, inside: arrivals.length - departed,
+          registered: await Registration.count(), scope: 'reception', serverTime: now().toISOString(),
+        };
       }
       const where = isManager(agent) ? {} : { agentId: agent.id };
       const leads = await Lead.findAll({ where, attributes: ['id', 'temperature', 'status', 'followUpAt', 'treatedAt'] });
@@ -362,10 +407,11 @@ function createJpoScannerService({ Agent, Lead, Scan, Registration, Checkin = nu
       const names = await agentNames(leads.map((l) => l.agentId));
       const byReg = new Map(leads.map((l) => [l.registrationId, l]));
       const arrivals = await arrivalsByRegistration(rows.map((r) => r.id));
+      const lastById = await lastPassages(rows.map((r) => r.id));
       return {
         items: rows.map((r) => {
           const l = byReg.get(r.id);
-          return { ...publicVisitor(r), leadId: l ? l.id : null, ownerName: l ? names.get(l.agentId) || null : null, mine: l ? l.agentId === agent.id : false, arrivedAt: arrivals.get(r.id) ? iso(arrivals.get(r.id).checkedInAt) : null };
+          return { ...publicVisitor(r), leadId: l ? l.id : null, ownerName: l ? names.get(l.agentId) || null : null, mine: l ? l.agentId === agent.id : false, arrivedAt: arrivals.get(r.id) ? iso(arrivals.get(r.id).checkedInAt) : null, presence: presenceState(arrivals.get(r.id), lastById.get(r.id)) };
         }),
         total: count,
         page,

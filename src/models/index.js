@@ -32,6 +32,7 @@ try {
   db.JpoHeleniteLead = require('./jpoHeleniteLead')(sequelize, DataTypes);
   db.JpoHeleniteScan = require('./jpoHeleniteScan')(sequelize, DataTypes);
   db.JpoHeleniteCheckin = require('./jpoHeleniteCheckin')(sequelize, DataTypes);
+  db.JpoHelenitePassage = require('./jpoHelenitePassage')(sequelize, DataTypes);
   db.QrScan = require('./qrScan')(sequelize, DataTypes);
   
   // Vérifions que le fichier quote.js existe
