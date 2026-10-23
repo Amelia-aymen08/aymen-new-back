@@ -39,6 +39,7 @@ exports.overview = handle(async (req, res) => {
   const regs = leads.length ? await Registration.findAll({ where: { id: leads.map((l) => l.registrationId) } }) : [];
   const regById = new Map(regs.map((r) => [r.id, r]));
   const nameById = new Map(agents.map((a) => [a.id, a.name]));
+  const checkinIds = new Set(checkins.map((c) => c.registrationId));
   res.json({
     agents: agents.map(agentView),
     leads: leads.map((l) => leadView(l, regById.get(l.registrationId), nameById.get(l.agentId))),
@@ -51,7 +52,13 @@ exports.overview = handle(async (req, res) => {
       scannedAt: new Date(s.created_at).toISOString(),
     })),
     passages: passages.map((p) => ({ registrationId: p.registrationId, agentId: p.agentId, direction: p.direction, at: new Date(p.created_at).toISOString() })),
-    checkins: checkins.map((c) => ({ registrationId: c.registrationId, agentId: c.agentId, scanCount: c.scanCount, checkedInAt: new Date(c.checkedInAt).toISOString() })),
+    // Arrivées : accueil + scan d'un commercial + (déduites) prospects scannés sans ligne d'arrivée.
+    checkins: [
+      ...checkins.map((c) => ({ registrationId: c.registrationId, agentId: c.agentId, scanCount: c.scanCount, checkedInAt: new Date(c.checkedInAt).toISOString() })),
+      ...leads
+        .filter((l) => !checkinIds.has(l.registrationId))
+        .map((l) => ({ registrationId: l.registrationId, agentId: l.agentId, scanCount: l.scanCount, checkedInAt: new Date(l.firstScannedAt).toISOString() })),
+    ],
   });
 });
 

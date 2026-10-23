@@ -284,13 +284,16 @@ test('entrée / sortie à l’accueil : sortie, retour, doublons', async () => {
   assert.equal((await service.checkOut(desk, { registrationId: reg.id })).outcome, 'left');
 });
 
-test('sortie : un visiteur checké par un commercial peut sortir ; jamais arrivé = refusé', async () => {
+test('sortie : un visiteur checké par un commercial peut sortir ; jamais scanné = accepté (noArrival)', async () => {
   const { service, desk, sara, reg, Registration } = await world();
   await service.scan(sara, { registrationId: reg.id }); // arrivée via le commercial
   const out = await service.checkOut(desk, { registrationId: reg.id });
   assert.equal(out.outcome, 'left');
   const stranger = await Registration.create({ firstName: 'X', lastName: 'Y', email: 'x@y.com', phone: '+2139' });
-  await assert.rejects(service.checkOut(desk, { registrationId: stranger.id }), { code: 'NOT_CHECKED_IN' });
+  // jamais scanné nulle part : la sortie n'est plus bloquée (arrivée ajoutée, signalée par noArrival)
+  const stray = await service.checkOut(desk, { registrationId: stranger.id });
+  assert.equal(stray.outcome, 'left');
+  assert.equal(stray.noArrival, true);
   await assert.rejects(service.checkOut(desk, { registrationId: 9999 }), { code: 'NOT_FOUND' });
 });
 
@@ -308,4 +311,32 @@ test('stats accueil et recherche : présents, sortis, état de présence', async
   const state = Object.fromEntries(found.items.map((i) => [i.firstName, i.presence]));
   assert.deepEqual(state, { Nadia: 'left', Bea: 'inside', Cam: 'registered' });
   assert.ok(c);
+});
+
+test('scans d’avant l’accueil : prospect SANS ligne d’arrivée = présent, il peut sortir (rien n’est écrasé)', async () => {
+  const { service, desk, sara, reg, Lead, Checkin, Passage } = await world();
+  // état réel en production : le commercial avait scanné avant l'existence de la table des arrivées
+  await Lead.create({ registrationId: reg.id, agentId: sara.id, firstScannedAt: new Date('2026-10-23T09:00:00Z'), lastScannedAt: new Date('2026-10-23T09:00:00Z'), scanCount: 1, status: 'a_contacter' });
+  assert.equal(Checkin.rows.length, 0);
+  const found = await service.searchRegistrations(desk, { q: 'nadia' });
+  assert.equal(found.items[0].presence, 'inside');
+  const stats = await service.stats(desk);
+  assert.deepEqual({ arrived: stats.arrived, inside: stats.inside, departed: stats.departed }, { arrived: 1, inside: 1, departed: 0 });
+  // entrée : déjà à l'intérieur, rien d'écrit
+  const again = await service.checkIn(desk, { registrationId: reg.id });
+  assert.equal(again.outcome, 'already_inside');
+  assert.equal(again.checkedInBy, 'Sara Test');
+  assert.equal(Checkin.rows.length, 0, 'aucune ligne d’arrivée inventée');
+  // sortie : acceptée sans exiger d'entrée préalable
+  const out = await service.checkOut(desk, { registrationId: reg.id });
+  assert.equal(out.outcome, 'left');
+  assert.equal(out.noArrival, false);
+  assert.equal(out.checkedInAt, '2026-10-23T09:00:00.000Z', 'heure d’arrivée = scan du commercial');
+  assert.equal(Passage.rows.filter((p) => p.direction === 'out').length, 1);
+  assert.equal((await service.checkOut(desk, { registrationId: reg.id })).outcome, 'already_left');
+  // les compteurs suivent
+  const after = await service.stats(desk);
+  assert.deepEqual({ arrived: after.arrived, inside: after.inside, departed: after.departed }, { arrived: 1, inside: 0, departed: 1 });
+  // retour possible après sortie
+  assert.equal((await service.checkIn(desk, { registrationId: reg.id })).outcome, 'returned');
 });
