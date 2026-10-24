@@ -1,6 +1,8 @@
 const { Op, fn, col } = require('sequelize');
 const { JpoHeleniteRegistration, JpoHeleniteDraft, QrScan } = require('../models');
 const { buildMessage, trackLeadInHubspot } = require('../services/hubspotForms');
+const { pushLeadToOdoo } = require('../services/odooForms');
+const { buildOdooLeadFromRegistration } = require('../services/odooJpoLead');
 const { notifyCrm, requestContext } = require('../services/crmWebhook');
 const { COUNTRY_DIAL_CODES } = require('../data/countryDialCodes');
 const { sendConfirmationEmail } = require('../services/jpoHeleniteMailer');
@@ -147,6 +149,19 @@ exports.createRegistration = async (req, res) => {
       userAgent: hubspotCtx.userAgent,
       hutk: typeof req.body.hutk === 'string' ? req.body.hutk : undefined,
     }).catch((e) => console.warn('[HubSpot] jpo_helenite submit failed:', e?.message || e, e?.details || ''));
+
+    // CRM Odoo, comme le formulaire de devis : en arrière-plan, un échec n'empêche jamais l'inscription.
+    // Résultat dans les logs : `pm2 logs aymen-backend | grep Odoo`.
+    try {
+      pushLeadToOdoo(buildOdooLeadFromRegistration(registration, { countryCode }))
+        .then((odoo) => {
+          if (odoo?.sent) console.log('✅ [Odoo] JPO Hélénite', registration.id, 'poussée avec succès:', JSON.stringify(odoo.result));
+          else console.warn('⚠️ [Odoo] JPO Hélénite', registration.id, 'NON poussée vers Odoo, raison:', odoo?.reason, odoo?.error || '');
+        })
+        .catch((e) => console.warn('❌ [Odoo] JPO Hélénite submit failed:', e?.message || e));
+    } catch (e) {
+      console.warn('❌ [Odoo] JPO Hélénite submit failed:', e?.message || e);
+    }
 
     const mail = await sendConfirmationEmail(registration);
     if (mail.sent) {
