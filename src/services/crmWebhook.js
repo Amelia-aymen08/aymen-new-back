@@ -1,4 +1,5 @@
 const crypto = require('crypto');
+const { pushFormToOdoo } = require('./odooFormLeads');
 
 // Webhook sortant : à chaque soumission de formulaire, on POST un JSON signé vers
 // l'URL du CRM interne (CRM_WEBHOOK_URL). L'envoi est en arrière-plan : il ne
@@ -70,6 +71,9 @@ async function deliverWithRetry(job) {
  * @param {object} [context] métadonnées de soumission (pageUri, pageName, ipAddress, userAgent…)
  */
 function notifyCrm(form, record, context = {}) {
+  // CRM Odoo : tous les formulaires y passent (voir odooFormLeads.js). Indépendant du webhook ci-dessous.
+  pushFormToOdoo(form, record, context);
+
   try {
     const url = getEnv('CRM_WEBHOOK_URL');
     if (!url) return;

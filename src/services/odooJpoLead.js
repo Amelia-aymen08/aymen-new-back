@@ -72,6 +72,18 @@ function buildOdooLeadFromRegistration(reg, { countryCode } = {}) {
     contactDays: weekdayFr(reg.visitDate),
     contactTime: contactTimeLabel(reg.timeSlot),
     projectStatus: projectStatusLabel(reg.horizon),
+    formulaire: 'jpo_helenite',
+    formulaireLabel: 'JPO Hélénite — avant-première',
+    message: [
+      `Visite souhaitée : ${weekdayFr(reg.visitDate)} ${reg.visitDate || ''} · ${reg.timeSlot || ''}`.trim(),
+      reg.profile ? `Profil : ${reg.profile}` : '',
+      reg.typology ? `Typologie : ${reg.typology}` : '',
+      reg.horizon ? `Horizon : ${reg.horizon}` : '',
+      reg.message ? `Question : ${reg.message}` : '',
+    ].filter(Boolean).join('\n'),
+    utmCampaign: reg.qrCampaign || '',
+    utmSource: reg.qrSource || '',
+    utmMedium: reg.qrMedium || '',
   });
 }
 

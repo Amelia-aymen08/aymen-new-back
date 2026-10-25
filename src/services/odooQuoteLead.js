@@ -33,6 +33,14 @@ function buildOdooLead(q) {
     heure_contact: String(q.contactTime || ''),
     statut_projet: String(q.projectStatus || ''),
     projet: String(q.sourceProject || ''),
+    // Traçabilité (ignorée par Odoo tant que son contrôleur n'est pas mis à jour) : quel formulaire a amené le lead.
+    formulaire: String(q.formulaire || ''),
+    formulaire_label: String(q.formulaireLabel || ''),
+    message: String(q.message || ''),
+    page_uri: String(q.pageUri || ''),
+    utm_campaign: String(q.utmCampaign || ''),
+    utm_source: String(q.utmSource || ''),
+    utm_medium: String(q.utmMedium || ''),
   };
 }
 

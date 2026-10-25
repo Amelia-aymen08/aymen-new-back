@@ -110,7 +110,7 @@ const createQuote = async (req, res) => {
       if (!residenceId) {
         console.warn('⚠️ [Odoo] Résidence inconnue pour sourceProject =', JSON.stringify(sourceProject));
       }
-      pushLeadToOdoo(buildOdooLead({ sourceProject, lastName, firstName, country, email, phone, budget, wilaya, profession, financing, interest, locations, contactDays, contactTime: contactTime, projectStatus }))
+      pushLeadToOdoo(buildOdooLead({ sourceProject, lastName, firstName, country, email, phone, budget, wilaya, profession, financing, interest, locations, contactDays, contactTime: contactTime, projectStatus, formulaire: 'devis_projet', formulaireLabel: `Devis — page projet ${sourceProject || ''}`.trim(), pageUri: clientPageUri }))
         .then((odooStatus) => {
           if (odooStatus?.sent) {
             console.log('✅ [Odoo] Devis', data.id, 'poussé avec succès:', JSON.stringify(odooStatus.result));

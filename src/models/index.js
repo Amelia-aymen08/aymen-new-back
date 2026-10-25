@@ -27,6 +27,7 @@ try {
   db.BatimatPreinscription = require('./batimatPreinscription')(sequelize, DataTypes);
   db.BatimatAfterRegistration = require('./batimatAfterRegistration')(sequelize, DataTypes);
   db.JpoHeleniteRegistration = require('./jpoHeleniteRegistration')(sequelize, DataTypes);
+  db.JpoNiceRegistration = require('./jpoNiceRegistration')(sequelize, DataTypes);
   db.JpoHeleniteDraft = require('./jpoHeleniteDraft')(sequelize, DataTypes);
   db.JpoHeleniteAgent = require('./jpoHeleniteAgent')(sequelize, DataTypes);
   db.JpoHeleniteLead = require('./jpoHeleniteLead')(sequelize, DataTypes);
