@@ -1,5 +1,6 @@
 const crypto = require('crypto');
-const { JpoNiceRegistration } = require('../models');
+const { Op, fn, col } = require('sequelize');
+const { JpoNiceRegistration, QrScan } = require('../models');
 const { notifyCrm, requestContext } = require('../services/crmWebhook');
 const { COUNTRY_DIAL_CODES } = require('../data/countryDialCodes');
 const { sendBadgeEmail } = require('../services/jpoNiceMailer');
@@ -146,5 +147,75 @@ exports.resendBadge = async (req, res) => {
   } catch (error) {
     console.error('❌ [jpo-nice] Error resending badge:', error);
     return res.status(500).json({ message: 'Erreur lors du renvoi du badge.' });
+  }
+};
+
+const STATUSES = ['nouveau', 'confirme', 'annule'];
+
+// Change le statut de suivi interne d'une inscription (dashboard).
+exports.updateStatus = async (req, res) => {
+  try {
+    const { status } = req.body || {};
+    if (!STATUSES.includes(status)) {
+      return res.status(400).json({ message: 'Statut invalide.' });
+    }
+    const registration = await JpoNiceRegistration.findByPk(Number(req.params.id));
+    if (!registration) return res.status(404).json({ message: 'Inscription introuvable.' });
+    await registration.update({ status });
+    return res.status(200).json({ id: registration.id, status });
+  } catch (error) {
+    console.error('❌ [jpo-nice] Error updating status:', error);
+    return res.status(500).json({ message: 'Erreur lors de la mise à jour du statut.' });
+  }
+};
+
+// Visites des liens suivis (utm / /jpo_nice/<source>) : table `qr_scans`, filtrée sur les pages /jpo_nice*.
+// Les inscriptions sont agrégées côté dashboard à partir de GET /.
+exports.getLinkStats = async (req, res) => {
+  try {
+    const includeBots = String(req.query.includeBots || '') === '1';
+    // `_` est un joker LIKE (un caractère quelconque) : couvre /jpo_nice et /jpo-nice.
+    const where = { landingPath: { [Op.like]: '/jpo_nice%' } };
+    if (!includeBots) where.isBot = false;
+
+    const links = await QrScan.findAll({
+      where,
+      attributes: [
+        'campaign',
+        'source',
+        'medium',
+        [fn('COUNT', col('id')), 'scans'],
+        [fn('COUNT', fn('DISTINCT', col('visitor_id'))), 'uniques'],
+        [fn('MAX', col('created_at')), 'lastScanAt'],
+      ],
+      group: ['campaign', 'source', 'medium'],
+      raw: true,
+    });
+
+    // DATE_FORMAT : chaîne yyyy-mm-dd (un DATE() brut serait renvoyé comme objet Date, décalé par le fuseau).
+    const dayExpr = fn('DATE_FORMAT', col('created_at'), '%Y-%m-%d');
+    const daily = await QrScan.findAll({
+      where,
+      attributes: [[dayExpr, 'day'], [fn('COUNT', col('id')), 'scans']],
+      group: [dayExpr],
+      order: [[dayExpr, 'ASC']],
+      raw: true,
+    });
+
+    return res.status(200).json({
+      links: links.map((l) => ({
+        campaign: l.campaign,
+        source: l.source,
+        medium: l.medium,
+        scans: Number(l.scans) || 0,
+        uniques: Number(l.uniques) || 0,
+        lastScanAt: l.lastScanAt,
+      })),
+      daily: daily.map((d) => ({ day: d.day, scans: Number(d.scans) || 0 })),
+    });
+  } catch (error) {
+    // Table qr_scans absente / mauvaise base : le dashboard reste utilisable sans les visites.
+    console.warn('[jpo-nice] link stats indisponibles:', error.original?.sqlMessage || error.message);
+    return res.status(200).json({ links: [], daily: [], unavailable: true });
   }
 };
