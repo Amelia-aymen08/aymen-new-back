@@ -1,0 +1,10 @@
+[
+  { "lastName": "djezar", "firstName": "yacine", "email": "y.djezar@aymenpromotion.com", "role": "commercial" },
+  { "lastName": "hamidi", "firstName": "hichem", "email": "h.hamidi@aymenpromotion.com", "role": "commercial" },
+  { "lastName": "ouadah", "firstName": "neila", "email": "n.ouadah@aymenpromotion.com", "role": "commercial" },
+  { "lastName": "amaouche", "firstName": "yamina", "email": "y.amaouche@aymenpromotion.com", "role": "commercial" },
+  { "lastName": "saidi", "firstName": "tarik", "email": "t.saidi@aymenpromotion.com", "role": "accueil" },
+  { "lastName": "ouabadi", "firstName": "samir", "email": "s.ouabadi@aymenpromotion.com", "role": "accueil" },
+  { "lastName": "bouremma", "firstName": "cerine", "email": "c.bouremma@aymenpromotion.com", "role": "accueil" },
+  { "lastName": "kribel", "firstName": "merouane", "email": "m.kribel@aymenpromotion.com", "role": "accueil" }
+]

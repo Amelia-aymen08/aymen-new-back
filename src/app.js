@@ -56,6 +56,7 @@ app.use('/api/batimat-after', require('./routes/batimatAfterRoutes'));
 app.use('/api/jpo-helenite', require('./routes/jpoHeleniteRoutes'));
 app.use('/api/jpo-nice', require('./routes/jpoNiceRoutes'));
 app.use('/api/jpo-scanner', require('./routes/jpoScannerRoutes'));
+app.use('/api/jpo-nice-scanner', require('./routes/jpoNiceScannerRoutes'));
 app.use('/api/track', trackRoutes);
 app.use('/api/mobile/v1', mobileRoutes);
 
