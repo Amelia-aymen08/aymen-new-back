@@ -5,6 +5,9 @@
 //   node scripts/seedJpoNiceAgents.js --out /chemin/x.csv    -> choisit le fichier de sortie
 //   node scripts/seedJpoNiceAgents.js --reset-existing       -> génère aussi un NOUVEAU mot de passe pour les comptes existants
 //   node scripts/seedJpoNiceAgents.js --password "MotDePasse" -> MÊME mot de passe pour tous les comptes créés (8 caractères minimum)
+//   node scripts/seedJpoNiceAgents.js --password-commercial "A" --password-accueil "B"
+//                                                            -> un mot de passe pour les commerciaux, un autre pour l'accueil
+//                                                               (avec --reset-existing : appliqués aussi aux comptes déjà créés)
 //
 // Sans option, un compte déjà présent n'est pas touché. Les mots de passe ne sont stockés qu'en hash : le CSV est le
 // seul endroit où ils apparaissent en clair → le transmettre de façon sécurisée puis le SUPPRIMER du serveur.
@@ -28,10 +31,15 @@ async function main() {
   const outPath = path.resolve(arg('out') || `jpo-nice-comptes-${new Date().toISOString().slice(0, 10)}.csv`);
   const resetExisting = process.argv.includes('--reset-existing');
   const sharedPassword = arg('password');
-  if (sharedPassword !== null && sharedPassword.length < 8) {
-    console.error('Le mot de passe commun doit faire au moins 8 caractères.');
-    process.exit(1);
+  // Mots de passe par rôle (--password-commercial / --password-accueil) : prioritaires sur --password.
+  const rolePasswords = { commercial: arg('password-commercial'), accueil: arg('password-accueil'), manager: arg('password-manager') };
+  for (const value of [sharedPassword, ...Object.values(rolePasswords)]) {
+    if (value !== null && value.length < 8) {
+      console.error('Les mots de passe imposés doivent faire au moins 8 caractères.');
+      process.exit(1);
+    }
   }
+  const imposed = (role) => rolePasswords[role] ?? sharedPassword;
 
   // Crée les tables Nice si elles n'existent pas encore (aucune table existante n'est modifiée).
   for (const model of [db.JpoNiceAgent, db.JpoNiceLead, db.JpoNiceScan, db.JpoNiceCheckin, db.JpoNicePassage]) await model.sync();
@@ -49,7 +57,7 @@ async function main() {
       console.log(`= ${email} existe déjà (inchangé)`);
       continue;
     }
-    const password = sharedPassword || generatePassword();
+    const password = imposed(person.role) || generatePassword();
     const passwordHash = await hashPassword(password);
     if (existing) {
       await existing.update({ passwordHash, name, role: person.role, active: true });
@@ -61,8 +69,9 @@ async function main() {
     rows.push([String(person.lastName).toUpperCase(), cap(person.firstName), ROLE_LABELS[person.role] || person.role, email, password]);
   }
 
-  if (rows.length > 1 && sharedPassword) {
-    console.log('Mot de passe commun appliqué. Identifiant = e-mail de chaque compte.');
+  const allImposed = list.every((p) => imposed(p.role));
+  if (rows.length > 1 && allImposed) {
+    console.log('Mots de passe imposés appliqués (aucun CSV). Identifiant = e-mail de chaque compte.');
   } else if (rows.length > 1) {
     const esc = (v) => `"${String(v).replace(/"/g, '""')}"`;
     fs.writeFileSync(outPath, `﻿${rows.map((r) => r.map(esc).join(';')).join('\n')}\n`, { mode: 0o600 });
