@@ -40,7 +40,12 @@ try {
   db.JpoNiceCheckin = require('./jpoNiceCheckin')(sequelize, DataTypes);
   db.JpoNicePassage = require('./jpoNicePassage')(sequelize, DataTypes);
   db.QrScan = require('./qrScan')(sequelize, DataTypes);
-  
+
+  // Blog multilingue + comptes du back-office
+  db.BlogPost = require('./blogPost')(sequelize, DataTypes);
+  db.BlogPostTranslation = require('./blogPostTranslation')(sequelize, DataTypes);
+  db.AdminUser = require('./adminUser')(sequelize, DataTypes);
+
   // Vérifions que le fichier quote.js existe
   console.log('Tentative de chargement de quote.js...');
   const quoteModel = require('./quote');
@@ -68,6 +73,11 @@ try {
 if (db.Locality && db.Project) {
   db.Locality.hasMany(db.Project, { foreignKey: 'localityId', as: 'projects' });
   db.Project.belongsTo(db.Locality, { foreignKey: 'localityId', as: 'locality' });
+}
+
+if (db.BlogPost && db.BlogPostTranslation) {
+  db.BlogPost.hasMany(db.BlogPostTranslation, { foreignKey: 'postId', as: 'translations', onDelete: 'CASCADE' });
+  db.BlogPostTranslation.belongsTo(db.BlogPost, { foreignKey: 'postId', as: 'post' });
 }
 
 if (db.Project && db.ProjectImage) {

@@ -1,3 +1,5 @@
+const jsonGetter = require('../jsonGetter');
+
 module.exports = (sequelize, DataTypes) => {
   const MobileEvent = sequelize.define('MobileEvent', {
     id: {
@@ -28,6 +30,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     payload: {
       type: DataTypes.JSON,
+      get: jsonGetter('payload'),
       allowNull: true,
     },
   }, {

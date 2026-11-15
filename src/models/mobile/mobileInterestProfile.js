@@ -1,3 +1,5 @@
+const jsonGetter = require('../jsonGetter');
+
 module.exports = (sequelize, DataTypes) => {
   const MobileInterestProfile = sequelize.define('MobileInterestProfile', {
     userId: {
@@ -10,10 +12,12 @@ module.exports = (sequelize, DataTypes) => {
     },
     localityIds: {
       type: DataTypes.JSON,
+      get: jsonGetter('localityIds'),
       allowNull: true,
     },
     typologies: {
       type: DataTypes.JSON,
+      get: jsonGetter('typologies'),
       allowNull: true,
     },
     budgetBand: {

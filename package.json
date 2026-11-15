@@ -22,6 +22,7 @@
     "nodemailer": "^10.0.9",
     "pdf-lib": "^1.17.1",
     "qrcode": "^1.5.4",
+    "sanitize-html": "^2.18.2",
     "sequelize": "^6.37.7",
     "uuid": "^14.0.2"
   },

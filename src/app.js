@@ -62,4 +62,10 @@ app.use('/api/mobile/v1', mobileRoutes);
 
 app.use('/api/batimat-scanner', require('./routes/batimatScannerRoutes'));
 
+// Blog multilingue (public) + back-office (dashboard /admin du site Next.js)
+const blogRoutes = require('./routes/blogRoutes');
+app.use('/api/blog', blogRoutes);
+app.get('/api/blog-index', blogRoutes.index);
+app.use('/api/admin', require('./routes/adminRoutes'));
+
 module.exports = app;

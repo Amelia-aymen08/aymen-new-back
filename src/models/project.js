@@ -1,3 +1,5 @@
+const jsonGetter = require('./jsonGetter');
+
 module.exports = (sequelize, DataTypes) => {
   const Project = sequelize.define('Project', {
     title: {
@@ -35,6 +37,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     features: {
       type: DataTypes.JSON, // Stores array of features like ["Piscine", "Parking"]
+      get: jsonGetter('features'),
       allowNull: true,
     },
     deliveryDate: {
