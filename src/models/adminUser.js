@@ -37,6 +37,9 @@ module.exports = (sequelize, DataTypes) => {
     },
   }, {
     tableName: 'admin_users',
+    // utf8mb4 : textes arabes (la base par défaut du serveur n'est pas en UTF-8 complet).
+    charset: 'utf8mb4',
+    collate: 'utf8mb4_unicode_ci',
     createdAt: 'created_at',
     updatedAt: 'updated_at',
   });
