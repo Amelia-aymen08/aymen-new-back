@@ -195,7 +195,8 @@ exports.translate = async (req, res) => {
   const to = LOCALES.includes(req.body?.to) ? req.body.to : null;
   if (!to || to === from) return res.status(400).json({ message: 'Langue cible invalide.' });
   const fields = {};
-  for (const k of ['title', 'excerpt', 'metaTitle', 'metaDescription', 'contentHtml']) {
+  // Champs du blog + champs des fiches projet / localité (shortDescription, description, typology).
+  for (const k of ['title', 'excerpt', 'metaTitle', 'metaDescription', 'contentHtml', 'shortDescription', 'description', 'typology']) {
     if (req.body?.fields?.[k]) fields[k] = String(req.body.fields[k]);
   }
   if (!Object.keys(fields).length) return res.status(400).json({ message: 'Rien à traduire.' });

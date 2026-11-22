@@ -17,7 +17,8 @@ const asList = (value) => {
 // Devis du site -> charge utile de l'endpoint Odoo /api/crm/lead (noms de champs Odoo).
 function buildOdooLead(q) {
   return {
-    residence_id: resolveResidenceId(q.sourceProject),
+    // Id fourni par l'appelant (fiche projet du dashboard), sinon table fixe odooResidences.js.
+    residence_id: q.residenceId ? String(q.residenceId) : resolveResidenceId(q.sourceProject),
     nom: String(q.lastName || ''),
     prenom: String(q.firstName || ''),
     pays: String(q.country || ''),

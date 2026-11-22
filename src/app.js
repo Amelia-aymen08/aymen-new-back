@@ -25,6 +25,8 @@ app.use('/uploads', express.static('uploads'));
 
 // Database synchronization with error handling
 db.sequelize.sync({ alter: false }) // Utilisez { force: true } seulement en développement
+  // Colonnes ajoutées aux tables du catalogue (projets / localités) depuis leur création.
+  .then(() => require('./services/catalogSchema').ensureCatalogSchema())
   .then(() => {
     console.log('✅ Database synced successfully.');
     console.log('📊 Available models:', Object.keys(db));
@@ -66,6 +68,8 @@ app.use('/api/batimat-scanner', require('./routes/batimatScannerRoutes'));
 const blogRoutes = require('./routes/blogRoutes');
 app.use('/api/blog', blogRoutes);
 app.get('/api/blog-index', blogRoutes.index);
+// Catalogue (projets / localités) lu par le site Next.js
+app.use('/api/site', require('./routes/catalogRoutes'));
 app.use('/api/admin', require('./routes/adminRoutes'));
 
 module.exports = app;

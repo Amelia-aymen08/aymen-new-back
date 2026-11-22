@@ -46,6 +46,10 @@ try {
   db.BlogPostTranslation = require('./blogPostTranslation')(sequelize, DataTypes);
   db.AdminUser = require('./adminUser')(sequelize, DataTypes);
 
+  // Catalogue (projets / localités) : traductions EN / AR gérées depuis le dashboard
+  db.ProjectTranslation = require('./projectTranslation')(sequelize, DataTypes);
+  db.LocalityTranslation = require('./localityTranslation')(sequelize, DataTypes);
+
   // Vérifions que le fichier quote.js existe
   console.log('Tentative de chargement de quote.js...');
   const quoteModel = require('./quote');
@@ -83,6 +87,16 @@ if (db.BlogPost && db.BlogPostTranslation) {
 if (db.Project && db.ProjectImage) {
   db.Project.hasMany(db.ProjectImage, { foreignKey: 'projectId', as: 'images' });
   db.ProjectImage.belongsTo(db.Project, { foreignKey: 'projectId', as: 'project' });
+}
+
+if (db.Project && db.ProjectTranslation) {
+  db.Project.hasMany(db.ProjectTranslation, { foreignKey: 'projectId', as: 'translations', onDelete: 'CASCADE' });
+  db.ProjectTranslation.belongsTo(db.Project, { foreignKey: 'projectId', as: 'project' });
+}
+
+if (db.Locality && db.LocalityTranslation) {
+  db.Locality.hasMany(db.LocalityTranslation, { foreignKey: 'localityId', as: 'translations', onDelete: 'CASCADE' });
+  db.LocalityTranslation.belongsTo(db.Locality, { foreignKey: 'localityId', as: 'locality' });
 }
 
 if (db.SalesAgent && db.BatimatechLead) {

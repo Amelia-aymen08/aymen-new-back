@@ -1,11 +1,13 @@
 const upload = require('../config/multer');
+const { requireAdmin, requireAdminRole } = require('../middleware/requireAdmin');
 
+// Ancienne API projets. La lecture reste publique (ancien site, page localité) ;
+// l'écriture est réservée aux administrateurs : le dashboard passe désormais par /api/admin/projects.
 module.exports = app => {
   const projects = require('../controllers/projectController.js');
   var router = require('express').Router();
 
-  // Create a new Project with cover image
-  router.post('/', upload.single('coverImage'), projects.createProject);
+  router.post('/', requireAdmin, requireAdminRole, upload.single('coverImage'), projects.createProject);
 
   // Retrieve all Projects
   router.get('/', projects.findAllProjects);
@@ -13,11 +15,9 @@ module.exports = app => {
   // Retrieve a single Project with id
   router.get('/:id', projects.findOneProject);
 
-  // Update a Project with id
-  router.put('/:id', projects.updateProject);
+  router.put('/:id', requireAdmin, requireAdminRole, projects.updateProject);
 
-  // Delete a Project with id
-  router.delete('/:id', projects.deleteProject);
+  router.delete('/:id', requireAdmin, requireAdminRole, projects.deleteProject);
 
   app.use('/api/projects', router);
 };

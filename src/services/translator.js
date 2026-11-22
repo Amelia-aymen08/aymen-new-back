@@ -120,6 +120,14 @@ async function myMemoryTranslate(text, from, to) {
   return lead + out.join(' ') + trail;
 }
 
+/** Texte sur plusieurs paragraphes : chaque paragraphe est traduit à part, les sauts de ligne sont conservés. */
+async function myMemoryTranslateParagraphs(text, from, to) {
+  const parts = String(text).split(/(\n\s*\n)/);
+  const out = [];
+  for (const part of parts) out.push(/\n\s*\n/.test(part) ? part : await myMemoryTranslate(part, from, to));
+  return out.join('');
+}
+
 const ENTITIES = { '&amp;': '&', '&lt;': '<', '&gt;': '>', '&quot;': '"', '&#39;': "'", '&nbsp;': ' ' };
 const decodeEntities = (s) => s.replace(/&(amp|lt|gt|quot|#39|nbsp);/g, (m) => ENTITIES[m]);
 
@@ -196,7 +204,8 @@ async function myMemoryTranslateHtml(html, from, to) {
  */
 async function translateFields({ from = 'fr', to, fields }) {
   const provider = providerName();
-  const textKeys = ['title', 'excerpt', 'metaTitle', 'metaDescription'].filter((k) => fields[k]);
+  // Tous les champs texte (titre, résumé, description…) ; contentHtml est traité comme du HTML.
+  const textKeys = Object.keys(fields).filter((k) => k !== 'contentHtml' && fields[k]);
   const result = {};
 
   if (provider === 'deepl') {
@@ -208,7 +217,7 @@ async function translateFields({ from = 'fr', to, fields }) {
       [result.contentHtml] = await deeplTranslate([fields.contentHtml], from, to, { html: true });
     }
   } else if (provider === 'mymemory') {
-    for (const k of textKeys) result[k] = await myMemoryTranslate(fields[k], from, to);
+    for (const k of textKeys) result[k] = await myMemoryTranslateParagraphs(fields[k], from, to);
     if (fields.contentHtml) result.contentHtml = await myMemoryTranslateHtml(fields.contentHtml, from, to);
   } else {
     throw new Error(`Fournisseur de traduction inconnu : ${provider}`);

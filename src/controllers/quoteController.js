@@ -5,6 +5,7 @@ const { notifyCrm, requestContext } = require('../services/crmWebhook');
 const { pushLeadToOdoo } = require('../services/odooForms');
 const { resolveResidenceId } = require('../data/odooResidences');
 const { buildOdooLead } = require('../services/odooQuoteLead');
+const { odooResidenceIdFor } = require('../services/catalog');
 
 console.log('=== CHARGEMENT DU CONTROLLER QUOTE ===');
 console.log('db.Quote disponible:', !!db.Quote);
@@ -106,11 +107,12 @@ const createQuote = async (req, res) => {
     // injoignable). Le résultat est journalisé : `pm2 logs aymen-backend | grep Odoo`.
     try {
       // Odoo attend l'id numérique de la résidence (ex. « 2 »), pas son nom (« AZURITE »).
-      const residenceId = resolveResidenceId(sourceProject);
+      // Priorité à l'« ID résidence Odoo » saisi dans le dashboard, puis à la table fixe.
+      const residenceId = (await odooResidenceIdFor(sourceProject)) || resolveResidenceId(sourceProject);
       if (!residenceId) {
         console.warn('⚠️ [Odoo] Résidence inconnue pour sourceProject =', JSON.stringify(sourceProject));
       }
-      pushLeadToOdoo(buildOdooLead({ sourceProject, lastName, firstName, country, email, phone, budget, wilaya, profession, financing, interest, locations, contactDays, contactTime: contactTime, projectStatus, formulaire: 'devis_projet', formulaireLabel: `Devis — page projet ${sourceProject || ''}`.trim(), pageUri: clientPageUri }))
+      pushLeadToOdoo(buildOdooLead({ sourceProject, residenceId, lastName, firstName, country, email, phone, budget, wilaya, profession, financing, interest, locations, contactDays, contactTime: contactTime, projectStatus, formulaire: 'devis_projet', formulaireLabel: `Devis — page projet ${sourceProject || ''}`.trim(), pageUri: clientPageUri }))
         .then((odooStatus) => {
           if (odooStatus?.sent) {
             console.log('✅ [Odoo] Devis', data.id, 'poussé avec succès:', JSON.stringify(odooStatus.result));

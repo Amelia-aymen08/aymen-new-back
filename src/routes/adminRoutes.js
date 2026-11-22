@@ -5,16 +5,19 @@ const crypto = require('crypto');
 const multer = require('multer');
 const auth = require('../controllers/adminAuthController');
 const blogAdmin = require('../controllers/blogAdminController');
-const { requireAdmin } = require('../middleware/requireAdmin');
+const catalogAdmin = require('../controllers/catalogAdminController');
+const { requireAdmin, requireAdminRole } = require('../middleware/requireAdmin');
 
-// Images du blog : uploads/blog/<aléatoire>.<ext>, images uniquement, 8 Mo max.
-const BLOG_UPLOAD_DIR = path.join('uploads', 'blog');
-fs.mkdirSync(BLOG_UPLOAD_DIR, { recursive: true });
+// Images du dashboard : uploads/<dossier>/<aléatoire>.<ext>, images uniquement, 8 Mo max.
+// ?folder=blog (défaut) | projects | localities
+const UPLOAD_FOLDERS = ['blog', 'projects', 'localities'];
+for (const f of UPLOAD_FOLDERS) fs.mkdirSync(path.join('uploads', f), { recursive: true });
 const IMAGE_TYPES = { 'image/jpeg': '.jpg', 'image/png': '.png', 'image/webp': '.webp', 'image/gif': '.gif', 'image/avif': '.avif' };
+const uploadFolder = (req) => (UPLOAD_FOLDERS.includes(req.query.folder) ? req.query.folder : 'blog');
 
-const blogUpload = multer({
+const imageUpload = multer({
   storage: multer.diskStorage({
-    destination: (req, file, cb) => cb(null, BLOG_UPLOAD_DIR),
+    destination: (req, file, cb) => cb(null, path.join('uploads', uploadFolder(req))),
     filename: (req, file, cb) => cb(null, `${Date.now()}-${crypto.randomBytes(6).toString('hex')}${IMAGE_TYPES[file.mimetype]}`),
   }),
   limits: { fileSize: 8 * 1024 * 1024 },
@@ -34,15 +37,30 @@ router.post('/blog', blogAdmin.create);
 router.put('/blog/:id', blogAdmin.update);
 router.delete('/blog/:id', blogAdmin.remove);
 
-router.post('/uploads', (req, res, next) => {
-  blogUpload.single('file')(req, res, (err) => {
+// Projets et localités. La suppression est réservée aux administrateurs (les éditeurs peuvent masquer).
+router.get('/projects', catalogAdmin.listProjects);
+router.get('/projects/:id', catalogAdmin.getProject);
+router.post('/projects', catalogAdmin.createProject);
+router.put('/projects/:id', catalogAdmin.updateProject);
+router.patch('/projects/:id', catalogAdmin.patchProject);
+router.delete('/projects/:id', requireAdminRole, catalogAdmin.removeProject);
+
+router.get('/localities', catalogAdmin.listLocalities);
+router.get('/localities/:id', catalogAdmin.getLocality);
+router.post('/localities', catalogAdmin.createLocality);
+router.put('/localities/:id', catalogAdmin.updateLocality);
+router.delete('/localities/:id', requireAdminRole, catalogAdmin.removeLocality);
+
+router.post('/uploads', (req, res) => {
+  imageUpload.single('file')(req, res, (err) => {
     if (err) {
       const tooBig = err.code === 'LIMIT_FILE_SIZE';
       return res.status(400).json({ message: tooBig ? 'Image trop lourde (8 Mo maximum).' : "Échec de l'envoi de l'image." });
     }
-    return next();
+    if (!req.file) return res.status(400).json({ message: 'Aucune image reçue (formats acceptés : JPG, PNG, WebP, GIF, AVIF).' });
+    return res.status(201).json({ url: `/uploads/${uploadFolder(req)}/${req.file.filename}` });
   });
-}, blogAdmin.upload);
+});
 
 router.post('/translate', blogAdmin.translate);
 

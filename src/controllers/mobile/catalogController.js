@@ -1,6 +1,10 @@
 const { Op } = require('sequelize');
 const db = require('../../models');
 const { Project, ProjectImage, Locality } = db;
+const { absoluteAssetUrl } = require('../../services/catalog');
+
+// Projets masqués depuis le dashboard : invisibles dans l'application.
+const PUBLISHED = { published: true };
 
 const SUPPORTED_LOCALES = ['fr', 'ar', 'en', 'es'];
 
@@ -60,14 +64,16 @@ function truncate(text, maxLength) {
 function resolveCoverImage(plain) {
   if (Array.isArray(plain.images) && plain.images.length) {
     const cover = plain.images.find((img) => img.isCover) || plain.images[0];
-    if (cover?.url) return cover.url;
+    if (cover?.url) return absoluteAssetUrl(cover.url);
   }
-  return plain.coverImage || null;
+  return absoluteAssetUrl(plain.coverImage || plain.cardImage) || null;
 }
 
 function mapProjectDetail(project, similar) {
   const plain = project.toJSON ? project.toJSON() : project;
-  const images = Array.isArray(plain.images) ? plain.images.map((img) => img.url) : [];
+  const images = Array.isArray(plain.images)
+    ? [...plain.images].sort((a, b) => (a.sortOrder || 0) - (b.sortOrder || 0)).map((img) => absoluteAssetUrl(img.url))
+    : [];
   return {
     ...mapProjectSummary(project),
     description: plain.description || null,
@@ -88,6 +94,7 @@ function mapProjectDetail(project, similar) {
 exports.home = async (req, res) => {
   try {
     const latestProjects = await Project.findAll({
+      where: PUBLISHED,
       include: ['locality', 'images'],
       order: [['createdAt', 'DESC']],
       limit: 5,
@@ -98,7 +105,7 @@ exports.home = async (req, res) => {
       data: {
         hero: latestProjects[0] ? mapProjectSummary(latestProjects[0]) : null,
         latestProjects: latestProjects.map(mapProjectSummary),
-        localities: localities.map((l) => ({ id: String(l.id), name: l.name, city: l.city, imageUrl: l.imageUrl })),
+        localities: localities.map((l) => ({ id: String(l.id), name: l.name, city: l.city, imageUrl: absoluteAssetUrl(l.imageUrl) })),
       },
       meta: { generatedAt: new Date().toISOString() },
       request_id: req.headers['x-request-id'] || null,
@@ -112,7 +119,7 @@ exports.home = async (req, res) => {
 exports.listProjects = async (req, res) => {
   try {
     const { status, type, localityId, search, limit } = req.query;
-    const where = {};
+    const where = { ...PUBLISHED };
     if (status) where.status = status;
     if (type) where.type = type;
     if (localityId) where.localityId = localityId;
@@ -140,11 +147,12 @@ exports.listProjects = async (req, res) => {
 exports.getProject = async (req, res) => {
   try {
     const project = await Project.findByPk(req.params.id, { include: ['locality', 'images'] });
-    if (!project) {
+    if (!project || project.published === false) {
       return res.status(404).json({ error: { code: 'PROJECT_NOT_FOUND', message: 'Projet introuvable.', retryable: false } });
     }
 
     const similarWhere = {
+      ...PUBLISHED,
       id: { [Op.ne]: project.id },
       [Op.or]: [{ localityId: project.localityId }, { type: project.type }],
     };
@@ -163,7 +171,7 @@ exports.getProject = async (req, res) => {
 exports.projectsMap = async (req, res) => {
   try {
     const projects = await Project.findAll({
-      where: { latitude: { [Op.ne]: null }, longitude: { [Op.ne]: null } },
+      where: { ...PUBLISHED, latitude: { [Op.ne]: null }, longitude: { [Op.ne]: null } },
       attributes: ['id', 'title', 'slug', 'status', 'latitude', 'longitude'],
     });
     res.json({
@@ -187,7 +195,7 @@ exports.listLocalities = async (req, res) => {
   try {
     const localities = await Locality.findAll();
     res.json({
-      data: localities.map((l) => ({ id: String(l.id), name: l.name, city: l.city, description: l.description, imageUrl: l.imageUrl })),
+      data: localities.map((l) => ({ id: String(l.id), name: l.name, city: l.city, description: l.description, imageUrl: absoluteAssetUrl(l.imageUrl) })),
       request_id: req.headers['x-request-id'] || null,
     });
   } catch (err) {
@@ -208,8 +216,8 @@ exports.getLocality = async (req, res) => {
         name: locality.name,
         city: locality.city,
         description: locality.description,
-        imageUrl: locality.imageUrl,
-        projects: (locality.projects || []).map(mapProjectSummary),
+        imageUrl: absoluteAssetUrl(locality.imageUrl),
+        projects: (locality.projects || []).filter((p) => p.published !== false).map(mapProjectSummary),
       },
       request_id: req.headers['x-request-id'] || null,
     });
