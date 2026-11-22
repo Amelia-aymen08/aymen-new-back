@@ -43,7 +43,7 @@ function patchFor(row, wanted, overwrite) {
 }
 
 async function importLocalities(list, { dryRun, overwrite }) {
-  const existing = dryRun ? [] : await db.Locality.findAll();
+  const existing = await db.Locality.findAll(dryRun ? { attributes: ['id', 'name'] } : {});
   const byName = new Map();
   let created = 0;
   let updated = 0;
@@ -63,7 +63,7 @@ async function importLocalities(list, { dryRun, overwrite }) {
     };
     let row = existing.find((r) => r.slug === slug || norm(r.name) === norm(short));
     if (dryRun) {
-      console.log(`  localité ${slug}`);
+      console.log(`  localité ${slug} -> ${row ? `mise à jour (id ${row.id}, « ${row.name} »)` : 'NOUVELLE'}`);
     } else if (!row) {
       row = await db.Locality.create(wanted);
       created += 1;
@@ -132,7 +132,8 @@ async function importProjects(list, byName, { dryRun, overwrite }) {
     const gallery = (p.gallery || []).filter(Boolean);
 
     if (dryRun) {
-      console.log(`  projet ${slug} [${wanted.status}] avancement=${wanted.progressPercent ?? '-'} galerie=${gallery.length} localité=${wanted.localityId ?? '?'}`);
+      const found = (await db.Project.findAll({ attributes: ['id', 'title', 'slug'] })).find((r) => r.slug === slug || norm(r.title) === norm(p.title));
+      console.log(`  projet ${slug} [${wanted.status}] avancement=${wanted.progressPercent ?? '-'} galerie=${gallery.length} -> ${found ? `mise à jour (id ${found.id}, « ${found.title} »)` : 'NOUVEAU'}`);
       continue;
     }
 
